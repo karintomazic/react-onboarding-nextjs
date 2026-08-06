@@ -1,0 +1,38 @@
+.mainMenu {
+  position: relative;
+  margin-bottom: 10px;
+  list-style: none;
+
+  @media (min-width: 992px) {
+    margin-bottom: 0;
+  }
+
+  &.open .mainMenuList {
+    display: block;
+  }
+
+  .mainMenuList {
+    display: none;
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
+
+    @media (min-width: 992px) {
+      top: 35px;
+      left: 0px;
+      position: absolute;
+      z-index: 2;
+      border-radius: 8px;
+      border: 1px solid rgba(33, 37, 41, 0.2);
+      background: var(--color-white);
+      min-width: 130px;
+      padding: 6px 0;
+    }
+  }
+
+  @media (min-width: 992px) {
+    &:hover .mainMenuList {
+      display: block;
+    }
+  }
+}

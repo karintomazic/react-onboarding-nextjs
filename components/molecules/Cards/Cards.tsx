@@ -4,7 +4,12 @@ import CardSkeleton from "../CardSkeleton/CardSkeleton";
 import { StaticImageData } from "next/image";
 
 type CardsProps = {
-  movies: Array<{ id: number; url: StaticImageData | string; title: string; date: string }>;
+  movies: Array<{
+    id: number;
+    url: StaticImageData | string;
+    title: string;
+    date: string;
+  }>;
   isLoading: boolean;
   variant?: "showcase" | "popular";
   loadingLabel: string;

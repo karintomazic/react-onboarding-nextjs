@@ -1,0 +1,80 @@
+.scoreWrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+
+  @media (max-width: 992px) {
+    flex-direction: column;
+  }
+}
+
+.scoreLabel {
+  font-weight: bold;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: white;
+}
+
+.vibeButton {
+  background: var(--color-navy);
+  color: white;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: transform 0.15s;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.tooltipWrapper {
+  position: relative;
+  display: inline-flex;
+
+  &:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  @media (max-width: 992px) {
+    display: none;
+  }
+}
+
+.tooltip {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 25px);
+  transform: translateY(-50%);
+  width: 200px;
+  white-space: normal;
+  background: var(--color-navy);
+  color: var(--color-white);
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-weight: 300;
+  line-height: 1.4;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s;
+  pointer-events: none;
+  z-index: 10;
+  text-align: left;
+  font-size: 0.9rem;
+
+  @media (max-width: 1200px) {
+    top: 2rem;
+    left: -6rem;
+    transform: none;
+  }
+}

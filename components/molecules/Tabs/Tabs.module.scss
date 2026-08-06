@@ -1,0 +1,121 @@
+.selectorWrap {
+  position: relative;
+  align-items: stretch;
+  border: 1px solid var(--color-navy);
+  border-radius: 30px;
+  display: flex;
+  justify-content: flex-start;
+  height: 100%;
+  width: fit-content;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.slider {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background-color: var(--color-navy);
+  border-radius: 30px;
+  transition:
+    left 0.3s ease,
+    width 0.3s ease;
+  pointer-events: none;
+}
+
+.mobileSelect {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+}
+
+.mobileDropdown {
+  display: none;
+  height: 30px;
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  min-width: 100px;
+  width: fit-content;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+
+  .activeBtnWrapper {
+    background-color: var(--color-navy);
+
+    padding: 4px 20px;
+    margin-bottom: 0;
+    white-space: nowrap;
+    border-radius: 30px;
+    display: block;
+  }
+
+  button {
+    font-size: 1rem;
+    background: linear-gradient(to right, #c0fecf 0, #1ed5a9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    box-shadow: none;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0;
+  }
+
+  ul {
+    background: linear-gradient(
+      to right,
+      rgba(192, 254, 207) 0%,
+      rgba(30, 213, 169) 100%
+    );
+    position: absolute;
+    padding: 0;
+    list-style: none;
+    border: 1px solid;
+    border-radius: 15px;
+
+    li {
+      font-size: 1rem;
+      margin-bottom: 0;
+      white-space: nowrap;
+      padding: 4px 20px;
+
+      &.activeOption {
+        padding: 0;
+      }
+    }
+  }
+}
+
+.mobileDropdownList {
+  margin: 0;
+}
+
+.iconDown svg {
+  filter: invert(89%) sepia(21%) saturate(454%) hue-rotate(75deg)
+    brightness(104%) contrast(99%);
+}
+
+.dropdownWrapper {
+  position: absolute;
+  background: var(--color-white);
+  border: 1px solid;
+  list-style: none;
+  padding: 1rem;
+  border-radius: 15px;
+
+  background: linear-gradient(
+    to right,
+    rgba(192, 254, 207) 0%,
+    rgba(30, 213, 169) 100%
+  );
+}

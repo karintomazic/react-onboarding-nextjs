@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import styles from "./Card.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
