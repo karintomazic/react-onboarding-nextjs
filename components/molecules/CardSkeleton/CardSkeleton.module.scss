@@ -1,0 +1,51 @@
+.cardSkeleton {
+  h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .placeholder {
+    height: 220px;
+    width: 150px;
+    background: var(--color-grey-dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+
+    svg {
+      height: auto;
+      width: 50%;
+    }
+  }
+
+  .loadingWrapper {
+    padding: 8px 12px 12px 12px;
+  }
+
+  &.popular {
+    box-shadow:
+      0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+
+    .placeholder {
+      width: 100%;
+    }
+  }
+
+  &.showcase {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    .placeholder {
+      width: 150px;
+    }
+  }
+}
