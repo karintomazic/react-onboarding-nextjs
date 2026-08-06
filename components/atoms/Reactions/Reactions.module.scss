@@ -1,0 +1,33 @@
+.reactions {
+  display: flex;
+  font-size: 1.8rem;
+
+  div {
+    background: #0a1f1f;
+    border-radius: 50%;
+    height: 36px;
+    width: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.15s;
+    cursor: pointer;
+
+    &:first-child {
+      margin-right: -0.8rem;
+    }
+
+    &:last-child {
+      margin-left: -0.8rem;
+    }
+
+    &:hover {
+      transform: scale(1.25);
+    }
+  }
+
+  img {
+    width: 28px;
+    height: 28px;
+  }
+}

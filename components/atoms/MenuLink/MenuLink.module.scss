@@ -1,0 +1,17 @@
+.link {
+  text-decoration: none;
+  color: var(--color-white);
+  font-size: 1rem;
+  display: inline-block;
+
+  @media (min-width: 992px) {
+    color: var(--color-text);
+    padding: 0.25rem 1rem;
+    width: 100%;
+    font-size: 0.9rem;
+  }
+
+  &:hover {
+    background-color: var(--color-grey);
+  }
+}

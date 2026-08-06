@@ -1,0 +1,31 @@
+.selector {
+  background: none;
+  border: none;
+  padding: 0;
+
+  span {
+    font-size: 1rem;
+    padding: 4px 20px;
+    margin: 0;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--color-navy);
+
+    &:hover {
+      color: rgba(3, 37, 65, 0.7);
+    }
+  }
+}
+
+.active {
+  border-radius: 30px;
+  position: relative;
+  z-index: 1;
+
+  &:hover span,
+  span {
+    background: linear-gradient(to right, #c0fecf 0, #1ed5a9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}

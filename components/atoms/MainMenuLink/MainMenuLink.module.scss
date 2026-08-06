@@ -1,0 +1,20 @@
+.link {
+  text-decoration: none;
+  color: var(--color-white);
+  font-size: 1.25rem;
+  display: inline-block;
+
+  @media (min-width: 992px) {
+    color: var(--color-white);
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+  }
+}
+
+.listItem {
+  padding-bottom: 10px;
+
+  @media (min-width: 992px) {
+    padding-bottom: 0;
+  }
+}

@@ -1,0 +1,60 @@
+.personCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  .placeholder,
+  .image {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    flex-shrink: 0;
+
+    @media (max-width: 992px) {
+      width: 60px;
+      height: 60px;
+    }
+  }
+
+  .placeholder {
+    background: var(--color-grey-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  .image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .info {
+    h3 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 0.25rem 0 0;
+      color: black;
+      font-weight: 300;
+      font-size: 1rem;
+
+      .bold {
+        font-weight: 600;
+      }
+
+      .spacer {
+        padding: 0 0.25rem;
+      }
+    }
+  }
+}

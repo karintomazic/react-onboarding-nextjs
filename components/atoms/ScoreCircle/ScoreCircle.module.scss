@@ -1,0 +1,49 @@
+.scoreCircle {
+  width: 68px;
+  height: 68px;
+  transform: rotate(-90deg);
+}
+
+.scoreBg {
+  fill: #081c22;
+}
+
+.scoreTrack {
+  fill: none;
+  stroke: #204529;
+  stroke-width: 6;
+}
+
+.scoreProgress {
+  fill: none;
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+
+.scoreCircleContainer {
+  position: relative;
+  width: 68px;
+  height: 68px;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.scoreText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-weight: bold;
+  font-size: 1.2rem;
+
+  sup {
+    font-size: 0.55rem;
+    vertical-align: super;
+  }
+}
