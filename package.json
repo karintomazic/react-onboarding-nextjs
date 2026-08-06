@@ -6,6 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "check": "tsc --noEmit && eslint . && vitest run --project=unit",
+    "format:check": "prettier --check \"{app,components,utils}/**/*.{js,ts,tsx,json,css,scss,md}\"",
+    "format:write": "prettier --write \"{app,components,utils}/**/*.{js,ts,tsx,json,css,scss,md}\"",
     "lint": "eslint",
     "storybook": "storybook dev -p 6007",
     "build-storybook": "storybook build"
@@ -34,6 +37,7 @@
     "eslint-config-next": "16.3.0",
     "eslint-plugin-storybook": "^10.5.6",
     "playwright": "^1.62.1",
+    "prettier": "^3.9.6",
     "sass": "^1.102.0",
     "storybook": "^10.5.6",
     "tailwindcss": "^4",

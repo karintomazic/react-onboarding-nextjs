@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import PersonCardComponent from "./PersonCard";
-import pladeholderPoster from "../../../assets/placeholder-poster.jpg"
+import placeholderPoster from "../../../assets/placeholder-poster.jpg";
 
 const meta = {
   title: "Component/atoms/PersonCard",
@@ -23,7 +23,7 @@ export const PersonCardWithImg: Story = {
   args: {
     name: "Anna Smith",
     department: "Acting",
-    profileImg: pladeholderPoster,
+    profileImg: placeholderPoster,
     known_for: ["Movie name"],
   },
 };
