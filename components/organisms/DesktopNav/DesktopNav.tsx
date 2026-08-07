@@ -2,7 +2,7 @@
 
 import styles from "./DesktopNav.module.scss";
 import MainMenu from "../MainMenu/MainMenu";
-// import LanguageSwitcherHandler from "../LanguageSwitcher/LanguageSwitcherHandler";
+import LanguageSwitcherHandler from "../LanguageSwitcher/LanguageSwitcherHandler";
 import Icon from "../../atoms/Icon/Icon";
 import UserMenu from "../../molecules/UserMenu/UserMenu";
 import Link from "next/link";
@@ -43,7 +43,7 @@ export default function DesktopNav({
         <a aria-label={createAriaLabel} className={styles.plus}>
           <Image src={plus} alt="" />
         </a>
-        {/* <LanguageSwitcherHandler /> */}
+        <LanguageSwitcherHandler />
         <div className={styles.joinDesktop}>
           <a>{loginLinkLabel}</a>
           <a>{joinLinkLabel}</a>

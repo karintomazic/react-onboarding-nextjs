@@ -30,7 +30,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Providers>
           <NavigationBar />
           {children}
-          <Footer/>
+          <Footer />
         </Providers>
       </body>
     </html>

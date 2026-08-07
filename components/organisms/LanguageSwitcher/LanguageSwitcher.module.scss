@@ -1,0 +1,62 @@
+.languageSwitcher {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.languageDropdown {
+  background-color: var(--color-white);
+  position: absolute;
+  top: 40px;
+  border: 1px solid rgba(33, 37, 41, 0.15);
+  min-height: 100px;
+  border-radius: 0.375rem;
+  padding: 1rem;
+  color: var(--color-text);
+  width: 300px;
+  z-index: 2;
+
+  form {
+    margin: 0;
+  }
+
+  fieldset {
+    border: none;
+    padding: 0;
+  }
+
+  legend {
+    line-height: 1;
+    max-width: none;
+    font-size: 1.3em;
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+
+  p {
+    line-height: 24px;
+    font-size: 1rem;
+    margin: 0;
+  }
+}
+
+.defaultLanguage {
+  margin-bottom: 1rem;
+}
+
+.defaultLanguageHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.callout {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translate(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid white;
+}

@@ -7,7 +7,12 @@ import type { RefObject } from "react";
 import { StaticImageData } from "next/image";
 
 type ShowcaseProps = {
-  movies: Array<{ id: number; url: StaticImageData | string; title: string; date: string }>;
+  movies: Array<{
+    id: number;
+    url: StaticImageData | string;
+    title: string;
+    date: string;
+  }>;
   isLoading: boolean;
   heading: string;
   emptyLabel: string;
