@@ -86,7 +86,7 @@ export default function Card({
       >
         <Link href={movieUrl}>
           {image ? (
-            <Image src={image} alt="placeholder image" />
+            <Image src={image} alt="placeholder image" fill/>
           ) : (
             <FontAwesomeIcon icon={faImage} />
           )}
