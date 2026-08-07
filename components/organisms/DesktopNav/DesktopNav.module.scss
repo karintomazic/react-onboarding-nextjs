@@ -1,0 +1,67 @@
+.navbar {
+  max-width: var(--max-width);
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 40px;
+
+  @media (max-width: 992px) {
+    display: none;
+  }
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.logo {
+  display: block;
+  margin-right: 16px;
+  width: 154px;
+  height: 20px;
+}
+
+.plus {
+  height: 23px;
+  width: 23px;
+}
+
+.right a {
+  color: var(--color-white);
+  text-decoration: none;
+}
+
+.joinDesktop {
+  display: flex;
+  gap: 1rem;
+
+  @media (max-width: 1200px) {
+    display: none;
+  }
+}
+
+.joinMobile {
+  display: none;
+
+  @media (max-width: 1200px) {
+    display: block;
+  }
+}
+
+.searchIcon {
+  cursor: pointer;
+
+  svg {
+    height: 25px;
+    width: 25px;
+    color: var(--color-blue);
+  }
+}
