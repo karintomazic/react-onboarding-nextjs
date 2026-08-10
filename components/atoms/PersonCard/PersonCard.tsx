@@ -20,9 +20,9 @@ export default function PersonCard({
     <div className={styles.personCard}>
       <div className={profileImg ? styles.image : styles.placeholder}>
         {profileImg ? (
-          <Image src={profileImg} alt={name} />
+          <Image src={profileImg} alt={name} width="80" height="80" />
         ) : (
-          <Image src={profileIcon} alt={""} />
+          <Image src={profileIcon} alt={""} width="80" height="80" />
         )}
       </div>
       <div className={styles.info}>

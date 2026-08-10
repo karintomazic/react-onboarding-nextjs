@@ -12,7 +12,6 @@ import {
   TMDB_SEARCH_URL_PERSON,
   TMDB_SEARCH_URL_SIMPLE,
 } from "../../../mock/mockData";
-import { searchResultsLabels } from "../../../data/labels";
 
 const meta = {
   title: "Component/pages/SearchResults",
@@ -41,7 +40,7 @@ export const TvShow: Story = {
         ),
       ],
     },
-    nextjs: { navigation: { query: { filter: "tv" } } },
+    nextjs: { navigation: { segments: [["filter", "tv"]] } },
   },
 };
 
@@ -54,7 +53,7 @@ export const Movie: Story = {
         ),
       ],
     },
-    nextjs: { navigation: { query: { filter: "movie" } } },
+    nextjs: { navigation: { segments: [["filter", "movie"]] } },
   },
 };
 
@@ -67,7 +66,7 @@ export const Person: Story = {
         ),
       ],
     },
-    nextjs: { navigation: { query: { filter: "person" } } },
+    nextjs: { navigation: { segments: [["filter", "person"]] } },
   },
 };
 
@@ -80,7 +79,7 @@ export const Simple: Story = {
         ),
       ],
     },
-    nextjs: { navigation: { query: { filter: "keyword" } } },
+    nextjs: { navigation: { segments: [["filter", "keyword"]] } },
   },
 };
 
@@ -94,7 +93,7 @@ export const Loading: Story = {
         }),
       ],
     },
-    nextjs: { navigation: { query: { filter: "movie" } } },
+    nextjs: { navigation: { segments: [["filter", "movie"]] } },
   },
 };
 
@@ -110,7 +109,7 @@ export const Error: Story = {
         }),
       ],
     },
-    nextjs: { navigation: { query: { filter: "movie" } } },
+    nextjs: { navigation: { segments: [["filter", "movie"]] } },
   },
 };
 
@@ -123,6 +122,6 @@ export const Empty: Story = {
         ),
       ],
     },
-    nextjs: { navigation: { query: { filter: "movie" } } },
+    nextjs: { navigation: { segments: [["filter", "movie"]] } },
   },
 };
