@@ -25,7 +25,6 @@ export default function MobileNav({
   const [menuOpen, setMenuOpen] = useState(false);
 
   const location = usePathname();
-  console.log(location);
 
   const [prevPath, setPrevPath] = useState(location);
 

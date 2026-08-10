@@ -22,7 +22,7 @@ const MovieCard = ({ id, imageUrl, title, date, content }: MovieCardProps) => {
       <div className={imageUrl ? style.poster : style.placeholder}>
         <Link href={movieUrl}>
           {imageUrl ? (
-            <Image src={imageUrl} alt="placeholder image" />
+            <Image src={imageUrl} alt="placeholder image" fill />
           ) : (
             <FontAwesomeIcon icon={faImage} />
           )}
