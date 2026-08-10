@@ -1,21 +1,23 @@
-import type { Preview } from '@storybook/nextjs-vite'
+import type { Preview } from "@storybook/nextjs-vite";
 import "../app/globals.css";
+import { mswLoader } from "msw-storybook-addon/csf3";
 
 const preview: Preview = {
   parameters: {
     controls: {
       matchers: {
-       color: /(background|color)$/i,
-       date: /Date$/i,
+        color: /(background|color)$/i,
+        date: /Date$/i,
       },
     },
 
     a11y: {
-      test: 'todo'
+      test: "todo",
     },
-    nextjs: { appDirectory: true } // mock the Next.js App Router context so hooks from next/navigation
+    nextjs: { appDirectory: true }, // mock the Next.js App Router context so hooks from next/navigation
     // (like useSearchParams, useRouter, usePathname) work inside stories instead of returning null.
   },
+  loaders: [mswLoader()],
 };
 
 export default preview;
