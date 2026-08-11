@@ -65,16 +65,14 @@ export default function MovieDetailPage() {
       >
         <div className={styles.backdropBackground}>
           <div className={styles.innerWrapper}>
-            <div>
-              {movieDetails?.poster_path && (
-                <Image
-                  src={`${tmbImageUrl}${movieDetails.poster_path}`}
-                  alt=""
-                  height={150}
-                  width={150}
-                />
-              )}
-            </div>
+            {movieDetails?.poster_path && (
+              <Image
+                src={`${tmbImageUrl}${movieDetails.poster_path}`}
+                alt=""
+                height={500}
+                width={350}
+              />
+            )}
             <div>
               <h2>
                 {movieDetails?.title} <span>({releaseYear})</span>

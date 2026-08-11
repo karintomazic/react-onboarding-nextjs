@@ -24,6 +24,7 @@
 
   img {
     width: 350px;
+    height: 500px;
     border-radius: 8px;
   }
 
@@ -65,16 +66,14 @@
 
   .innerWrapper {
     flex-direction: column;
-    padding: 0;
+    padding: 20px 16px 12px;
     gap: 0;
     align-items: stretch;
 
     img {
       width: 150px;
-    }
-
-    > div:first-child {
-      padding: 20px 16px 12px;
+      height: 200px;
+      max-width: 150px;
     }
 
     > div:last-child {
