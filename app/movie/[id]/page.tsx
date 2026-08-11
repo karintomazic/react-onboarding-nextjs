@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 // import { useParams } from "react-router";
 import { useParams } from "next/navigation";
@@ -20,11 +20,14 @@ const tmbBackdropUrl = "https://image.tmdb.org/t/p/w1280";
 
 export default function MovieDetailPage() {
   const movieId = useParams();
-  const movieIdTransformed = Array.isArray(movieId.id) ? movieId.id[0] : movieId.id;
+  const movieIdTransformed = Array.isArray(movieId.id)
+    ? movieId.id[0]
+    : movieId.id;
 
   const movieDetailQuery = useQuery({
     queryKey: ["movie-detail", movieIdTransformed],
-    queryFn: () => fetchMovieDetails(movieIdTransformed ? movieIdTransformed : ""),
+    queryFn: () =>
+      fetchMovieDetails(movieIdTransformed ? movieIdTransformed : ""),
   });
 
   const movieDetails = movieDetailQuery.data;
@@ -64,7 +67,12 @@ export default function MovieDetailPage() {
           <div className={styles.innerWrapper}>
             <div>
               {movieDetails?.poster_path && (
-                <Image src={`${tmbImageUrl}${movieDetails.poster_path}`} alt="" height={150} width={150} />
+                <Image
+                  src={`${tmbImageUrl}${movieDetails.poster_path}`}
+                  alt=""
+                  height={150}
+                  width={150}
+                />
               )}
             </div>
             <div>
