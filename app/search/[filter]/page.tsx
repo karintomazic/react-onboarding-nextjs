@@ -17,7 +17,6 @@ export default function SearchResults() {
   const { filter } = useParams();
   const filterTransformed = Array.isArray(filter) ? filter[0] : filter;
 
-  console.log(typeof filter);
   const searchParams = useSearchParams();
   const query = searchParams.get("query") ?? "";
   const page = Number(searchParams.get("page") ?? "1");

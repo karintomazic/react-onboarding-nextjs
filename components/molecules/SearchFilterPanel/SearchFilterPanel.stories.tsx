@@ -19,18 +19,21 @@ export const SearchFilterPanel: Story = {
           linkLabel="Movies"
           count={12}
           searchParams=""
+          isActive={false}
         />
         <SearchFilterLink
           linkName="tv"
           linkLabel="TV Shows"
           count={8}
           searchParams=""
+          isActive={true}
         />
         <SearchFilterLink
           linkName="person"
           linkLabel="People"
           count={3}
           searchParams=""
+          isActive={false}
         />
       </>
     ),

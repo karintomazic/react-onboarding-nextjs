@@ -1,7 +1,7 @@
 "use client";
 
 import SearchFilterLink from "@/components/atoms/SearchFilterLink/SearchFilterLink";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { searchFilters } from "@/data/filterList";
 const tmbUrl = "https://api.themoviedb.org/3";
@@ -25,6 +25,7 @@ async function fetchAllCounts(query: string) {
 export default function FilterLinks() {
   const searchParams = useSearchParams();
   const query = searchParams.get("query") ?? "";
+  const { filter } = useParams();
 
   const filterQuery = useQuery({
     queryKey: ["filter-counts", query],
@@ -44,6 +45,7 @@ export default function FilterLinks() {
         linkLabel={links.label}
         count={count}
         searchParams={searchParams.toString()}
+        isActive={filter === links.linkName}
       />
     );
   });

@@ -18,7 +18,6 @@ type PaginationData = {
 export default function Pagination({ page, totalPages }: PaginationData) {
   // const [searchParams] = useSearchParams(); - different shape, we dont get a setter here
   const searchParams = useSearchParams();
-  console.log(searchParams);
 
   function pageHref(targetPage: number) {
     const params = new URLSearchParams(searchParams);

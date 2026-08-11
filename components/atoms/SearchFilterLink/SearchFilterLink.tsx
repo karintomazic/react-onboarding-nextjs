@@ -7,6 +7,7 @@ type searchFilterLinkProps = {
   linkLabel: string;
   count: number;
   searchParams: string;
+  isActive: boolean;
 };
 
 export default function SearchFilterLink({
@@ -14,9 +15,12 @@ export default function SearchFilterLink({
   linkLabel,
   count,
   searchParams,
+  isActive,
 }: searchFilterLinkProps) {
   return (
-    <li className={styles.searchFilterLink}>
+    <li
+      className={`${styles.searchFilterLink} ${isActive ? styles.active : ""}`}
+    >
       <Link
         href={{
           pathname: linkName,

@@ -15,6 +15,7 @@ export const Inactive: Story = {
     linkLabel: "Popular",
     count: 1,
     searchParams: "",
+    isActive: false,
   },
 };
 
@@ -24,6 +25,7 @@ export const Active: Story = {
     linkLabel: "Popular",
     count: 1,
     searchParams: "",
+    isActive: true,
   },
   parameters: {
     routeEntries: ["/popular"],
