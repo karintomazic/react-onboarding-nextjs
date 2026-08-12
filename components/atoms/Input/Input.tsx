@@ -9,7 +9,7 @@ export type InputProps = {
   onClick?: () => void;
   placeholder?: string;
   ariaLabel?: string;
-  type?: "text" | "search";
+  type?: "text" | "search" | "password" | "email";
   ref?: Ref<HTMLInputElement>;
 };
 

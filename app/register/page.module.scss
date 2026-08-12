@@ -1,0 +1,31 @@
+.registerWrapper {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.registerForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 360px;
+
+  h2 {
+    margin: 0 0 8px;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.9rem;
+  color: var(--color-text);
+}
+
+.error {
+  color: #db2360;
+  font-size: 0.9rem;
+  margin: 0;
+}
