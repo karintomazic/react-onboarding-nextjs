@@ -4,7 +4,8 @@ import { useState } from "react";
 import Input from "@/components/atoms/Input/Input";
 import Button from "@/components/atoms/Button/Button";
 import styles from "./page.module.scss";
-
+import { SubmitEvent } from "react";
+import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
   const [email, setEmail] = useState("");
@@ -12,18 +13,27 @@ export default function RegisterPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const router = useRouter();
 
+  const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
 
     const response = await fetch(`/api/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password })
-    } );
-    console.log(response);
+      body: JSON.stringify({ email, password }),
+    });
 
+    setIsSubmitting(false);
 
+    if (!response.ok) {
+      const json = await response.json();
+      console.log(json.error);
+      setError(json.error);
+    } else {
+      void router.push(`/`);
+    }
   };
 
   return (
@@ -56,6 +66,7 @@ export default function RegisterPage() {
         <Button
           type="submit"
           label={isSubmitting ? "Creating account..." : "Create account"}
+          disabled={isSubmitting}
         />
       </form>
     </div>

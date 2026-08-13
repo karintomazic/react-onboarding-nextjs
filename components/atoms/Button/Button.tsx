@@ -8,6 +8,7 @@ export type ButtonProps = {
   type?: "button" | "submit" | "reset";
   variant?: "default" | "language" | "reset";
   className?: string;
+  disabled?: boolean;
   "aria-expanded"?: boolean;
   "aria-label"?: string;
 };
@@ -18,6 +19,7 @@ export default function Button({
   type = "button",
   variant = "default",
   className,
+  disabled,
   "aria-expanded": ariaExpanded,
   "aria-label": ariaLabel,
 }: ButtonProps) {
@@ -28,6 +30,7 @@ export default function Button({
       className={`${styles[variant] ?? ""} ${className ?? ""}`}
       aria-expanded={ariaExpanded}
       aria-label={ariaLabel}
+      disabled={disabled}
     >
       {label}
     </button>

@@ -45,3 +45,4 @@ storybook-static
 
 # Database
 /db/*.db
+/local.db
