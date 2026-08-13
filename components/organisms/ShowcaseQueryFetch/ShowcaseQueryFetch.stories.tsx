@@ -5,7 +5,7 @@ import {
   mockMovies,
   TMDB_DISCOVER_URL_MOVIE,
   TMDB_DISCOVER_URL_NOW_PLAYING,
-} from "../../../mock/mockData";
+} from "@/mock/mockData";
 import ShowcaseQueryFetch from "./ShowcaseQueryFetch";
 
 const meta = {

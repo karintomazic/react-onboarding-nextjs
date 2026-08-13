@@ -45,8 +45,8 @@ export default function DesktopNav({
         </a>
         <LanguageSwitcherHandler />
         <div className={styles.joinDesktop}>
-          <a>{loginLinkLabel}</a>
-          <a>{joinLinkLabel}</a>
+          <Link href="/login">{loginLinkLabel}</Link>
+          <Link href="/register">{joinLinkLabel}</Link>
         </div>
         <div className={styles.joinMobile}>
           <UserMenu
