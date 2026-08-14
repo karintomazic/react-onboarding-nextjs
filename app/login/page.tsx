@@ -26,8 +26,6 @@ export default function LoginPage() {
       redirect: false,
     });
 
-    console.log(result);
-
     if (result?.error) {
       setError(result.error);
     } else {

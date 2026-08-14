@@ -29,7 +29,6 @@ export default function RegisterPage() {
 
     if (!response.ok) {
       const json = await response.json();
-      console.log(json.error);
       setError(json.error);
     } else {
       void router.push(`/`);

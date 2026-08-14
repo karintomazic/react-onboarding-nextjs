@@ -21,8 +21,6 @@ export const DesktopNav: Story = {
   args: {
     homeAriaLabel: desktopNavLabels.homeAriaLabel,
     createAriaLabel: desktopNavLabels.createAriaLabel,
-    loginLinkLabel: desktopNavLabels.loginLink,
-    joinLinkLabel: desktopNavLabels.joinLink,
     handleLoopClick: fn(),
     loopRef: { current: null },
   },

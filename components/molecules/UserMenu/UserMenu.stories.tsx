@@ -12,7 +12,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Closed: Story = {
   args: {
-    ariaLabel: userMenuLabels.ariaLabel,
     loginLabel: userMenuLabels.login,
     joinLabel: userMenuLabels.join,
   },
@@ -20,7 +19,6 @@ export const Closed: Story = {
 
 export const Open: Story = {
   args: {
-    ariaLabel: userMenuLabels.ariaLabel,
     loginLabel: userMenuLabels.login,
     joinLabel: userMenuLabels.join,
   },

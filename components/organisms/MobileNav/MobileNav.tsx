@@ -4,13 +4,12 @@ import styles from "./MobileNav.module.scss";
 import MainMenu from "../MainMenu/MainMenu";
 import Icon from "../../atoms/Icon/Icon";
 import UserMenu from "../../molecules/UserMenu/UserMenu";
+import Link from "next/link";
+import Image from "next/image";
 import mobileLogo from "../../../assets/mobile-logo.svg";
 import { faMagnifyingGlass, faBars } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { userMenuLabels } from "../../../data/labels";
-// import { Link, useLocation } from "react-router";
-import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 type MobileNavProps = {
@@ -52,10 +51,10 @@ export default function MobileNav({
         </Link>
         <div className={styles.mobileRight}>
           <UserMenu
-            ariaLabel={userMenuLabels.ariaLabel}
             loginLabel={userMenuLabels.login}
             joinLabel={userMenuLabels.join}
           />
+
           <div className={styles.searchIcon}>
             <Icon icon={faMagnifyingGlass} />
           </div>

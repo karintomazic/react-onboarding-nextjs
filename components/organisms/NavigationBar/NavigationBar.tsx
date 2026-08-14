@@ -87,8 +87,6 @@ export default function NavigationBar() {
         <DesktopNav
           homeAriaLabel={desktopNavLabels.homeAriaLabel}
           createAriaLabel={desktopNavLabels.createAriaLabel}
-          loginLinkLabel={desktopNavLabels.loginLink}
-          joinLinkLabel={desktopNavLabels.joinLink}
           handleLoopClick={handleLoopClick}
           loopRef={loopRef}
         />
