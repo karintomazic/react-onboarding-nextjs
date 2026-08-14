@@ -19,6 +19,7 @@ import { useSession } from "next-auth/react";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import profileIcon from "../../../assets/profile.svg";
+import Spinner from "@/components/atoms/Spinner/Spinner";
 
 type DesktopNavProps = {
   homeAriaLabel: string;
@@ -46,36 +47,48 @@ export default function DesktopNav({
 
   const handleSignOut = async () => await signOut();
 
+  console.log(session);
+
   const isLoggedIn = session.status === "authenticated";
+  const isNotLoggedIn = session.status === "unauthenticated";
+  const loggedInLoading = session.status === "loading";
 
-  const loggedInContent = isLoggedIn ? (
-    <div className={styles.loggedIn}>
-      <Icon icon={faBell} />
-      <div className={styles.userMenuWrapper} ref={containerRef}>
-        <Image
-          src={profileIcon}
-          alt=""
-          className={styles.profileIcon}
-          width={32}
-          height={32}
-          onClick={handleOpen}
-        />
+  let loggedInContent;
 
-        {open && !isClickedOutside && (
-          <div className={styles.userDropdown}>
-            <div className={styles.callout} />
-            <p className={styles.userEmail}>{session.data?.user?.email}</p>
-            <Button label="Log out" onClick={handleSignOut} />
-          </div>
-        )}
+  if (loggedInLoading) {
+    loggedInContent = <Spinner variant="smallSpinner" />;
+  } else if (isLoggedIn) {
+    loggedInContent = (
+      <div className={styles.loggedIn}>
+        <Icon icon={faBell} />
+        <div className={styles.userMenuWrapper} ref={containerRef}>
+          <Image
+            src={profileIcon}
+            alt=""
+            className={styles.profileIcon}
+            width={32}
+            height={32}
+            onClick={handleOpen}
+          />
+
+          {open && !isClickedOutside && (
+            <div className={styles.userDropdown}>
+              <div className={styles.callout} />
+              <p className={styles.userEmail}>{session.data?.user?.email}</p>
+              <Button label="Log out" onClick={handleSignOut} />
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-  ) : (
-    <div className={styles.notLoggedIn}>
-      <Link href="/login">{loginLinkLabel}</Link>
-      <Link href="/register">{joinLinkLabel}</Link>
-    </div>
-  );
+    );
+  } else if (isNotLoggedIn) {
+    loggedInContent = (
+      <div className={styles.notLoggedIn}>
+        <Link href="/login">{loginLinkLabel}</Link>
+        <Link href="/register">{joinLinkLabel}</Link>
+      </div>
+    );
+  }
 
   return (
     <nav className={styles.navbar}>

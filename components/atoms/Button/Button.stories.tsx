@@ -24,7 +24,7 @@ export const Default: Story = {
   args: {
     label: "Click me",
     onClick: fn(),
-    variant: "default",
+    variant: "defaultBtn",
     type: "button",
   },
 };
@@ -33,7 +33,7 @@ export const Language: Story = {
   args: {
     label: "EN",
     onClick: fn(),
-    variant: "language",
+    variant: "languageBtn",
     type: "button",
     "aria-label": "Select language: English",
   },
@@ -46,7 +46,7 @@ export const Reset: Story = {
   args: {
     label: "Reset",
     onClick: fn(),
-    variant: "reset",
+    variant: "resetBtn",
     type: "reset",
   },
 };

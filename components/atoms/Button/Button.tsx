@@ -6,7 +6,7 @@ export type ButtonProps = {
   label: string;
   onClick?: () => void;
   type?: "button" | "submit" | "reset";
-  variant?: "default" | "language" | "reset";
+  variant?: "defaultBtn" | "languageBtn" | "resetBtn";
   className?: string;
   disabled?: boolean;
   "aria-expanded"?: boolean;
@@ -17,7 +17,7 @@ export default function Button({
   label,
   onClick,
   type = "button",
-  variant = "default",
+  variant = "defaultBtn",
   className,
   disabled,
   "aria-expanded": ariaExpanded,

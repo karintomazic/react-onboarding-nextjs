@@ -56,7 +56,7 @@ export default function LanguageSwitcher({
       onKeyDown={handleKeyDown}
     >
       <Button
-        variant="language"
+        variant="languageBtn"
         label={selectedMain.split("-").pop() ?? ""}
         onClick={handleOpen}
         aria-expanded={isOpen}
@@ -73,7 +73,7 @@ export default function LanguageSwitcher({
                   <p>{defaultLanguageLabel}</p>
                   <Button
                     label={resetLabel}
-                    variant="reset"
+                    variant="resetBtn"
                     onClick={onReset}
                   />
                 </div>
