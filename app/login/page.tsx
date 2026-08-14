@@ -19,7 +19,6 @@ export default function LoginPage() {
   const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-    console.log("login");
 
     const result = await signIn("credentials", {
       email,
@@ -32,7 +31,7 @@ export default function LoginPage() {
     if (result?.error) {
       setError(result.error);
     } else {
-      // success
+      // success - redirect
       void router.push(`/`);
     }
 

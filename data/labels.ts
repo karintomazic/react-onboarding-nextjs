@@ -79,8 +79,8 @@ export const showcaseLabels = {
 export const desktopNavLabels = {
   homeAriaLabel: "Home",
   createAriaLabel: "Create New Movie or TV Show",
-  loginLink: "Login link",
-  joinLink: "Join link",
+  loginLink: "Login",
+  joinLink: "Join TMDB",
 };
 
 export const mobileNavLabels = {
