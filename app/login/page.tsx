@@ -4,6 +4,9 @@ import styles from "./page.module.scss";
 import Input from "@/components/atoms/Input/Input";
 import Button from "@/components/atoms/Button/Button";
 import { useState } from "react";
+import { signIn } from "next-auth/react";
+import type { SubmitEvent } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -11,8 +14,29 @@ export default function LoginPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = () => {
+  const router = useRouter();
+
+  const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
     console.log("login");
+
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
+    console.log(result);
+
+    if (result?.error) {
+      setError(result.error);
+    } else {
+      // success
+      void router.push(`/`);
+    }
+
+    setIsSubmitting(false);
   };
 
   return (
