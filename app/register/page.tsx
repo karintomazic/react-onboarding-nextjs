@@ -6,6 +6,7 @@ import Button from "@/components/atoms/Button/Button";
 import styles from "./page.module.scss";
 import { SubmitEvent } from "react";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 export default function RegisterPage() {
   const [email, setEmail] = useState("");
@@ -31,7 +32,17 @@ export default function RegisterPage() {
       const json = await response.json();
       setError(json.error);
     } else {
-      void router.push(`/`);
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        router.push("/login");
+      } else {
+        router.push("/");
+      }
     }
   };
 
