@@ -26,15 +26,30 @@ export async function POST(request: Request) {
     // insert new row into the database - run triggers it
     db.insert(usersTable).values({ email, password: hashedPassword }).run();
   } catch (error) {
+    console.log(error);
+
     // the input itself was invalid
     if (error instanceof z.ZodError) {
       return Response.json({ error: "Invalid input" }, { status: 400 });
     }
 
     // the database insert failed
+
+    if (
+      error instanceof Error &&
+      error.cause instanceof Error &&
+      "code" in error.cause &&
+      error.cause.code === "SQLITE_CONSTRAINT_UNIQUE"
+    ) {
+      return Response.json(
+        { error: "Email already registered" },
+        { status: 409 },
+      );
+    }
+
     return Response.json(
-      { error: "Email already registered" },
-      { status: 409 },
+      { error: "Something went wrong, please try again" },
+      { status: 500 },
     );
   }
 

@@ -8,16 +8,17 @@ import { usersTable } from "@/db/schema";
 import bcrypt from "bcryptjs"; // used here to compare passwords, not hash them
 
 const handler = NextAuth({
-  providers: [ // always an array — Auth.js supports multiple login methods at once
+  providers: [
+    // always an array — Auth.js supports multiple login methods at once
     CredentialsProvider({
       name: "Credentials",
-      credentials: { //  what fields this provider expects
+      credentials: {
+        //  what fields this provider expects
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null; // reject this sign-in attempt
-
 
         //  in the database look up one user row by email
         const user = db
@@ -29,12 +30,13 @@ const handler = NextAuth({
         if (!user) return null; // no account with this email
 
         // checks the plain password just typed against the already-hashed password from the database
-        const compareCred = await bcrypt.compare( // have to await so we dont get a promisse object back which is always truthy
+        const compareCred = await bcrypt.compare(
+          // have to await so we dont get a promisse object back which is always truthy
           credentials.password,
           user.password,
         );
 
-        // builds what gets returned on success -  deliberately excluding the password hash
+        // builds what gets returned on success - deliberately excluding the password hash
         const idAdnUsername = { id: user.id.toString(), email: user.email };
 
         if (compareCred) {

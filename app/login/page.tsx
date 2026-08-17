@@ -30,7 +30,7 @@ export default function LoginPage() {
 
     if (result?.error) {
       // invalid credentials
-      setError(result.error);
+      setError("Login failed, please try again");
     } else {
       // success - redirect
       void router.push(`/`);
