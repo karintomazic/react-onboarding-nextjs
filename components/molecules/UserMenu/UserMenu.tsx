@@ -79,9 +79,5 @@ export default function UserMenu({ joinLabel, loginLabel }: UserMenuProps) {
     );
   }
 
-  return (
-    <div className={styles.userMenu}>
-      {loggedInContent}
-    </div>
-  );
+  return <div className={styles.userMenu}>{loggedInContent}</div>;
 }
