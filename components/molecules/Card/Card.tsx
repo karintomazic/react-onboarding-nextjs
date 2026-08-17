@@ -111,17 +111,17 @@ export default function Card({
                 <div className={styles.optionsBlock}>
                   <p className={styles.optionsPrompt}>{optionsPromptLabel}</p>
                   <p className={styles.optionsAction}>
-                    <a>
+                    <Link href="/login">
                       {loginLabel} <FontAwesomeIcon icon={faChevronRight} />
-                    </a>
+                    </Link>
                   </p>
                 </div>
                 <div className={styles.optionsBlock}>
                   <p className={styles.optionsPrompt}>{notAMemberLabel}</p>
                   <p className={styles.optionsAction ?? ""}>
-                    <a>
+                    <Link href="/register">
                       {signUpLabel} <FontAwesomeIcon icon={faChevronRight} />
-                    </a>
+                    </Link>
                   </p>
                 </div>
               </div>,
