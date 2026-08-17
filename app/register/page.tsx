@@ -6,7 +6,7 @@ import Button from "@/components/atoms/Button/Button";
 import styles from "./page.module.scss";
 import { SubmitEvent } from "react";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { signIn } from "next-auth/react"; // for auto-login once registration succeeds
 
 export default function RegisterPage() {
   const [email, setEmail] = useState("");
@@ -20,6 +20,7 @@ export default function RegisterPage() {
     e.preventDefault();
     setIsSubmitting(true);
 
+    // Sends the registration request to Route Handler
     const response = await fetch(`/api/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -29,10 +30,12 @@ export default function RegisterPage() {
     setIsSubmitting(false);
 
     if (!response.ok) {
+      // registration failed
       const json = await response.json();
       setError(json.error);
     } else {
       const result = await signIn("credentials", {
+        // If registration succeeded, attempts to log the user in with the same credentials they just registered with
         email,
         password,
         redirect: false,

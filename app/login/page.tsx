@@ -20,6 +20,8 @@ export default function LoginPage() {
     e.preventDefault();
     setIsSubmitting(true);
 
+    // attempt sign-in directly via Auth.js — no custom fetch needed,
+    // signIn() handles the network request to Auth.js's own endpoint itself
     const result = await signIn("credentials", {
       email,
       password,
@@ -27,6 +29,7 @@ export default function LoginPage() {
     });
 
     if (result?.error) {
+      // invalid credentials
       setError(result.error);
     } else {
       // success - redirect
