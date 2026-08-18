@@ -30,7 +30,6 @@ export default function UserMenu({ joinLabel, loginLabel }: UserMenuProps) {
 
   const handleSignOut = async () => await signOut();
 
-
   //  useSession().status states
   const isLoggedIn = session.status === "authenticated";
   const isNotLoggedIn = session.status === "unauthenticated";
