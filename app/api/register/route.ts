@@ -26,8 +26,6 @@ export async function POST(request: Request) {
     // insert new row into the database - run triggers it
     db.insert(usersTable).values({ email, password: hashedPassword }).run();
   } catch (error) {
-    console.log(error);
-
     // the input itself was invalid
     if (error instanceof z.ZodError) {
       return Response.json({ error: "Invalid input" }, { status: 400 });
