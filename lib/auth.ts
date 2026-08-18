@@ -4,9 +4,8 @@ import db from "@/db";
 import { usersTable } from "@/db/schema";
 import bcrypt from "bcryptjs"; // used here to compare passwords, not hash them
 import type { AuthOptions } from "next-auth"; // catches config mistakes at compile time instead of runtime
-import type { NextAuthOptions } from "next-auth";
 
-export const authOptions: NextAuthOptions = {
+export const authOptions: AuthOptions = {
   providers: [
     // always an array — Auth.js supports multiple login methods at once
     CredentialsProvider({
