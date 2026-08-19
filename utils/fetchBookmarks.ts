@@ -8,7 +8,7 @@ const bookmarksSchema = z.object({
   movieId: z.number(),
 });
 
-const bookmarkResponseSchema = z.array(bookmarksSchema); // why - 
+const bookmarkResponseSchema = z.array(bookmarksSchema); //
 
 export async function fetchBookmarks(): Promise<Bookmarks[]> {
   const response = await fetch("/api/bookmarks");
