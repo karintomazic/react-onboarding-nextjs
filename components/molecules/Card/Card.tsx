@@ -65,6 +65,22 @@ export default function Card({ image, title, date, variant, id }: CardProps) {
     };
   }, [optionsOpen]);
 
+  const handleAddToBookmark = async () => {
+    const response = await fetch("/api/bookmarks", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ movieId: Number(id) }),
+    });
+
+    if (!response.ok) {
+      const json = await response.json();
+      console.log(json.error);
+      console.log("error");
+    } else {
+      console.log("success");
+    }
+  };
+
   return (
     <div className={`${styles.showcaseCard ?? ""} ${styles[variant] ?? ""}`}>
       <div
@@ -90,6 +106,7 @@ export default function Card({ image, title, date, variant, id }: CardProps) {
               <OptionsDropdown
                 dropdownPosition={dropdownPosition}
                 dropdownRef={dropdownRef}
+                handleAddToBookmark={handleAddToBookmark}
               />,
               document.body,
             )}

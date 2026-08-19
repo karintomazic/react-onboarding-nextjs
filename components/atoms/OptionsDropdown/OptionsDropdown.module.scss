@@ -52,4 +52,34 @@
       }
     }
   }
+
+  .bookmarkAction {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 10px 20px;
+    border: none;
+    background: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-black);
+    cursor: pointer;
+    text-align: left;
+
+    &:hover {
+      background-color: var(--color-navy);
+      color: white;
+
+      .bookmarkIcon {
+        color: white;
+      }
+    }
+  }
+
+  .bookmarkIcon {
+    color: #d81159;
+    width: 16px;
+    height: 16px;
+  }
 }
