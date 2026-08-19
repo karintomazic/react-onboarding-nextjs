@@ -14,7 +14,7 @@ export default function BookmarkedMovieCard({ movieId }: { movieId: string }) {
   });
 
   if (!data) {
-    return <Spinner variant="smallSpinner" />;
+    return <Spinner variant="smallSpinner" />; // add error and islading so if undefined it does no spinn forever
   }
 
   return (
@@ -25,6 +25,7 @@ export default function BookmarkedMovieCard({ movieId }: { movieId: string }) {
         title={data.title}
         date={data.release_date}
         content={data.overview}
+        score={data.vote_average}
       ></MovieCard>
     </div>
   );

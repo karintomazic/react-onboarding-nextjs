@@ -5,6 +5,7 @@ import Link from "next/link";
 import { formatDate } from "@/utils/formatDate";
 import Image from "next/image";
 import { StaticImageData } from "next/image";
+import ScoreCircle from "../ScoreCircle/ScoreCircle";
 
 export type MovieCardProps = {
   id: string;
@@ -12,10 +13,19 @@ export type MovieCardProps = {
   title: string;
   date?: string;
   content: string;
+  score?: number;
 };
 
-const MovieCard = ({ id, imageUrl, title, date, content }: MovieCardProps) => {
+const MovieCard = ({
+  id,
+  imageUrl,
+  title,
+  date,
+  content,
+  score,
+}: MovieCardProps) => {
   const movieUrl = `/movie/${id}-${title.toLowerCase().replace(/\s+/g, "-")}`;
+  const userScore = score && Math.max(0, Math.min(100, Math.round(score * 10)));
 
   return (
     <div className={style.movieCard}>
@@ -29,15 +39,20 @@ const MovieCard = ({ id, imageUrl, title, date, content }: MovieCardProps) => {
         </Link>
       </div>
       <div className={style.content}>
-        <div>
-          <h3>
-            <Link href={movieUrl}>{title}</Link>
-          </h3>
-          {date && (
-            <time className={style.date} dateTime={date}>
-              {formatDate(date)}
-            </time>
-          )}
+        <div className={style.titleWrapper}>
+          <div>
+            {userScore && <ScoreCircle score={userScore} variant="small" />}
+          </div>
+          <div>
+            <h3>
+              <Link href={movieUrl}>{title}</Link>
+            </h3>
+            {date && (
+              <time className={style.date} dateTime={date}>
+                {formatDate(date)}
+              </time>
+            )}
+          </div>
         </div>
         <div>
           <p className={style.description}>{content}</p>

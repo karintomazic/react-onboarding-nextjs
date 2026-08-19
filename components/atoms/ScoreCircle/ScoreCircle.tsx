@@ -1,8 +1,11 @@
 import styles from "./ScoreCircle.module.scss";
 
-type MoviesProps = { score: number };
+type MoviesProps = { score: number; variant?: "regular" | "small" };
 
-export default function ScoreCircle({ score }: MoviesProps) {
+export default function ScoreCircle({
+  score,
+  variant = "regular",
+}: MoviesProps) {
   const clampedScore = Math.max(0, Math.min(100, score));
 
   const radius = 38;
@@ -12,7 +15,7 @@ export default function ScoreCircle({ score }: MoviesProps) {
     clampedScore >= 70 ? "#21d07a" : clampedScore >= 40 ? "#d2d531" : "#db2360";
 
   return (
-    <div className={styles.scoreCircleContainer}>
+    <div className={`${styles.scoreCircleContainer} ${styles[variant] ?? ""}`}>
       <svg viewBox="0 0 100 100" className={styles.scoreCircle}>
         <circle cx="50" cy="50" r="48" className={styles.scoreBg} />
         <circle cx="50" cy="50" r={radius} className={styles.scoreTrack} />

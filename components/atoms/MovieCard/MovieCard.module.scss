@@ -29,6 +29,7 @@
       width: 100%;
       border-top-left-radius: 0.5rem;
       border-bottom-left-radius: 0.5rem;
+      object-fit: cover;
     }
   }
 
@@ -79,6 +80,16 @@
       display: -webkit-box;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 2;
+    }
+
+    .titleWrapper {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+      }
     }
   }
 }
