@@ -2,13 +2,14 @@
 
 import styles from "./Card.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImage, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { faImage } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import Image from "next/image";
 import { StaticImageData } from "next/image";
 import { formatDate } from "../../../utils/formatDate";
 import { useRef, useState, useLayoutEffect } from "react";
 import { useClickOutside } from "../../../hooks/useClickOutside";
+import OptionsDropdown from "@/components/atoms/OptionsDropdown/OptionsDropdown";
 
 import { createPortal } from "react-dom";
 
@@ -18,23 +19,9 @@ type CardProps = {
   title: string;
   date?: string;
   variant: "showcase" | "popular";
-  optionsPromptLabel: string;
-  loginLabel: string;
-  notAMemberLabel: string;
-  signUpLabel: string;
 };
 
-export default function Card({
-  image,
-  title,
-  date,
-  variant,
-  id,
-  optionsPromptLabel,
-  loginLabel,
-  notAMemberLabel,
-  signUpLabel,
-}: CardProps) {
+export default function Card({ image, title, date, variant, id }: CardProps) {
   const movieUrl = `/movie/${id}-${title.toLowerCase().replace(/\s+/g, "-")}`;
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
@@ -100,31 +87,10 @@ export default function Card({
           {optionsOpen &&
             !isClickedOutside &&
             createPortal(
-              <div
-                className={styles.optionsDropdown}
-                ref={dropdownRef}
-                style={{
-                  top: dropdownPosition.top,
-                  left: dropdownPosition.left,
-                }}
-              >
-                <div className={styles.optionsBlock}>
-                  <p className={styles.optionsPrompt}>{optionsPromptLabel}</p>
-                  <p className={styles.optionsAction}>
-                    <Link href="/login">
-                      {loginLabel} <FontAwesomeIcon icon={faChevronRight} />
-                    </Link>
-                  </p>
-                </div>
-                <div className={styles.optionsBlock}>
-                  <p className={styles.optionsPrompt}>{notAMemberLabel}</p>
-                  <p className={styles.optionsAction ?? ""}>
-                    <Link href="/register">
-                      {signUpLabel} <FontAwesomeIcon icon={faChevronRight} />
-                    </Link>
-                  </p>
-                </div>
-              </div>,
+              <OptionsDropdown
+                dropdownPosition={dropdownPosition}
+                dropdownRef={dropdownRef}
+              />,
               document.body,
             )}
         </div>

@@ -1,0 +1,55 @@
+.optionsDropdown {
+  position: fixed;
+  width: 270px;
+  background-color: var(--color-white);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 5;
+
+  a,
+  p {
+    margin: 0;
+  }
+
+  .optionsBlock {
+    padding: 8px 0;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid var(--color-grey);
+    }
+  }
+
+  .optionsPrompt {
+    margin: 0 0 0.5rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-black);
+    padding: 4px 20px 0;
+  }
+
+  .optionsAction {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: rgba(0, 0, 0, 0.6);
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 6px 20px;
+
+    svg {
+      width: 10px;
+      height: 10px;
+    }
+
+    &:hover {
+      background-color: var(--color-navy);
+      color: white;
+
+      a {
+        color: white;
+        text-decoration: none;
+      }
+    }
+  }
+}
