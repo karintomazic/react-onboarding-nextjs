@@ -30,6 +30,8 @@ export default function Card({ image, title, date, variant, id }: CardProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const isClickedOutside = useClickOutside(cardRef, dropdownRef);
 
+  const [error, setError] = useState("");
+
   const handleOptionsToggle = () => {
     setOptionsOpen(!optionsOpen);
   };
@@ -74,10 +76,9 @@ export default function Card({ image, title, date, variant, id }: CardProps) {
 
     if (!response.ok) {
       const json = await response.json();
-      console.log(json.error);
-      console.log("error");
+      setError(json.error);
     } else {
-      console.log("success");
+      setError("");
     }
   };
 

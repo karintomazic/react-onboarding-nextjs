@@ -14,21 +14,70 @@ import { movieInfoLabels, movieActionsLabels } from "../../../data/labels";
 import { fetchMovieDetails } from "@/utils/fetchMovieDetails";
 import Spinner from "@/components/atoms/Spinner/Spinner";
 import Image from "next/image";
+import { useState } from "react";
+import { fetchBookmarks } from "@/utils/fetchBookmarks";
+import { useQueryClient } from "@tanstack/react-query";
 
 const tmbImageUrl = "https://image.tmdb.org/t/p/w500";
 const tmbBackdropUrl = "https://image.tmdb.org/t/p/w1280";
 
 export default function MovieDetailPage() {
-  const movieId = useParams();
-  const movieIdTransformed = Array.isArray(movieId.id)
-    ? movieId.id[0]
-    : movieId.id;
+  const movieIdParams = useParams();
+  const [error, setError] = useState("");
+
+  const queryClient = useQueryClient();
+
+  const { data } = useQuery({
+    queryKey: ["bookmarks-page"],
+    queryFn: fetchBookmarks,
+  });
+
+  const bookmarkMovieIds = data?.map((m) => {
+    return m.movieId;
+  });
+
+  const movieId = Array.isArray(movieIdParams.id)
+    ? movieIdParams.id[0]?.match(/^\d+/)?.[0]
+    : movieIdParams.id?.match(/^\d+/)?.[0];
 
   const movieDetailQuery = useQuery({
-    queryKey: ["movie-detail", movieIdTransformed],
-    queryFn: () =>
-      fetchMovieDetails(movieIdTransformed ? movieIdTransformed : ""),
+    queryKey: ["movie-detail", movieId],
+    queryFn: () => fetchMovieDetails(movieId ? movieId : ""),
   });
+
+  const isBookmarked = bookmarkMovieIds?.includes(Number(movieId)) ?? false;
+
+  const handleAddToBookmark = async () => {
+    if (bookmarkMovieIds?.includes(Number(movieId))) {
+      const response = await fetch("/api/bookmarks", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ movieId: Number(movieId) }),
+      });
+
+      if (!response.ok) {
+        const json = await response.json();
+        setError(json.error);
+      } else {
+        setError("");
+        queryClient.invalidateQueries({ queryKey: ["bookmarks-page"] });
+      }
+    } else {
+      const response = await fetch("/api/bookmarks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ movieId: Number(movieId) }),
+      });
+
+      if (!response.ok) {
+        const json = await response.json();
+        setError(json.error);
+      } else {
+        setError("");
+        queryClient.invalidateQueries({ queryKey: ["bookmarks-page"] });
+      }
+    }
+  };
 
   const movieDetails = movieDetailQuery.data;
   const movieDetailsLoading = movieDetailQuery.isLoading;
@@ -93,6 +142,8 @@ export default function MovieDetailPage() {
                 addToFavoritesLabel={movieActionsLabels.addToFavorites}
                 addToWatchlistLabel={movieActionsLabels.addToWatchlist}
                 playTrailerLabel={movieActionsLabels.playTrailer}
+                handleAddToBookmark={handleAddToBookmark}
+                isBookmarked={isBookmarked}
               />
               <MovieInfo
                 tagline={movieDetails?.tagline ?? ""}

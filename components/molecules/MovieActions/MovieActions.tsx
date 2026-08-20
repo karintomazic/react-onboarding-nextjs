@@ -13,6 +13,8 @@ type MovieActionsProps = {
   addToFavoritesLabel: string;
   addToWatchlistLabel: string;
   playTrailerLabel: string;
+  handleAddToBookmark: () => void;
+  isBookmarked: boolean;
 };
 
 export default function MovieActions({
@@ -20,12 +22,19 @@ export default function MovieActions({
   addToFavoritesLabel,
   addToWatchlistLabel,
   playTrailerLabel,
+  handleAddToBookmark,
+  isBookmarked,
 }: MovieActionsProps) {
   return (
     <div className={styles.actions}>
       <IconButton icon={faList} label={addToListLabel} />
       <IconButton icon={faHeart} label={addToFavoritesLabel} />
-      <IconButton icon={faBookmark} label={addToWatchlistLabel} />
+      <IconButton
+        icon={faBookmark}
+        label={addToWatchlistLabel}
+        onclick={handleAddToBookmark}
+        isActive={isBookmarked}
+      />
       <button className={styles.trailerButton}>
         <FontAwesomeIcon icon={faPlay} /> {playTrailerLabel}
       </button>
