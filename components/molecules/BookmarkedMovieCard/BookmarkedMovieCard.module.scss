@@ -1,3 +1,53 @@
 .bookmarksGrid {
   margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+
+  .error {
+    color: #db2360;
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  .actionsStrip {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 12px 20px;
+    border: 1px solid var(--color-border);
+    border-top: none;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+  }
+
+  .actionButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--color-black);
+    padding: 0;
+
+    &:hover {
+      .actionIcon {
+        background-color: var(--color-grey-darkest);
+        color: white;
+      }
+    }
+  }
+
+  .actionIcon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    border: 1px solid var(--color-grey);
+    color: var(--color-grey-dark);
+  }
 }
