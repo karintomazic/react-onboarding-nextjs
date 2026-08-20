@@ -15,7 +15,6 @@ export default function IconButton({
   onclick,
   isActive,
 }: IconButtonProps) {
-  console.log(isActive);
   return (
     <button
       className={`${styles.iconButton} ${isActive ? styles.active : ""}`}
@@ -23,6 +22,7 @@ export default function IconButton({
       onClick={onclick}
     >
       <FontAwesomeIcon icon={icon} />
+      <span className={styles.tooltip}>{label}</span>
     </button>
   );
 }

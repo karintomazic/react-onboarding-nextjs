@@ -141,6 +141,7 @@ export default function MovieDetailPage() {
                 addToListLabel={movieActionsLabels.addToList}
                 addToFavoritesLabel={movieActionsLabels.addToFavorites}
                 addToWatchlistLabel={movieActionsLabels.addToWatchlist}
+                removeFromWatchlist={movieActionsLabels.removeFromWatchlist}
                 playTrailerLabel={movieActionsLabels.playTrailer}
                 handleAddToBookmark={handleAddToBookmark}
                 isBookmarked={isBookmarked}

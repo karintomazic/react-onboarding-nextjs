@@ -7,9 +7,10 @@ export const cardLabels = {
 };
 
 export const movieActionsLabels = {
-  addToList: "Add to your list",
+  addToList: "Add to wish list",
   addToFavorites: "Add to favorites",
-  addToWatchlist: "Add to watchlist",
+  addToWatchlist: "Add to bookmarks",
+  removeFromWatchlist: "Remove from bookmarks",
   playTrailer: "Play Trailer",
 };
 
