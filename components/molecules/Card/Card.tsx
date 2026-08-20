@@ -10,6 +10,9 @@ import { formatDate } from "../../../utils/formatDate";
 import { useRef, useState, useLayoutEffect } from "react";
 import { useClickOutside } from "../../../hooks/useClickOutside";
 import OptionsDropdown from "@/components/atoms/OptionsDropdown/OptionsDropdown";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
+import { fetchBookmarks } from "@/utils/fetchBookmarks";
+import { toggleBookmark } from "@/utils/toggleBookmark";
 
 import { createPortal } from "react-dom";
 
@@ -29,12 +32,21 @@ export default function Card({ image, title, date, variant, id }: CardProps) {
   const optionsRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const isClickedOutside = useClickOutside(cardRef, dropdownRef);
-
+  const queryClient = useQueryClient();
   const [error, setError] = useState("");
 
   const handleOptionsToggle = () => {
     setOptionsOpen(!optionsOpen);
   };
+
+  const { data } = useQuery({
+    queryKey: ["bookmarks-page"],
+    queryFn: fetchBookmarks,
+  });
+
+  const bookmarkMovieIds = data?.map((m) => {
+    return m.movieId;
+  });
 
   useLayoutEffect(() => {
     if (!optionsOpen) return;
@@ -67,18 +79,15 @@ export default function Card({ image, title, date, variant, id }: CardProps) {
     };
   }, [optionsOpen]);
 
-  const handleAddToBookmark = async () => {
-    const response = await fetch("/api/bookmarks", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ movieId: Number(id) }),
-    });
+  const isBookmarked = bookmarkMovieIds?.includes(Number(id)) ?? false;
 
-    if (!response.ok) {
-      const json = await response.json();
-      setError(json.error);
-    } else {
+  const handleAddToBookmark = async () => {
+    try {
+      await toggleBookmark(isBookmarked, Number(id));
       setError("");
+      queryClient.invalidateQueries({ queryKey: ["bookmarks-page"] });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
     }
   };
 
@@ -108,6 +117,7 @@ export default function Card({ image, title, date, variant, id }: CardProps) {
                 dropdownPosition={dropdownPosition}
                 dropdownRef={dropdownRef}
                 handleAddToBookmark={handleAddToBookmark}
+                isBookmarked={isBookmarked}
               />,
               document.body,
             )}

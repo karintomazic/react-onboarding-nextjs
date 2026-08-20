@@ -13,12 +13,14 @@ type CardProps = {
   dropdownPosition: { top: number; left: number };
   dropdownRef: Ref<HTMLDivElement>;
   handleAddToBookmark: () => void;
+  isBookmarked: boolean;
 };
 
 export default function OptionsDropdown({
   dropdownPosition,
   dropdownRef,
   handleAddToBookmark,
+  isBookmarked,
 }: CardProps) {
   const session = useSession();
 
@@ -38,7 +40,7 @@ export default function OptionsDropdown({
               icon={faBookmark}
               className={styles.bookmarkIcon}
             />
-            Add to bookmarks
+            {isBookmarked ? "Remove from  bookmarks" : "Add to bookmarks"}
           </button>
         </div>
       </>

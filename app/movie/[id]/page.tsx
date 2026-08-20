@@ -17,6 +17,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { fetchBookmarks } from "@/utils/fetchBookmarks";
 import { useQueryClient } from "@tanstack/react-query";
+import { toggleBookmark } from "@/utils/toggleBookmark";
 
 const tmbImageUrl = "https://image.tmdb.org/t/p/w500";
 const tmbBackdropUrl = "https://image.tmdb.org/t/p/w1280";
@@ -48,34 +49,12 @@ export default function MovieDetailPage() {
   const isBookmarked = bookmarkMovieIds?.includes(Number(movieId)) ?? false;
 
   const handleAddToBookmark = async () => {
-    if (bookmarkMovieIds?.includes(Number(movieId))) {
-      const response = await fetch("/api/bookmarks", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ movieId: Number(movieId) }),
-      });
-
-      if (!response.ok) {
-        const json = await response.json();
-        setError(json.error);
-      } else {
-        setError("");
-        queryClient.invalidateQueries({ queryKey: ["bookmarks-page"] });
-      }
-    } else {
-      const response = await fetch("/api/bookmarks", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ movieId: Number(movieId) }),
-      });
-
-      if (!response.ok) {
-        const json = await response.json();
-        setError(json.error);
-      } else {
-        setError("");
-        queryClient.invalidateQueries({ queryKey: ["bookmarks-page"] });
-      }
+    try {
+      await toggleBookmark(isBookmarked, Number(movieId));
+      setError("");
+      queryClient.invalidateQueries({ queryKey: ["bookmarks-page"] });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
     }
   };
 
