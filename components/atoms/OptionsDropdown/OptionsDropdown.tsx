@@ -3,7 +3,12 @@
 import styles from "./OptionsDropdown.module.scss";
 import { cardLabels } from "../../../data/labels";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronRight,
+  faStar,
+  faHeart,
+  faList,
+} from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { Ref } from "react";
 import { useSession } from "next-auth/react";
@@ -32,15 +37,36 @@ export default function OptionsDropdown({
     content = (
       <>
         <div className={styles.optionsBlock}>
-          <button
-            className={styles.bookmarkAction}
-            onClick={handleAddToBookmark}
-          >
+          <button className={styles.rowAction}>
+            <FontAwesomeIcon
+              icon={faList}
+              className={`${styles.rowIcon} ${styles.list}`}
+            />
+            Add to list
+          </button>
+        </div>
+        <div className={styles.optionsBlock}>
+          <button className={styles.rowAction}>
+            <FontAwesomeIcon
+              icon={faHeart}
+              className={`${styles.rowIcon} ${styles.favourite}`}
+            />
+            Favourite
+          </button>
+        </div>
+        <div className={styles.optionsBlock}>
+          <button className={styles.rowAction} onClick={handleAddToBookmark}>
             <FontAwesomeIcon
               icon={faBookmark}
-              className={styles.bookmarkIcon}
+              className={`${styles.rowIcon} ${styles.watchlist}`}
             />
-            {isBookmarked ? "Remove from  bookmarks" : "Add to bookmarks"}
+            {isBookmarked ? "Bookmarks" : "Bookmarks"}
+          </button>
+        </div>
+        <div className={styles.optionsBlock}>
+          <button className={styles.rowAction}>
+            <FontAwesomeIcon icon={faStar} className={styles.rowIcon} />
+            Your rating
           </button>
         </div>
       </>
@@ -70,7 +96,7 @@ export default function OptionsDropdown({
 
   return (
     <div
-      className={styles.optionsDropdown}
+      className={`${styles.optionsDropdown} ${isLoggedIn ? styles.small : ""}`}
       ref={dropdownRef}
       style={{
         top: dropdownPosition.top,

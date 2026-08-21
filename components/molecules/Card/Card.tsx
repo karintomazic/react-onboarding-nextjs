@@ -13,8 +13,8 @@ import OptionsDropdown from "@/components/atoms/OptionsDropdown/OptionsDropdown"
 import { useQueryClient, useQuery } from "@tanstack/react-query";
 import { fetchBookmarks } from "@/utils/fetchBookmarks";
 import { toggleBookmark } from "@/utils/toggleBookmark";
-
 import { createPortal } from "react-dom";
+import SuccessBanner from "@/components/atoms/SuccessBanner/SuccessBanner";
 
 type CardProps = {
   id: string;
@@ -34,6 +34,7 @@ export default function Card({ image, title, date, variant, id }: CardProps) {
   const isClickedOutside = useClickOutside(cardRef, dropdownRef);
   const queryClient = useQueryClient();
   const [error, setError] = useState("");
+  const [bannerMessage, setBannerMessage] = useState<string | null>(null);
 
   const handleOptionsToggle = () => {
     setOptionsOpen(!optionsOpen);
@@ -54,10 +55,13 @@ export default function Card({ image, title, date, variant, id }: CardProps) {
     const optionsPosition = optionsRef.current?.getBoundingClientRect();
     if (!optionsPosition) return;
 
+    const dropdownWidth =
+      dropdownRef.current?.getBoundingClientRect().width ?? 270;
+
     const margin = 8;
     const left = Math.min(
-      Math.max(optionsPosition.right - 270, margin),
-      window.innerWidth - 270 - margin,
+      Math.max(optionsPosition.right - dropdownWidth, margin),
+      window.innerWidth - dropdownWidth - margin,
     );
 
     // getting the icons real DOM position after its on the page,
@@ -85,6 +89,17 @@ export default function Card({ image, title, date, variant, id }: CardProps) {
     try {
       await toggleBookmark(isBookmarked, Number(id));
       setError("");
+
+      setBannerMessage(
+        isBookmarked
+          ? `${title} was removed from your Bookmarks list.`
+          : `${title} was added to your Bookmarks list.`,
+      );
+
+      setTimeout(() => {
+        setBannerMessage(null);
+      }, 3000);
+
       queryClient.invalidateQueries({ queryKey: ["bookmarks-page"] });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
@@ -119,6 +134,12 @@ export default function Card({ image, title, date, variant, id }: CardProps) {
                 handleAddToBookmark={handleAddToBookmark}
                 isBookmarked={isBookmarked}
               />,
+              document.body,
+            )}
+
+          {bannerMessage &&
+            createPortal(
+              <SuccessBanner message={bannerMessage} />,
               document.body,
             )}
         </div>
