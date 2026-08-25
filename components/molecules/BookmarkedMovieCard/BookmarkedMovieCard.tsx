@@ -19,7 +19,7 @@ export default function BookmarkedMovieCard({ movieId }: { movieId: string }) {
   const queryClient = useQueryClient();
   const [error, setError] = useState("");
 
-  const { data } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ["bookmarks-cards", movieId],
     queryFn: () => fetchMovieDetails(movieId),
   });
@@ -40,8 +40,12 @@ export default function BookmarkedMovieCard({ movieId }: { movieId: string }) {
     }
   };
 
-  if (!data) {
-    return <Spinner variant="smallSpinner" />; // add error and islading so if undefined it does no spinn forever
+  if (isLoading) {
+    return <Spinner variant="smallSpinner" />;
+  }
+
+  if (isError || !data) {
+    return <p>Could not load this movie.</p>;
   }
 
   return (

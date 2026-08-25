@@ -28,12 +28,12 @@ export default function MovieDetailPage() {
 
   const queryClient = useQueryClient();
 
-  const { data } = useQuery({
+  const { data: bookmarksData } = useQuery({
     queryKey: ["bookmarks-page"],
     queryFn: fetchBookmarks,
   });
 
-  const bookmarkMovieIds = data?.map((m) => {
+  const bookmarkMovieIds = bookmarksData?.map((m) => {
     return m.movieId;
   });
 
@@ -41,7 +41,11 @@ export default function MovieDetailPage() {
     ? movieIdParams.id[0]?.match(/^\d+/)?.[0]
     : movieIdParams.id?.match(/^\d+/)?.[0];
 
-  const movieDetailQuery = useQuery({
+  const {
+    data: movieDetailsData,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["movie-detail", movieId],
     queryFn: () => fetchMovieDetails(movieId ? movieId : ""),
   });
@@ -58,15 +62,12 @@ export default function MovieDetailPage() {
     }
   };
 
-  const movieDetails = movieDetailQuery.data;
-  const movieDetailsLoading = movieDetailQuery.isLoading;
-
-  const releaseYear = movieDetails?.release_date
-    ? new Date(movieDetails.release_date).getFullYear()
+  const releaseYear = movieDetailsData?.release_date
+    ? new Date(movieDetailsData.release_date).getFullYear()
     : null;
 
-  const releaseDate = movieDetails?.release_date
-    ? new Date(movieDetails.release_date).toLocaleDateString("en-GB", {
+  const releaseDate = movieDetailsData?.release_date
+    ? new Date(movieDetailsData.release_date).toLocaleDateString("en-GB", {
         day: "numeric",
         month: "numeric",
         year: "numeric",
@@ -74,11 +75,15 @@ export default function MovieDetailPage() {
     : "";
 
   UseDocumentTitle(
-    `${movieDetails?.title ?? ""} (${releaseYear !== null ? String(releaseYear) : ""})- The Movie Database(TMDB)`,
+    `${movieDetailsData?.title ?? ""} (${releaseYear !== null ? String(releaseYear) : ""})- The Movie Database(TMDB)`,
   );
 
-  if (movieDetailsLoading) {
+  if (isLoading) {
     return <Spinner />;
+  }
+
+  if (isError || !movieDetailsData) {
+    return <p>Could not load this movie.</p>;
   }
 
   return (
@@ -86,16 +91,16 @@ export default function MovieDetailPage() {
       <div
         className={styles.backdrop}
         style={{
-          backgroundImage: movieDetails?.backdrop_path
-            ? `url(${tmbBackdropUrl}${movieDetails.backdrop_path})`
+          backgroundImage: movieDetailsData?.backdrop_path
+            ? `url(${tmbBackdropUrl}${movieDetailsData.backdrop_path})`
             : "none",
         }}
       >
         <div className={styles.backdropBackground}>
           <div className={styles.innerWrapper}>
-            {movieDetails?.poster_path && (
+            {movieDetailsData?.poster_path && (
               <Image
-                src={`${tmbImageUrl}${movieDetails.poster_path}`}
+                src={`${tmbImageUrl}${movieDetailsData.poster_path}`}
                 alt=""
                 height={500}
                 width={350}
@@ -103,19 +108,21 @@ export default function MovieDetailPage() {
             )}
             <div>
               <h2>
-                {movieDetails?.title} <span>({releaseYear})</span>
+                {movieDetailsData?.title} <span>({releaseYear})</span>
               </h2>
               <div className={styles.facts}>
-                <time dateTime={movieDetails?.release_date}>{releaseDate}</time>
+                <time dateTime={movieDetailsData?.release_date}>
+                  {releaseDate}
+                </time>
                 <span>
-                  {movieDetails?.genres.map((g) => g.name).join(", ")}
+                  {movieDetailsData?.genres.map((g) => g.name).join(", ")}
                 </span>
                 <span>
-                  {Math.floor((movieDetails?.runtime ?? 0) / 60)}h
-                  {(movieDetails?.runtime ?? 0) % 60}m
+                  {Math.floor((movieDetailsData?.runtime ?? 0) / 60)}h
+                  {(movieDetailsData?.runtime ?? 0) % 60}m
                 </span>
               </div>
-              <UserScore score={movieDetails?.vote_average ?? 0} />
+              <UserScore score={movieDetailsData?.vote_average ?? 0} />
               <MovieActions
                 addToListLabel={movieActionsLabels.addToList}
                 addToFavoritesLabel={movieActionsLabels.addToFavorites}
@@ -125,12 +132,13 @@ export default function MovieDetailPage() {
                 handleAddToBookmark={handleAddToBookmark}
                 isBookmarked={isBookmarked}
               />
+              {error && <p className={styles.error}>{error}</p>}
               <MovieInfo
-                tagline={movieDetails?.tagline ?? ""}
-                overview={movieDetails?.overview ?? ""}
+                tagline={movieDetailsData?.tagline ?? ""}
+                overview={movieDetailsData?.overview ?? ""}
                 overviewHeading={movieInfoLabels.overviewHeading}
               />
-              <CrewGrid crewDetails={movieDetails?.credits.crew ?? []} />
+              <CrewGrid crewDetails={movieDetailsData?.credits.crew ?? []} />
             </div>
           </div>
         </div>
