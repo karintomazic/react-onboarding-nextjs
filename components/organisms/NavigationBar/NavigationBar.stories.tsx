@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import NavigationBarComponent from "./NavigationBar";
 import { http, HttpResponse } from "msw";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { SessionProvider } from "next-auth/react";
 
 const meta = {
   title: "Component/organisms/NavigationBar",
@@ -14,7 +15,9 @@ const meta = {
       const queryClient = new QueryClient();
       return (
         <QueryClientProvider client={queryClient}>
-          <Story />
+          <SessionProvider>
+            <Story />
+          </SessionProvider>
         </QueryClientProvider>
       );
     },

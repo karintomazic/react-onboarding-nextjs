@@ -2,12 +2,26 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import pladeholderPoster from "../../../assets/placeholder-poster.jpg";
 import { fn } from "storybook/test";
 import { cardLabels, showcaseLabels, tabsLabels } from "../../../data/labels";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BannerProvider } from "@/context/BannerContext";
 
 import ShowcaseComponent from "./Showcase";
 
 const meta = {
   title: "Component/organisms/Showcase",
   component: ShowcaseComponent,
+  decorators: [
+    (Story) => {
+      const queryClient = new QueryClient();
+      return (
+        <QueryClientProvider client={queryClient}>
+          <BannerProvider>
+            <Story />
+          </BannerProvider>
+        </QueryClientProvider>
+      );
+    },
+  ],
 } satisfies Meta<typeof ShowcaseComponent>;
 
 export default meta;

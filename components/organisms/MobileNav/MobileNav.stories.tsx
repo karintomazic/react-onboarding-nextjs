@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import MobileNavComponent from "./MobileNav";
+import { SessionProvider } from "next-auth/react";
 
 const meta = {
   title: "Component/organisms/MobileNav",
@@ -7,6 +8,15 @@ const meta = {
   parameters: {
     layout: "fullscreen",
   },
+  decorators: [
+    (Story) => {
+      return (
+        <SessionProvider>
+          <Story />
+        </SessionProvider>
+      );
+    },
+  ],
 } satisfies Meta<typeof MobileNavComponent>;
 
 export default meta;

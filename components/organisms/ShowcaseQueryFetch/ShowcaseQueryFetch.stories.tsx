@@ -7,6 +7,7 @@ import {
   TMDB_DISCOVER_URL_NOW_PLAYING,
 } from "@/mock/mockData";
 import ShowcaseQueryFetch from "./ShowcaseQueryFetch";
+import { BannerProvider } from "@/context/BannerContext";
 
 const meta = {
   title: "Component/organisms/ShowcaseQueryFetch",
@@ -19,7 +20,9 @@ const meta = {
 
       return (
         <QueryClientProvider client={queryClient}>
-          <Story />
+          <BannerProvider>
+            <Story />
+          </BannerProvider>
         </QueryClientProvider>
       );
     },

@@ -7,6 +7,7 @@ import {
   TMDB_DISCOVER_URL_MOVIE,
   TMDB_DISCOVER_URL_NOW_PLAYING,
 } from "@/mock/mockData";
+import { BannerProvider } from "@/context/BannerContext";
 
 const meta = {
   title: "Component/pages/HomePage",
@@ -19,7 +20,9 @@ const meta = {
       const queryClient = new QueryClient();
       return (
         <QueryClientProvider client={queryClient}>
-          <Story />
+          <BannerProvider>
+            <Story />
+          </BannerProvider>
         </QueryClientProvider>
       );
     },
