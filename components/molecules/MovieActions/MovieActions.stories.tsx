@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import MovieActionsComponent from "./MovieActions";
 import { movieActionsLabels } from "../../../data/labels";
+import { fn } from "storybook/test";
 
 const meta = {
   title: "Component/molecules/MovieActions",
@@ -19,5 +20,8 @@ export const MovieActions: Story = {
     addToFavoritesLabel: movieActionsLabels.addToFavorites,
     addToWatchlistLabel: movieActionsLabels.addToWatchlist,
     playTrailerLabel: movieActionsLabels.playTrailer,
+    removeFromWatchlist: movieActionsLabels.removeFromWatchlist,
+    handleAddToBookmark: fn(),
+    isBookmarked: true,
   },
 };

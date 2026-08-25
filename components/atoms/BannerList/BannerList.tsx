@@ -5,7 +5,6 @@ import SuccessBanner from "../SuccessBanner/SuccessBanner";
 
 export default function BannerList() {
   const { banners } = useBanner();
-  console.log(banners);
 
   return (
     <>

@@ -40,8 +40,6 @@ export default function OptionsDropdown({
 
   let content;
 
-  console.log(isBookmarked);
-
   if (isLoggedIn) {
     content = (
       <>
@@ -64,7 +62,10 @@ export default function OptionsDropdown({
           </button>
         </div>
         <div className={styles.optionsBlock}>
-          <button className={`${styles.rowAction} ${isBookmarked ? styles.active : ""}`} onClick={handleAddToBookmark}>
+          <button
+            className={`${styles.rowAction} ${isBookmarked ? styles.active : ""}`}
+            onClick={handleAddToBookmark}
+          >
             <FontAwesomeIcon
               icon={faBookmark}
               className={`${styles.rowIcon} ${styles.watchlist}`}

@@ -2,10 +2,27 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import placeholderPoster from "../../../assets/placeholder-poster.jpg";
 import { cardLabels } from "../../../data/labels";
 import CardComponent from "./Card";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BannerProvider } from "@/context/BannerContext";
+import { SessionProvider } from "next-auth/react";
 
 const meta = {
   title: "Component/molecules/Card",
   component: CardComponent,
+  decorators: [
+    (Story) => {
+      const queryClient = new QueryClient();
+      return (
+        <QueryClientProvider client={queryClient}>
+          <SessionProvider>
+            <BannerProvider>
+              <Story />
+            </BannerProvider>
+          </SessionProvider>
+        </QueryClientProvider>
+      );
+    },
+  ],
 } satisfies Meta<typeof CardComponent>;
 
 export default meta;
