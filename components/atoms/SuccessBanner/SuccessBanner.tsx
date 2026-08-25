@@ -4,11 +4,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type SuccessBannerProps = {
   message: string;
+  top: number;
 };
 
-export default function SuccessBanner({ message }: SuccessBannerProps) {
+export default function SuccessBanner({ message, top }: SuccessBannerProps) {
   return (
-    <div className={styles.successBanner}>
+    <div className={styles.successBanner} style={{ top }}>
       <div className={styles.iconCircle}>
         <FontAwesomeIcon icon={faCheck} />
       </div>

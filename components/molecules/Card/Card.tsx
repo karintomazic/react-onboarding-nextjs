@@ -14,7 +14,7 @@ import { useQueryClient, useQuery } from "@tanstack/react-query";
 import { fetchBookmarks } from "@/utils/fetchBookmarks";
 import { toggleBookmark } from "@/utils/toggleBookmark";
 import { createPortal } from "react-dom";
-import SuccessBanner from "@/components/atoms/SuccessBanner/SuccessBanner";
+import { useBanner } from "@/hooks/useBanner";
 
 type CardProps = {
   id: string;
@@ -22,9 +22,23 @@ type CardProps = {
   title: string;
   date?: string;
   variant: "showcase" | "popular";
+  optionsPromptLabel: string;
+  loginLabel: string;
+  notAMemberLabel: string;
+  signUpLabel: string;
 };
 
-export default function Card({ image, title, date, variant, id }: CardProps) {
+export default function Card({
+  image,
+  title,
+  date,
+  variant,
+  id,
+  optionsPromptLabel,
+  loginLabel,
+  notAMemberLabel,
+  signUpLabel,
+}: CardProps) {
   const movieUrl = `/movie/${id}-${title.toLowerCase().replace(/\s+/g, "-")}`;
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
@@ -34,7 +48,8 @@ export default function Card({ image, title, date, variant, id }: CardProps) {
   const isClickedOutside = useClickOutside(cardRef, dropdownRef);
   const queryClient = useQueryClient();
   const [error, setError] = useState("");
-  const [bannerMessage, setBannerMessage] = useState<string | null>(null);
+
+  const { showBanner } = useBanner();
 
   const handleOptionsToggle = () => {
     setOptionsOpen(!optionsOpen);
@@ -90,15 +105,11 @@ export default function Card({ image, title, date, variant, id }: CardProps) {
       await toggleBookmark(isBookmarked, Number(id));
       setError("");
 
-      setBannerMessage(
+      showBanner(
         isBookmarked
           ? `${title} was removed from your Bookmarks list.`
           : `${title} was added to your Bookmarks list.`,
       );
-
-      setTimeout(() => {
-        setBannerMessage(null);
-      }, 3000);
 
       queryClient.invalidateQueries({ queryKey: ["bookmarks-page"] });
     } catch (err) {
@@ -133,13 +144,11 @@ export default function Card({ image, title, date, variant, id }: CardProps) {
                 dropdownRef={dropdownRef}
                 handleAddToBookmark={handleAddToBookmark}
                 isBookmarked={isBookmarked}
+                optionsPromptLabel={optionsPromptLabel}
+                loginLabel={loginLabel}
+                notAMemberLabel={notAMemberLabel}
+                signUpLabel={signUpLabel}
               />,
-              document.body,
-            )}
-
-          {bannerMessage &&
-            createPortal(
-              <SuccessBanner message={bannerMessage} />,
               document.body,
             )}
         </div>

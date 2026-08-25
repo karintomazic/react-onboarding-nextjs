@@ -1,7 +1,6 @@
 "use client";
 
 import styles from "./OptionsDropdown.module.scss";
-import { cardLabels } from "../../../data/labels";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronRight,
@@ -19,6 +18,10 @@ type CardProps = {
   dropdownRef: Ref<HTMLDivElement>;
   handleAddToBookmark: () => void;
   isBookmarked: boolean;
+  optionsPromptLabel: string;
+  loginLabel: string;
+  notAMemberLabel: string;
+  signUpLabel: string;
 };
 
 export default function OptionsDropdown({
@@ -26,12 +29,18 @@ export default function OptionsDropdown({
   dropdownRef,
   handleAddToBookmark,
   isBookmarked,
+  optionsPromptLabel,
+  loginLabel,
+  notAMemberLabel,
+  signUpLabel,
 }: CardProps) {
   const session = useSession();
 
   const isLoggedIn = session.status === "authenticated";
 
   let content;
+
+  console.log(isBookmarked);
 
   if (isLoggedIn) {
     content = (
@@ -55,12 +64,12 @@ export default function OptionsDropdown({
           </button>
         </div>
         <div className={styles.optionsBlock}>
-          <button className={styles.rowAction} onClick={handleAddToBookmark}>
+          <button className={`${styles.rowAction} ${isBookmarked ? styles.active : ""}`} onClick={handleAddToBookmark}>
             <FontAwesomeIcon
               icon={faBookmark}
               className={`${styles.rowIcon} ${styles.watchlist}`}
             />
-            {isBookmarked ? "Bookmarks" : "Bookmarks"}
+            Bookmarks
           </button>
         </div>
         <div className={styles.optionsBlock}>
@@ -75,18 +84,18 @@ export default function OptionsDropdown({
     content = (
       <>
         <div className={styles.optionsBlock}>
-          <p className={styles.optionsPrompt}>{cardLabels.optionsPrompt}</p>
+          <p className={styles.optionsPrompt}>{optionsPromptLabel}</p>
           <p className={styles.optionsAction}>
             <Link href="/login">
-              {cardLabels.login} <FontAwesomeIcon icon={faChevronRight} />
+              {loginLabel} <FontAwesomeIcon icon={faChevronRight} />
             </Link>
           </p>
         </div>
         <div className={styles.optionsBlock}>
-          <p className={styles.optionsPrompt}>{cardLabels.notAMember}</p>
+          <p className={styles.optionsPrompt}>{notAMemberLabel}</p>
           <p className={styles.optionsAction ?? ""}>
             <Link href="/register">
-              {cardLabels.signUp} <FontAwesomeIcon icon={faChevronRight} />
+              {signUpLabel} <FontAwesomeIcon icon={faChevronRight} />
             </Link>
           </p>
         </div>

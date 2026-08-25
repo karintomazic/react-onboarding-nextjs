@@ -78,6 +78,10 @@
         color: white;
       }
     }
+
+    &.active .rowIcon {
+      color: red;
+    }
   }
 
   .rowIcon {
