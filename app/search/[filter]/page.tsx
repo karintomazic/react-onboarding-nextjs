@@ -12,8 +12,9 @@ import PersonCard from "@/components/atoms/PersonCard/PersonCard";
 import { UseDocumentTitle } from "@/hooks/useDocumentTitle";
 import { fetchSearchMovies } from "@/utils/fetchSearchMovies";
 import { searchResultsLabels } from "@/data/labels";
+import { Suspense } from "react";
 
-export default function SearchResults() {
+export function SearchResultsContent() {
   const { filter } = useParams();
   const filterTransformed = Array.isArray(filter) ? filter[0] : filter;
 
@@ -75,9 +76,19 @@ export default function SearchResults() {
   }
 
   return (
-    <div className={styles.movieCards}>
+    <>
       {contentData}
       <Pagination page={page} totalPages={data.totalPages} />
+    </>
+  );
+}
+
+export default function SearchResults() {
+  return (
+    <div className={styles.movieCards}>
+      <Suspense fallback={null}>
+        <SearchResultsContent />
+      </Suspense>
     </div>
   );
 }

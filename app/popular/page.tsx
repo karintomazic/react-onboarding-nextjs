@@ -17,10 +17,9 @@ import { popularMoviesPageLabels } from "@/data/labels";
 
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-export default function PopularMovies() {
-  UseDocumentTitle("Popular Movies Page - The Movie Database(TMDB)");
-
+function PopularMoviesContent() {
   const [sortToggle, setSortToggle] = useState(false);
   const [genreToggle, setGenreToggle] = useState(false);
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
@@ -65,66 +64,76 @@ export default function PopularMovies() {
   const movies = movieData ? movieData : [];
 
   return (
+    <div className={styles.popularWrapper}>
+      <div className={styles.filterWrapper}>
+        <FilterPanel
+          title={"Sort"}
+          subtitle={"Sort Results By"}
+          toggleAction={handleSortToggle}
+          toggle={sortToggle}
+        >
+          <SortDropdown
+            sortBy={selectedSort}
+            setSortBy={setSelectedSort}
+            ariaLabel={sortDropdownLabels.ariaLabel}
+          />
+        </FilterPanel>
+        <FilterPanel
+          title={"Filters"}
+          subtitle={"Genres"}
+          toggleAction={handleGenreToggle}
+          toggle={genreToggle}
+        >
+          <GenreFilter
+            genre={genre}
+            selectedGenres={selectedGenres}
+            setSelectedGenres={setSelectedGenres}
+          />
+        </FilterPanel>
+        <button
+          onClick={applyFilters}
+          disabled={!hasChanges}
+          className={styles.submitBtn}
+        >
+          {popularMoviesPageLabels.searchButton}
+        </button>
+      </div>
+      <div
+        className={styles.moviesGrid}
+        aria-live="polite"
+        aria-label={popularMoviesPageLabels.resultsAriaLabel}
+      >
+        {movies.map((r) => {
+          return (
+            <Card
+              key={r.id}
+              id={r.id.toString()}
+              image={r.url}
+              title={r.title}
+              date={r.date}
+              variant="popular"
+              optionsPromptLabel={cardLabels.optionsPrompt}
+              loginLabel={cardLabels.login}
+              notAMemberLabel={cardLabels.notAMember}
+              signUpLabel={cardLabels.signUp}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+export default function PopularMovies() {
+  UseDocumentTitle("Popular Movies Page - The Movie Database(TMDB)");
+
+  return (
     <SingleColumn>
       <div className={styles.container}>
         <h2>{popularMoviesPageLabels.heading}</h2>
-        <div className={styles.popularWrapper}>
-          <div className={styles.filterWrapper}>
-            <FilterPanel
-              title={"Sort"}
-              subtitle={"Sort Results By"}
-              toggleAction={handleSortToggle}
-              toggle={sortToggle}
-            >
-              <SortDropdown
-                sortBy={selectedSort}
-                setSortBy={setSelectedSort}
-                ariaLabel={sortDropdownLabels.ariaLabel}
-              />
-            </FilterPanel>
-            <FilterPanel
-              title={"Filters"}
-              subtitle={"Genres"}
-              toggleAction={handleGenreToggle}
-              toggle={genreToggle}
-            >
-              <GenreFilter
-                genre={genre}
-                selectedGenres={selectedGenres}
-                setSelectedGenres={setSelectedGenres}
-              />
-            </FilterPanel>
-            <button
-              onClick={applyFilters}
-              disabled={!hasChanges}
-              className={styles.submitBtn}
-            >
-              {popularMoviesPageLabels.searchButton}
-            </button>
-          </div>
-          <div
-            className={styles.moviesGrid}
-            aria-live="polite"
-            aria-label={popularMoviesPageLabels.resultsAriaLabel}
-          >
-            {movies.map((r) => {
-              return (
-                <Card
-                  key={r.id}
-                  id={r.id.toString()}
-                  image={r.url}
-                  title={r.title}
-                  date={r.date}
-                  variant="popular"
-                  optionsPromptLabel={cardLabels.optionsPrompt}
-                  loginLabel={cardLabels.login}
-                  notAMemberLabel={cardLabels.notAMember}
-                  signUpLabel={cardLabels.signUp}
-                />
-              );
-            })}
-          </div>
-        </div>
+        <Suspense fallback={null}>
+          <PopularMoviesContent />
+        </Suspense>
       </div>
     </SingleColumn>
   );
