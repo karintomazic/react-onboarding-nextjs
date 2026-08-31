@@ -1,7 +1,6 @@
 import styles from "./page.module.scss";
 import SingleColumn from "@/components/templates/SingleColumn/SingleColumn";
 import { popularMoviesPageLabels } from "@/data/labels";
-import { Suspense } from "react";
 import PopularMoviesContent from "./PopularMoviesContent";
 import { DEFAULT_SORT } from "@/data/sortingOptions";
 import type { Metadata } from "next";
@@ -28,9 +27,7 @@ export default async function PopularMovies({
     <SingleColumn>
       <div className={styles.PopularMoviesContainer}>
         <h2>{popularMoviesPageLabels.heading}</h2>
-        <Suspense fallback={null}>
-          <PopularMoviesContent genres={genres} sort={sort} />
-        </Suspense>
+        <PopularMoviesContent genres={genres} sort={sort} />
       </div>
     </SingleColumn>
   );

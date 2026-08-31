@@ -1,94 +1,36 @@
-"use client";
-
 import styles from "./page.module.scss";
-import MovieCard from "@/components/atoms/MovieCard/MovieCard";
-import { useQuery } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
-import { useSearchParams } from "next/navigation";
-import { formatDate } from "../../../utils/formatDate";
-import Pagination from "@/components/molecules/Pagination/Pagination";
-import Spinner from "@/components/atoms/Spinner/Spinner";
-import PersonCard from "@/components/atoms/PersonCard/PersonCard";
-import { UseDocumentTitle } from "@/hooks/useDocumentTitle";
-import { fetchSearchMovies } from "@/utils/fetchSearchMovies";
-import { searchResultsLabels } from "@/data/labels";
-import { Suspense } from "react";
+import { SearchResultsContent } from "./SearchResultsContent";
+import { Metadata } from "next";
 
-export function SearchResultsContent() {
-  const { filter } = useParams();
-  const filterTransformed = Array.isArray(filter) ? filter[0] : filter;
+export async function generateMetadata({
+  searchParams,
+}: PageProps<"/search/[filter]">): Promise<Metadata> {
+  const resolvedParams = await searchParams;
+  const queryParam = resolvedParams.query;
+  const query = Array.isArray(queryParam)
+    ? (queryParam[0] ?? "")
+    : (queryParam ?? "");
 
-  const searchParams = useSearchParams();
-  const query = searchParams.get("query") ?? "";
-  const page = Number(searchParams.get("page") ?? "1");
-  UseDocumentTitle(`${query} - The Movie Database(TMDB)`);
-
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["search-movies", page, filterTransformed, query],
-    queryFn: () => fetchSearchMovies(page, filterTransformed ?? "tv", query),
-  });
-
-  if (error) {
-    return (
-      <p>
-        {error instanceof Error ? error.message : searchResultsLabels.error}
-      </p>
-    );
-  }
-
-  if (isLoading) {
-    return <Spinner />;
-  }
-
-  if (!data) {
-    return <p>{searchResultsLabels.empty}</p>;
-  }
-
-  let contentData;
-
-  if (data.kind === "person") {
-    contentData = data.people.map((person) => (
-      <PersonCard
-        key={person.id}
-        name={person.name}
-        department={person.department}
-        profileImg={person.profileImg}
-        known_for={person.known_for}
-      />
-    ));
-  } else if (data.kind === "simple") {
-    contentData = data.items.map((item) => <p key={item.id}>{item.name}</p>);
-  } else {
-    contentData = data.movies.map((movie) => (
-      <MovieCard
-        key={movie.id}
-        id={String(movie.id)}
-        imageUrl={movie.url}
-        title={movie.title}
-        date={movie.date ? formatDate(movie.date) : ""}
-        content={movie.description}
-      />
-    ));
-  }
-
-  if (contentData.length == 0) {
-    return <p>{searchResultsLabels.empty}</p>;
-  }
-
-  return (
-    <>
-      {contentData}
-      <Pagination page={page} totalPages={data.totalPages} />
-    </>
-  );
+  return {
+    title: `${query} - The Movie Database(TMDB)`,
+  };
 }
 
-export default function SearchResults() {
+export default async function SearchResults({
+  searchParams,
+}: PageProps<"/search/[filter]">) {
+  const resolvedParams = await searchParams;
+
+  const queryParam = resolvedParams.query;
+  const query = Array.isArray(queryParam)
+    ? (queryParam[0] ?? "")
+    : (queryParam ?? "");
+  const pageParam = resolvedParams.page;
+  const page = Number(pageParam) ? Number(pageParam) : 1;
+
   return (
     <div className={styles.movieCards}>
-      <Suspense fallback={null}>
-        <SearchResultsContent />
-      </Suspense>
+      <SearchResultsContent query={query} page={page} />
     </div>
   );
 }

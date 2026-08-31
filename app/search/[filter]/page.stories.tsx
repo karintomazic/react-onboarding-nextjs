@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import SearchResultsComponent from "./page";
+import { SearchResultsContent } from "./SearchResultsContent";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { http, HttpResponse, delay } from "msw";
 import {
@@ -15,7 +15,7 @@ import {
 
 const meta = {
   title: "Component/pages/SearchResults",
-  component: SearchResultsComponent,
+  component: SearchResultsContent,
   decorators: [
     (Story) => {
       const queryClient = new QueryClient();
@@ -26,12 +26,13 @@ const meta = {
       );
     },
   ],
-} satisfies Meta<typeof SearchResultsComponent>;
+} satisfies Meta<typeof SearchResultsContent>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const TvShow: Story = {
+  args: { query: "batman", page: 1 },
   parameters: {
     msw: {
       handlers: [
@@ -45,6 +46,7 @@ export const TvShow: Story = {
 };
 
 export const Movie: Story = {
+  args: { query: "batman", page: 1 },
   parameters: {
     msw: {
       handlers: [
@@ -58,6 +60,7 @@ export const Movie: Story = {
 };
 
 export const Person: Story = {
+  args: { query: "batman", page: 1 },
   parameters: {
     msw: {
       handlers: [
@@ -71,6 +74,7 @@ export const Person: Story = {
 };
 
 export const Simple: Story = {
+  args: { query: "batman", page: 1 },
   parameters: {
     msw: {
       handlers: [
@@ -84,6 +88,7 @@ export const Simple: Story = {
 };
 
 export const Loading: Story = {
+  args: { query: "batman", page: 1 },
   parameters: {
     msw: {
       handlers: [
@@ -98,6 +103,7 @@ export const Loading: Story = {
 };
 
 export const Error: Story = {
+  args: { query: "batman", page: 1 },
   parameters: {
     msw: {
       handlers: [
@@ -114,6 +120,7 @@ export const Error: Story = {
 };
 
 export const Empty: Story = {
+  args: { query: "", page: 1 },
   parameters: {
     msw: {
       handlers: [
