@@ -51,6 +51,7 @@ export const popularMoviesPageLabels = {
   heading: "Popular Movies",
   resultsAriaLabel: "Movie results",
   searchButton: "Search",
+  errorMessage: "Something went wrong loading movies. Please try again."
 };
 
 export const searchResultsLabels = {

@@ -9,7 +9,7 @@ const tmdbMovieSchema = z.object({
   id: z.number(),
   title: z.string(),
   poster_path: z.string().nullable(),
-  release_date: z.string(),
+  release_date: z.string().optional(), // some movies dont have the release date
 });
 
 const tmdbResponseSchema = z.object({
@@ -39,6 +39,6 @@ export async function fetchPopularMovies(
     id: movie.id,
     title: movie.title,
     url: movie.poster_path ? `${tmbImageUrl}${movie.poster_path}` : "",
-    date: movie.release_date,
+    date: movie.release_date ?? "",
   }));
 }
