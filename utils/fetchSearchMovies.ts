@@ -107,20 +107,24 @@ export async function fetchSearchMovies(
     const data = responseEnvelope(personItemSchema).parse(json);
     searchResult = {
       kind: "person",
-      people: searchPersonSchema.decode(data.results.map((p) => ({
-        id: p.id,
-        name: p.name,
-        department: p.known_for_department ?? "",
-        profileImg: p.profile_path ? `${tmbImageUrl}${p.profile_path}` : "",
-        known_for: p.known_for.map((k) => k.title ?? k.name ?? ""),
-      }))),
+      people: searchPersonSchema.decode(
+        data.results.map((p) => ({
+          id: p.id,
+          name: p.name,
+          department: p.known_for_department ?? "",
+          profileImg: p.profile_path ? `${tmbImageUrl}${p.profile_path}` : "",
+          known_for: p.known_for.map((k) => k.title ?? k.name ?? ""),
+        })),
+      ),
       totalPages: data.total_pages,
     };
   } else if (filter === "keyword" || filter === "company") {
     const data = responseEnvelope(simpleItemSchema).parse(json);
     searchResult = {
       kind: "simple",
-      items: searchSimpleItemSchema.decode(data.results.map((r) => ({ id: r.id, name: r.name }))),
+      items: searchSimpleItemSchema.decode(
+        data.results.map((r) => ({ id: r.id, name: r.name })),
+      ),
       totalPages: data.total_pages,
     };
   } else {

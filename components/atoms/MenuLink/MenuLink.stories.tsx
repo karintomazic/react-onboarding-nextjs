@@ -4,6 +4,10 @@ import MenuLinkComponent from "./MenuLink";
 const meta = {
   title: "Component/atoms/MenuLink",
   component: MenuLinkComponent,
+  args: {
+    label: "Menu Link text",
+    url: "#",
+  },
 } satisfies Meta<typeof MenuLinkComponent>;
 
 export default meta;
@@ -11,10 +15,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Desktop: Story = {
-  args: {
-    label: "Menu Link text",
-    url: "#",
-  },
   globals: {
     viewport: { value: "desktop" },
     backgrounds: { value: "light" },
@@ -22,10 +22,6 @@ export const Desktop: Story = {
 };
 
 export const Mobile: Story = {
-  args: {
-    label: "Menu Link text",
-    url: "#",
-  },
   globals: {
     viewport: { value: "mobile1" },
     backgrounds: { value: "dark" },

@@ -9,6 +9,16 @@ import { SessionProvider } from "next-auth/react";
 const meta = {
   title: "Component/molecules/Card",
   component: CardComponent,
+  args: {
+    image: placeholderPoster,
+    title: "Euphoria",
+    date: "2026-05-13",
+
+    optionsPromptLabel: cardLabels.optionsPrompt,
+    loginLabel: cardLabels.login,
+    notAMemberLabel: cardLabels.notAMember,
+    signUpLabel: cardLabels.signUp,
+  },
   decorators: [
     (Story) => {
       const queryClient = new QueryClient();
@@ -31,29 +41,15 @@ type Story = StoryObj<typeof meta>;
 
 export const ShowcaseCard: Story = {
   args: {
-    image: placeholderPoster,
-    title: "Euphoria",
-    date: "2026-05-13",
     variant: "showcase",
     id: "2",
-    optionsPromptLabel: cardLabels.optionsPrompt,
-    loginLabel: cardLabels.login,
-    notAMemberLabel: cardLabels.notAMember,
-    signUpLabel: cardLabels.signUp,
   },
 };
 
 export const ShowcaseOpenOptions: Story = {
   args: {
-    image: placeholderPoster,
-    title: "Euphoria",
-    date: "2026-05-13",
     variant: "showcase",
     id: "2",
-    optionsPromptLabel: cardLabels.optionsPrompt,
-    loginLabel: cardLabels.login,
-    notAMemberLabel: cardLabels.notAMember,
-    signUpLabel: cardLabels.signUp,
   },
   play: async ({ canvas, userEvent }) => {
     const button = canvas.getByRole("button", { name: /Options toggle/i });
@@ -63,15 +59,8 @@ export const ShowcaseOpenOptions: Story = {
 
 export const PopularCard: Story = {
   args: {
-    image: placeholderPoster,
-    title: "Euphoria",
-    date: "2026-05-13",
     variant: "popular",
     id: "1",
-    optionsPromptLabel: cardLabels.optionsPrompt,
-    loginLabel: cardLabels.login,
-    notAMemberLabel: cardLabels.notAMember,
-    signUpLabel: cardLabels.signUp,
   },
   decorators: [
     (Story) => (
@@ -84,15 +73,8 @@ export const PopularCard: Story = {
 
 export const PopularOpenOptions: Story = {
   args: {
-    image: placeholderPoster,
-    title: "Euphoria",
-    date: "2026-05-13",
     variant: "popular",
     id: "1",
-    optionsPromptLabel: cardLabels.optionsPrompt,
-    loginLabel: cardLabels.login,
-    notAMemberLabel: cardLabels.notAMember,
-    signUpLabel: cardLabels.signUp,
   },
   decorators: [
     (Story) => (

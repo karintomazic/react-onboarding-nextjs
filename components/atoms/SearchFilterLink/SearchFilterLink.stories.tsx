@@ -4,6 +4,12 @@ import SearchFilterLinkComponent from "./SearchFilterLink";
 const meta = {
   title: "Component/atoms/SearchFilterLink",
   component: SearchFilterLinkComponent,
+  args: {
+    linkName: "/popular",
+    linkLabel: "Popular",
+    count: 1,
+    searchParams: "",
+  },
 } satisfies Meta<typeof SearchFilterLinkComponent>;
 
 export default meta;
@@ -11,20 +17,12 @@ type Story = StoryObj<typeof meta>;
 
 export const Inactive: Story = {
   args: {
-    linkName: "/popular",
-    linkLabel: "Popular",
-    count: 1,
-    searchParams: "",
     isActive: false,
   },
 };
 
 export const Active: Story = {
   args: {
-    linkName: "/popular",
-    linkLabel: "Popular",
-    count: 1,
-    searchParams: "",
     isActive: true,
   },
   parameters: {

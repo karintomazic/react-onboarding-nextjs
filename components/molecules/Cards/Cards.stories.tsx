@@ -9,6 +9,13 @@ import { BannerProvider } from "@/context/BannerContext";
 const meta = {
   title: "Component/molecules/Cards",
   component: CardsComponent,
+  args: {
+    loadingLabel: cardLabels.loading,
+    optionsPromptLabel: cardLabels.optionsPrompt,
+    loginLabel: cardLabels.login,
+    notAMemberLabel: cardLabels.notAMember,
+    signUpLabel: cardLabels.signUp,
+  },
   decorators: [
     (Story) => {
       const queryClient = new QueryClient();
@@ -70,11 +77,6 @@ export const Popular: Story = {
     movies: movies,
     isLoading: false,
     variant: "popular",
-    loadingLabel: cardLabels.loading,
-    optionsPromptLabel: cardLabels.optionsPrompt,
-    loginLabel: cardLabels.login,
-    notAMemberLabel: cardLabels.notAMember,
-    signUpLabel: cardLabels.signUp,
   },
 };
 
@@ -83,11 +85,6 @@ export const Showcase: Story = {
     movies: movies,
     isLoading: false,
     variant: "showcase",
-    loadingLabel: cardLabels.loading,
-    optionsPromptLabel: cardLabels.optionsPrompt,
-    loginLabel: cardLabels.login,
-    notAMemberLabel: cardLabels.notAMember,
-    signUpLabel: cardLabels.signUp,
   },
 };
 
@@ -95,10 +92,6 @@ export const Loading: Story = {
   args: {
     movies: [],
     isLoading: true,
-    loadingLabel: cardLabels.loading,
-    optionsPromptLabel: cardLabels.optionsPrompt,
-    loginLabel: cardLabels.login,
-    notAMemberLabel: cardLabels.notAMember,
-    signUpLabel: cardLabels.signUp,
+    variant: "popular",
   },
 };

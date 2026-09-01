@@ -5,6 +5,13 @@ import MenuLinkListComponent from "./MenuLinkList";
 const meta = {
   title: "Component/molecules/MenuLinkList",
   component: MenuLinkListComponent,
+  args: {
+    links: [
+      { label: "Home", url: "/home" },
+      { label: "About", url: "/about" },
+      { label: "Contact", url: "/contact" },
+    ],
+  },
 } satisfies Meta<typeof MenuLinkListComponent>;
 
 export default meta;
@@ -12,13 +19,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Desktop: Story = {
-  args: {
-    links: [
-      { label: "Home", url: "/home" },
-      { label: "About", url: "/about" },
-      { label: "Contact", url: "/contact" },
-    ],
-  },
   globals: {
     backgrounds: { value: "light" },
     viewport: { value: "desktop" },
@@ -26,13 +26,6 @@ export const Desktop: Story = {
 };
 
 export const Mobile: Story = {
-  args: {
-    links: [
-      { label: "Home", url: "/home" },
-      { label: "About", url: "/about" },
-      { label: "Contact", url: "/contact" },
-    ],
-  },
   globals: {
     backgrounds: { value: "dark" },
     viewport: { value: "mobile1" },
