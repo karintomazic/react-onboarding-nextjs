@@ -2,35 +2,27 @@
 
 import MovieCard from "@/components/atoms/MovieCard/MovieCard";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
 import { formatDate } from "../../../utils/formatDate";
 import Pagination from "@/components/molecules/Pagination/Pagination";
 import Spinner from "@/components/atoms/Spinner/Spinner";
 import PersonCard from "@/components/atoms/PersonCard/PersonCard";
-// import { UseDocumentTitle } from "@/hooks/useDocumentTitle";
 import { fetchSearchMovies } from "@/utils/fetchSearchMovies";
 import { searchResultsLabels } from "@/data/labels";
 
 type SearchResultsContentParams = {
   query: string;
   page: number;
+  filter: string;
 };
 
 export function SearchResultsContent({
   query,
   page,
+  filter,
 }: SearchResultsContentParams) {
-  const { filter } = useParams();
-  const filterTransformed = Array.isArray(filter) ? filter[0] : filter;
-
-  // const searchParams = useSearchParams();
-  // const query = searchParams.get("query") ?? "";
-  // const page = Number(searchParams.get("page") ?? "1");
-  // UseDocumentTitle(`${query} - The Movie Database(TMDB)`);
-
   const { data, isLoading, error } = useQuery({
-    queryKey: ["search-movies", page, filterTransformed, query],
-    queryFn: () => fetchSearchMovies(page, filterTransformed ?? "tv", query),
+    queryKey: ["search-movies", page, filter, query],
+    queryFn: () => fetchSearchMovies(page, filter, query),
   });
 
   if (error) {

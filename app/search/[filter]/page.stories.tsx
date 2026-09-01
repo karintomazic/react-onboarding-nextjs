@@ -32,7 +32,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const TvShow: Story = {
-  args: { query: "batman", page: 1 },
+  args: { query: "batman", page: 1, filter: "tv" },
   parameters: {
     msw: {
       handlers: [
@@ -41,12 +41,11 @@ export const TvShow: Story = {
         ),
       ],
     },
-    nextjs: { navigation: { segments: [["filter", "tv"]] } },
   },
 };
 
 export const Movie: Story = {
-  args: { query: "batman", page: 1 },
+  args: { query: "batman", page: 1, filter: "movie"  },
   parameters: {
     msw: {
       handlers: [
@@ -55,12 +54,11 @@ export const Movie: Story = {
         ),
       ],
     },
-    nextjs: { navigation: { segments: [["filter", "movie"]] } },
   },
 };
 
 export const Person: Story = {
-  args: { query: "batman", page: 1 },
+  args: { query: "batman", page: 1,  filter: "person"  },
   parameters: {
     msw: {
       handlers: [
@@ -69,12 +67,11 @@ export const Person: Story = {
         ),
       ],
     },
-    nextjs: { navigation: { segments: [["filter", "person"]] } },
   },
 };
 
 export const Simple: Story = {
-  args: { query: "batman", page: 1 },
+  args: { query: "batman", page: 1,  filter: "keyword"  },
   parameters: {
     msw: {
       handlers: [
@@ -83,12 +80,11 @@ export const Simple: Story = {
         ),
       ],
     },
-    nextjs: { navigation: { segments: [["filter", "keyword"]] } },
   },
 };
 
 export const Loading: Story = {
-  args: { query: "batman", page: 1 },
+  args: { query: "batman", page: 1,  filter: "movie"  },
   parameters: {
     msw: {
       handlers: [
@@ -98,12 +94,11 @@ export const Loading: Story = {
         }),
       ],
     },
-    nextjs: { navigation: { segments: [["filter", "movie"]] } },
   },
 };
 
 export const Error: Story = {
-  args: { query: "batman", page: 1 },
+  args: { query: "batman", page: 1,  filter: "movie"  },
   parameters: {
     msw: {
       handlers: [
@@ -115,12 +110,11 @@ export const Error: Story = {
         }),
       ],
     },
-    nextjs: { navigation: { segments: [["filter", "movie"]] } },
   },
 };
 
 export const Empty: Story = {
-  args: { query: "", page: 1 },
+  args: { query: "", page: 1,  filter: "movie"  },
   parameters: {
     msw: {
       handlers: [
@@ -129,6 +123,5 @@ export const Empty: Story = {
         ),
       ],
     },
-    nextjs: { navigation: { segments: [["filter", "movie"]] } },
   },
 };
