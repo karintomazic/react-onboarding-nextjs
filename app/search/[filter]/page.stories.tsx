@@ -45,7 +45,7 @@ export const TvShow: Story = {
 };
 
 export const Movie: Story = {
-  args: { query: "batman", page: 1, filter: "movie"  },
+  args: { query: "batman", page: 1, filter: "movie" },
   parameters: {
     msw: {
       handlers: [
@@ -58,7 +58,7 @@ export const Movie: Story = {
 };
 
 export const Person: Story = {
-  args: { query: "batman", page: 1,  filter: "person"  },
+  args: { query: "batman", page: 1, filter: "person" },
   parameters: {
     msw: {
       handlers: [
@@ -71,7 +71,7 @@ export const Person: Story = {
 };
 
 export const Simple: Story = {
-  args: { query: "batman", page: 1,  filter: "keyword"  },
+  args: { query: "batman", page: 1, filter: "keyword" },
   parameters: {
     msw: {
       handlers: [
@@ -84,7 +84,7 @@ export const Simple: Story = {
 };
 
 export const Loading: Story = {
-  args: { query: "batman", page: 1,  filter: "movie"  },
+  args: { query: "batman", page: 1, filter: "movie" },
   parameters: {
     msw: {
       handlers: [
@@ -98,7 +98,7 @@ export const Loading: Story = {
 };
 
 export const Error: Story = {
-  args: { query: "batman", page: 1,  filter: "movie"  },
+  args: { query: "batman", page: 1, filter: "movie" },
   parameters: {
     msw: {
       handlers: [
@@ -114,7 +114,7 @@ export const Error: Story = {
 };
 
 export const Empty: Story = {
-  args: { query: "", page: 1,  filter: "movie"  },
+  args: { query: "", page: 1, filter: "movie" },
   parameters: {
     msw: {
       handlers: [

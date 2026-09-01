@@ -16,6 +16,15 @@ const tmdbResponseSchema = z.object({
   results: z.array(tmdbMovieSchema),
 });
 
+const popularMoviesSchema = z.array(
+  z.object({
+    id: z.number(),
+    title: z.string(),
+    url: z.string(),
+    date: z.string(),
+  }),
+);
+
 export async function fetchPopularMovies(
   sortBy: string,
   genreId: number[],
@@ -35,10 +44,12 @@ export async function fetchPopularMovies(
   const json: unknown = await response.json();
   const data = tmdbResponseSchema.parse(json);
 
-  return data.results.map((movie) => ({
-    id: movie.id,
-    title: movie.title,
-    url: movie.poster_path ? `${tmbImageUrl}${movie.poster_path}` : "",
-    date: movie.release_date ?? "",
-  }));
+  return popularMoviesSchema.decode(
+    data.results.map((movie) => ({
+      id: movie.id,
+      title: movie.title,
+      url: movie.poster_path ? `${tmbImageUrl}${movie.poster_path}` : "",
+      date: movie.release_date ?? "",
+    })),
+  );
 }

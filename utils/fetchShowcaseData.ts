@@ -16,6 +16,15 @@ const tmbImageUrl = "https://image.tmdb.org/t/p/w500";
 
 type Movie = { id: number; url: string; title: string; date: string };
 
+const showcaseMoviesSchema = z.array(
+  z.object({
+    id: z.number(),
+    title: z.string(),
+    url: z.string(),
+    date: z.string(),
+  }),
+);
+
 type ShowcaseData = {
   streaming: Movie[];
   rent: Movie[];
@@ -32,12 +41,14 @@ async function fetchAndMapMovies(url: string): Promise<Movie[]> {
   const json: unknown = await response.json();
   const data = tmdbResponseSchema.parse(json);
 
-  return data.results.map((movie) => ({
-    id: movie.id,
-    title: movie.title,
-    url: movie.poster_path ? `${tmbImageUrl}${movie.poster_path}` : "",
-    date: movie.release_date,
-  }));
+  return showcaseMoviesSchema.decode(
+    data.results.map((movie) => ({
+      id: movie.id,
+      title: movie.title,
+      url: movie.poster_path ? `${tmbImageUrl}${movie.poster_path}` : "",
+      date: movie.release_date,
+    })),
+  );
 }
 
 export async function fetchShowcaseData(): Promise<ShowcaseData> {
