@@ -10,6 +10,20 @@ import ShowcaseComponent from "./Showcase";
 const meta = {
   title: "Component/organisms/Showcase",
   component: ShowcaseComponent,
+  args: {
+    activeTab: 1,
+    ref: { current: null },
+    onTabChange: fn(),
+    heading: showcaseLabels.heading,
+    emptyLabel: showcaseLabels.empty,
+    loadingLabel: cardLabels.loading,
+    mobileListAriaLabel: tabsLabels.mobileListAriaLabel,
+    tabs: showcaseLabels.tabs,
+    optionsPromptLabel: cardLabels.optionsPrompt,
+    loginLabel: cardLabels.login,
+    notAMemberLabel: cardLabels.notAMember,
+    signUpLabel: cardLabels.signUp,
+  },
   decorators: [
     (Story) => {
       const queryClient = new QueryClient();
@@ -92,18 +106,6 @@ export const Showcase: Story = {
   args: {
     movies: movies,
     isLoading: false,
-    activeTab: 1,
-    ref: { current: null },
-    onTabChange: fn(),
-    heading: showcaseLabels.heading,
-    emptyLabel: showcaseLabels.empty,
-    loadingLabel: cardLabels.loading,
-    mobileListAriaLabel: tabsLabels.mobileListAriaLabel,
-    tabs: showcaseLabels.tabs,
-    optionsPromptLabel: cardLabels.optionsPrompt,
-    loginLabel: cardLabels.login,
-    notAMemberLabel: cardLabels.notAMember,
-    signUpLabel: cardLabels.signUp,
   },
 };
 
@@ -111,18 +113,6 @@ export const IsLoading: Story = {
   args: {
     movies: movies,
     isLoading: true,
-    activeTab: 1,
-    ref: { current: null },
-    onTabChange: fn(),
-    heading: showcaseLabels.heading,
-    emptyLabel: showcaseLabels.empty,
-    loadingLabel: cardLabels.loading,
-    mobileListAriaLabel: tabsLabels.mobileListAriaLabel,
-    tabs: showcaseLabels.tabs,
-    optionsPromptLabel: cardLabels.optionsPrompt,
-    loginLabel: cardLabels.login,
-    notAMemberLabel: cardLabels.notAMember,
-    signUpLabel: cardLabels.signUp,
   },
 };
 
@@ -130,17 +120,5 @@ export const NoMovies: Story = {
   args: {
     movies: [],
     isLoading: false,
-    activeTab: 1,
-    ref: { current: null },
-    onTabChange: fn(),
-    heading: showcaseLabels.heading,
-    emptyLabel: showcaseLabels.empty,
-    loadingLabel: cardLabels.loading,
-    mobileListAriaLabel: tabsLabels.mobileListAriaLabel,
-    tabs: showcaseLabels.tabs,
-    optionsPromptLabel: cardLabels.optionsPrompt,
-    loginLabel: cardLabels.login,
-    notAMemberLabel: cardLabels.notAMember,
-    signUpLabel: cardLabels.signUp,
   },
 };

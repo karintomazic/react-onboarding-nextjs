@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import MovieDetailPageComponent from "./page";
+import MovieDetailPageComponent from "./MovieDetailsContent";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { http, HttpResponse, delay } from "msw";
-// import { Routes, Route } from "react-router";
 import placeholderPoster from "../../../assets/placeholder-poster.jpg";
 
 const meta = {
@@ -21,11 +20,6 @@ const meta = {
       );
     },
   ],
-  // render: () => (
-  //   <Routes>
-  //     <Route path="/movie/:id" element={<MovieDetailPageComponent />}></Route>
-  //   </Routes>
-  // ),
 } satisfies Meta<typeof MovieDetailPageComponent>;
 
 export default meta;
@@ -52,6 +46,9 @@ const mockMovieDetails = {
 };
 
 export const MovieDetailPage: Story = {
+  args: {
+    movieId: "3",
+  },
   parameters: {
     msw: {
       handlers: [
@@ -63,11 +60,13 @@ export const MovieDetailPage: Story = {
         ),
       ],
     },
-    nextjs: { navigation: { segments: [["id", "3"]] } },
   },
 };
 
 export const MovieDetailPageLoading: Story = {
+  args: {
+    movieId: "3",
+  },
   parameters: {
     msw: {
       handlers: [
@@ -81,6 +80,5 @@ export const MovieDetailPageLoading: Story = {
         }),
       ],
     },
-    nextjs: { navigation: { segments: [["id", "3"]] } },
   },
 };

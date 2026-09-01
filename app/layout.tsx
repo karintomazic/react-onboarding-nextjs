@@ -4,6 +4,7 @@ import "./globals.css";
 import Providers from "./providers";
 import NavigationBar from "@/components/organisms/NavigationBar/NavigationBar";
 import Footer from "@/components/organisms/Footer/Footer";
+import { Suspense } from "react";
 
 const sourceSans3 = Source_Sans_3({
   variable: "--font-source-sans-3",
@@ -20,7 +21,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className={`${sourceSans3.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
         <Providers>
-          <NavigationBar />
+          <Suspense fallback={null}>
+            <NavigationBar />
+          </Suspense>
           {children}
           <Footer />
         </Providers>

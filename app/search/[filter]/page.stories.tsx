@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import SearchResultsComponent from "./page";
+import { SearchResultsContent } from "./SearchResultsContent";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { http, HttpResponse, delay } from "msw";
 import {
@@ -15,7 +15,8 @@ import {
 
 const meta = {
   title: "Component/pages/SearchResults",
-  component: SearchResultsComponent,
+  component: SearchResultsContent,
+  args: { query: "batman", page: 1, filter: "movie" },
   decorators: [
     (Story) => {
       const queryClient = new QueryClient();
@@ -26,12 +27,13 @@ const meta = {
       );
     },
   ],
-} satisfies Meta<typeof SearchResultsComponent>;
+} satisfies Meta<typeof SearchResultsContent>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const TvShow: Story = {
+  args: { filter: "tv" },
   parameters: {
     msw: {
       handlers: [
@@ -40,7 +42,6 @@ export const TvShow: Story = {
         ),
       ],
     },
-    nextjs: { navigation: { segments: [["filter", "tv"]] } },
   },
 };
 
@@ -53,11 +54,11 @@ export const Movie: Story = {
         ),
       ],
     },
-    nextjs: { navigation: { segments: [["filter", "movie"]] } },
   },
 };
 
 export const Person: Story = {
+  args: { filter: "person" },
   parameters: {
     msw: {
       handlers: [
@@ -66,11 +67,11 @@ export const Person: Story = {
         ),
       ],
     },
-    nextjs: { navigation: { segments: [["filter", "person"]] } },
   },
 };
 
 export const Simple: Story = {
+  args: { filter: "keyword" },
   parameters: {
     msw: {
       handlers: [
@@ -79,7 +80,6 @@ export const Simple: Story = {
         ),
       ],
     },
-    nextjs: { navigation: { segments: [["filter", "keyword"]] } },
   },
 };
 
@@ -93,7 +93,6 @@ export const Loading: Story = {
         }),
       ],
     },
-    nextjs: { navigation: { segments: [["filter", "movie"]] } },
   },
 };
 
@@ -109,11 +108,11 @@ export const Error: Story = {
         }),
       ],
     },
-    nextjs: { navigation: { segments: [["filter", "movie"]] } },
   },
 };
 
 export const Empty: Story = {
+  args: { query: "" },
   parameters: {
     msw: {
       handlers: [
@@ -122,6 +121,5 @@ export const Empty: Story = {
         ),
       ],
     },
-    nextjs: { navigation: { segments: [["filter", "movie"]] } },
   },
 };

@@ -7,6 +7,21 @@ import { searchBarLabels } from "../../../data/labels";
 const meta = {
   title: "Component/molecules/SearchBar",
   component: SearchBar,
+  args: {
+    placeholder: searchBarLabels.placeholder,
+    ariaLabel: searchBarLabels.ariaLabel,
+    onSubmit: fn(),
+    onQueryChange: fn(),
+    isOpen: true,
+    setIsOpen: fn(),
+    loopRef: { current: null },
+  },
+  play: async ({ canvas, userEvent }) => {
+    const dropdownBtn = canvas.getByRole("searchbox", {
+      name: /Search for a movie/i,
+    });
+    await userEvent.click(dropdownBtn);
+  },
 } satisfies Meta<typeof SearchBar>;
 
 export default meta;
@@ -31,16 +46,9 @@ const searchResults = [
 export const Default: Story = {
   args: {
     query: "",
-    placeholder: searchBarLabels.placeholder,
-    ariaLabel: searchBarLabels.ariaLabel,
-    onSubmit: fn(),
     topTenMovies: topTenMovies,
-    onQueryChange: fn(),
     searchResults: searchResults,
     isSearching: false,
-    isOpen: true,
-    setIsOpen: fn(),
-    loopRef: { current: null },
   },
   render: function Render(args) {
     const [, updateArgs] = useArgs();
@@ -54,76 +62,31 @@ export const Default: Story = {
       />
     );
   },
-  play: async ({ canvas, userEvent }) => {
-    const dropdownBtn = canvas.getByRole("searchbox", {
-      name: /Search for a movie/i,
-    });
-    await userEvent.click(dropdownBtn);
-  },
 };
 
 export const SearchQuery: Story = {
   args: {
     query: "Lorem ipsum",
-    placeholder: searchBarLabels.placeholder,
-    ariaLabel: searchBarLabels.ariaLabel,
-    onSubmit: fn(),
     topTenMovies: [],
-    onQueryChange: fn(),
     searchResults: searchResults,
     isSearching: false,
-    isOpen: true,
-    setIsOpen: fn(),
-    loopRef: { current: null },
-  },
-  play: async ({ canvas, userEvent }) => {
-    const dropdownBtn = canvas.getByRole("searchbox", {
-      name: /Search for a movie/i,
-    });
-    await userEvent.click(dropdownBtn);
   },
 };
 
 export const IsSearching: Story = {
   args: {
     query: "Test",
-    placeholder: searchBarLabels.placeholder,
-    ariaLabel: searchBarLabels.ariaLabel,
-    onSubmit: fn(),
     topTenMovies: [],
-    onQueryChange: fn(),
     searchResults: [],
     isSearching: true,
-    isOpen: true,
-    setIsOpen: fn(),
-    loopRef: { current: null },
-  },
-  play: async ({ canvas, userEvent }) => {
-    const dropdownBtn = canvas.getByRole("searchbox", {
-      name: /Search for a movie/i,
-    });
-    await userEvent.click(dropdownBtn);
   },
 };
 
 export const NoResults: Story = {
   args: {
     query: "Test",
-    placeholder: searchBarLabels.placeholder,
-    ariaLabel: searchBarLabels.ariaLabel,
-    onSubmit: fn(),
     topTenMovies: [],
-    onQueryChange: fn(),
     searchResults: [],
     isSearching: false,
-    isOpen: true,
-    setIsOpen: fn(),
-    loopRef: { current: null },
-  },
-  play: async ({ canvas, userEvent }) => {
-    const dropdownBtn = canvas.getByRole("searchbox", {
-      name: /Search for a movie/i,
-    });
-    await userEvent.click(dropdownBtn);
   },
 };

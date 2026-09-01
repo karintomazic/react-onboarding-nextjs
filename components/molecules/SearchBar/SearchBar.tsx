@@ -1,5 +1,3 @@
-"use client";
-
 import styles from "./SearchBar.module.scss";
 import Icon from "../../atoms/Icon/Icon";
 import Input from "../../atoms/Input/Input";

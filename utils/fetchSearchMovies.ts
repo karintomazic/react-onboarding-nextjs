@@ -10,6 +10,17 @@ type Movie = {
   date: string;
   description: string;
 };
+
+const searchMoviesSchema = z.array(
+  z.object({
+    id: z.number(),
+    title: z.string(),
+    url: z.string(),
+    date: z.string(),
+    description: z.string(),
+  }),
+);
+
 type Person = {
   id: number;
   name: string;
@@ -17,7 +28,25 @@ type Person = {
   profileImg: string;
   known_for: string[];
 };
+
+const searchPersonSchema = z.array(
+  z.object({
+    id: z.number(),
+    name: z.string(),
+    department: z.string(),
+    profileImg: z.string(),
+    known_for: z.array(z.string()),
+  }),
+);
+
 type SimpleItem = { id: number; name: string };
+
+const searchSimpleItemSchema = z.array(
+  z.object({
+    id: z.number(),
+    name: z.string(),
+  }),
+);
 
 type SearchResult =
   | { kind: "media"; movies: Movie[]; totalPages: number }
@@ -78,33 +107,39 @@ export async function fetchSearchMovies(
     const data = responseEnvelope(personItemSchema).parse(json);
     searchResult = {
       kind: "person",
-      people: data.results.map((p) => ({
-        id: p.id,
-        name: p.name,
-        department: p.known_for_department ?? "",
-        profileImg: p.profile_path ? `${tmbImageUrl}${p.profile_path}` : "",
-        known_for: p.known_for.map((k) => k.title ?? k.name ?? ""),
-      })),
+      people: searchPersonSchema.decode(
+        data.results.map((p) => ({
+          id: p.id,
+          name: p.name,
+          department: p.known_for_department ?? "",
+          profileImg: p.profile_path ? `${tmbImageUrl}${p.profile_path}` : "",
+          known_for: p.known_for.map((k) => k.title ?? k.name ?? ""),
+        })),
+      ),
       totalPages: data.total_pages,
     };
   } else if (filter === "keyword" || filter === "company") {
     const data = responseEnvelope(simpleItemSchema).parse(json);
     searchResult = {
       kind: "simple",
-      items: data.results.map((r) => ({ id: r.id, name: r.name })),
+      items: searchSimpleItemSchema.decode(
+        data.results.map((r) => ({ id: r.id, name: r.name })),
+      ),
       totalPages: data.total_pages,
     };
   } else {
     const data = responseEnvelope(mediaItemSchema).parse(json);
     searchResult = {
       kind: "media",
-      movies: data.results.map((m) => ({
-        id: m.id,
-        title: m.title ?? m.name ?? "",
-        url: m.poster_path ? `${tmbImageUrl}${m.poster_path}` : "",
-        date: m.release_date ?? m.first_air_date ?? "",
-        description: m.overview ?? "",
-      })),
+      movies: searchMoviesSchema.decode(
+        data.results.map((m) => ({
+          id: m.id,
+          title: m.title ?? m.name ?? "",
+          url: m.poster_path ? `${tmbImageUrl}${m.poster_path}` : "",
+          date: m.release_date ?? m.first_air_date ?? "",
+          description: m.overview ?? "",
+        })),
+      ),
       totalPages: data.total_pages,
     };
   }
