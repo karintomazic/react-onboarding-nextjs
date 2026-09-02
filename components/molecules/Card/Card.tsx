@@ -15,6 +15,7 @@ import { fetchBookmarks } from "@/utils/fetchBookmarks";
 import { toggleBookmark } from "@/utils/toggleBookmark";
 import { createPortal } from "react-dom";
 import { useBanner } from "@/hooks/useBanner";
+import { buildMovieUrl } from "@/utils/buildMovieUrl";
 
 type CardProps = {
   id: string;
@@ -39,7 +40,8 @@ export default function Card({
   notAMemberLabel,
   signUpLabel,
 }: CardProps) {
-  const movieUrl = `/movie/${id}-${title.toLowerCase().replace(/\s+/g, "-")}`;
+  const movieUrl = buildMovieUrl({ id, title });
+
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const cardRef = useRef<HTMLDivElement>(null);

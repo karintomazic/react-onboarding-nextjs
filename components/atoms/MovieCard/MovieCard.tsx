@@ -6,6 +6,7 @@ import { formatDate } from "@/utils/formatDate";
 import Image from "next/image";
 import { StaticImageData } from "next/image";
 import ScoreCircle from "../ScoreCircle/ScoreCircle";
+import { buildMovieUrl } from "@/utils/buildMovieUrl";
 
 export type MovieCardProps = {
   id: string;
@@ -24,7 +25,8 @@ const MovieCard = ({
   content,
   score,
 }: MovieCardProps) => {
-  const movieUrl = `/movie/${id}-${title.toLowerCase().replace(/\s+/g, "-")}`;
+  const movieUrl = buildMovieUrl({ id, title });
+
   const userScore = score && Math.max(0, Math.min(100, Math.round(score * 10)));
 
   return (
