@@ -1,5 +1,3 @@
-"use client";
-
 import styles from "./Input.module.scss";
 import type { ChangeEvent, Ref } from "react";
 

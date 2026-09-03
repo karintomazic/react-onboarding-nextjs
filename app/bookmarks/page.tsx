@@ -31,9 +31,7 @@ export default function Bookmarks() {
     content = (
       <>
         {data.map((b) => {
-          return (
-            <BookmarkedMovieCard key={b.id} movieId={b.movieId.toString()} />
-          );
+          return <BookmarkedMovieCard key={b.id} movieId={b.movieId} />;
         })}
       </>
     );

@@ -1,5 +1,3 @@
-"use client";
-
 import styles from "./Tabs.module.scss";
 import Tab from "../../atoms/Tab/Tab";
 import { useState, useEffect } from "react";

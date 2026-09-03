@@ -40,7 +40,6 @@ export default function PopularMoviesContent({
   const {
     data: movieData,
     isError,
-    error: movieError,
     isLoading,
   } = useQuery({
     queryKey: ["popular-movies-page", sort, genres],
@@ -87,7 +86,7 @@ export default function PopularMoviesContent({
     content = movies.map((r) => (
       <Card
         key={r.id}
-        id={r.id.toString()}
+        id={r.id}
         image={r.url}
         title={r.title}
         date={r.date}

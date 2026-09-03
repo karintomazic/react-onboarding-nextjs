@@ -2,7 +2,7 @@ export async function toggleBookmark(isBookmarked: boolean, movieId: number) {
   const response = await fetch("/api/bookmarks", {
     method: isBookmarked ? "DELETE" : "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ movieId: Number(movieId) }),
+    body: JSON.stringify({ movieId }),
   });
 
   if (!response.ok) {

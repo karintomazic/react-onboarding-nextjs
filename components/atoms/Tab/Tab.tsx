@@ -1,5 +1,3 @@
-"use client";
-
 import styles from "./Tab.module.scss";
 
 type TabProps = {

@@ -1,5 +1,3 @@
-"use client";
-
 import styles from "./LanguageSwitcher.module.scss";
 import { useState, useRef } from "react";
 import LanguageSelect from "../../molecules/LanguageSelect/LanguageSelect";

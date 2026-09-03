@@ -1,5 +1,3 @@
-"use client";
-
 import styles from "./GenrePill.module.scss";
 
 type Genre = { id: number; name: string };

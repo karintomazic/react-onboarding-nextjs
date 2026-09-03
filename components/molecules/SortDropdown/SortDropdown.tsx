@@ -1,5 +1,3 @@
-"use client";
-
 import styles from "./SortDropdown.module.scss";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import Icon from "../../atoms/Icon/Icon";

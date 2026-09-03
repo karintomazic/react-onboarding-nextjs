@@ -1,6 +1,5 @@
-.successBanner {
+.toastBanner {
   position: fixed;
-  // top: 20px;
   right: 20px;
   display: flex;
   align-items: flex-start;
@@ -12,6 +11,14 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   color: white;
   z-index: 100;
+
+  &.success {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+  }
+
+  &.error {
+    background: linear-gradient(135deg, #cc2e48, #ae2732);
+  }
 
   .iconCircle {
     flex-shrink: 0;
@@ -41,5 +48,26 @@
     margin: 0;
     font-size: 0.85rem;
     opacity: 0.95;
+  }
+
+  .dismissButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    font-size: 0.75rem;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
   }
 }

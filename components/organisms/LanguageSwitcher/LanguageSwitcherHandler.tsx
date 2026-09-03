@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { languages } from "../../../data/language-list.json";
 import LanguageSwitcher from "./LanguageSwitcher";

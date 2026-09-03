@@ -1,5 +1,5 @@
 type buildMovieUrlParams = {
-  id: string;
+  id: number;
   title: string;
 };
 

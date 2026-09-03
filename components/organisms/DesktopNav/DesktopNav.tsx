@@ -1,5 +1,3 @@
-"use client";
-
 import styles from "./DesktopNav.module.scss";
 import MainMenu from "../MainMenu/MainMenu";
 import LanguageSwitcherHandler from "../LanguageSwitcher/LanguageSwitcherHandler";

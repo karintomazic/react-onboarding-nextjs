@@ -1,5 +1,3 @@
-"use client";
-
 import styles from "./Card.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
@@ -10,15 +8,12 @@ import { formatDate } from "../../../utils/formatDate";
 import { useRef, useState, useLayoutEffect } from "react";
 import { useClickOutside } from "../../../hooks/useClickOutside";
 import OptionsDropdown from "@/components/atoms/OptionsDropdown/OptionsDropdown";
-import { useQueryClient, useQuery } from "@tanstack/react-query";
-import { fetchBookmarks } from "@/utils/fetchBookmarks";
-import { toggleBookmark } from "@/utils/toggleBookmark";
 import { createPortal } from "react-dom";
-import { useBanner } from "@/hooks/useBanner";
 import { buildMovieUrl } from "@/utils/buildMovieUrl";
+import { useToggleBookmark } from "@/hooks/useToggleBookmarks";
 
 type CardProps = {
-  id: string;
+  id: number;
   image?: StaticImageData | string;
   title: string;
   date?: string;
@@ -48,23 +43,14 @@ export default function Card({
   const optionsRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const isClickedOutside = useClickOutside(cardRef, dropdownRef);
-  const queryClient = useQueryClient();
-  const [error, setError] = useState("");
 
-  const { showBanner } = useBanner();
+  const { isBookmarked, handleAddToBookmark } = useToggleBookmark({
+    movieId: id,
+  });
 
   const handleOptionsToggle = () => {
     setOptionsOpen(!optionsOpen);
   };
-
-  const { data } = useQuery({
-    queryKey: ["bookmarks-page"],
-    queryFn: fetchBookmarks,
-  });
-
-  const bookmarkMovieIds = data?.map((m) => {
-    return m.movieId;
-  });
 
   useLayoutEffect(() => {
     if (!optionsOpen) return;
@@ -99,25 +85,6 @@ export default function Card({
       document.removeEventListener("scroll", closeScroll, true);
     };
   }, [optionsOpen]);
-
-  const isBookmarked = bookmarkMovieIds?.includes(Number(id)) ?? false;
-
-  const handleAddToBookmark = async () => {
-    try {
-      await toggleBookmark(isBookmarked, Number(id));
-      setError("");
-
-      showBanner(
-        isBookmarked
-          ? `${title} was removed from your Bookmarks list.`
-          : `${title} was added to your Bookmarks list.`,
-      );
-
-      queryClient.invalidateQueries({ queryKey: ["bookmarks-page"] });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
-    }
-  };
 
   return (
     <div className={`${styles.showcaseCard ?? ""} ${styles[variant] ?? ""}`}>

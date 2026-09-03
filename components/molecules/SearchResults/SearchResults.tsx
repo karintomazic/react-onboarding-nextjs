@@ -1,5 +1,3 @@
-"use client";
-
 import styles from "./SearchResults.module.scss";
 import Icon from "../../atoms/Icon/Icon";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";

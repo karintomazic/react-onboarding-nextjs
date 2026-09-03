@@ -9,7 +9,7 @@ import ScoreCircle from "../ScoreCircle/ScoreCircle";
 import { buildMovieUrl } from "@/utils/buildMovieUrl";
 
 export type MovieCardProps = {
-  id: string;
+  id: number;
   imageUrl: StaticImageData | string;
   title: string;
   date?: string;

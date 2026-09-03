@@ -1,5 +1,3 @@
-"use client";
-
 import styles from "./UserScore.module.scss";
 import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import ScoreCircle from "../../atoms/ScoreCircle/ScoreCircle";

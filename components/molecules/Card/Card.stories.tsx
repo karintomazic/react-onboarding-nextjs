@@ -2,9 +2,6 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import placeholderPoster from "../../../assets/placeholder-poster.jpg";
 import { cardLabels } from "../../../data/labels";
 import CardComponent from "./Card";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BannerProvider } from "@/context/BannerContext";
-import { SessionProvider } from "next-auth/react";
 
 const meta = {
   title: "Component/molecules/Card",
@@ -20,18 +17,11 @@ const meta = {
     signUpLabel: cardLabels.signUp,
   },
   decorators: [
-    (Story) => {
-      const queryClient = new QueryClient();
-      return (
-        <QueryClientProvider client={queryClient}>
-          <SessionProvider>
-            <BannerProvider>
-              <Story />
-            </BannerProvider>
-          </SessionProvider>
-        </QueryClientProvider>
-      );
-    },
+    (Story) => (
+      <div style={{ width: "200px" }}>
+        <Story />
+      </div>
+    ),
   ],
 } satisfies Meta<typeof CardComponent>;
 
@@ -42,14 +32,14 @@ type Story = StoryObj<typeof meta>;
 export const ShowcaseCard: Story = {
   args: {
     variant: "showcase",
-    id: "2",
+    id: 2,
   },
 };
 
 export const ShowcaseOpenOptions: Story = {
   args: {
     variant: "showcase",
-    id: "2",
+    id: 2,
   },
   play: async ({ canvas, userEvent }) => {
     const button = canvas.getByRole("button", { name: /Options toggle/i });
@@ -60,29 +50,15 @@ export const ShowcaseOpenOptions: Story = {
 export const PopularCard: Story = {
   args: {
     variant: "popular",
-    id: "1",
+    id: 1,
   },
-  decorators: [
-    (Story) => (
-      <div style={{ width: "200px" }}>
-        <Story />
-      </div>
-    ),
-  ],
 };
 
 export const PopularOpenOptions: Story = {
   args: {
     variant: "popular",
-    id: "1",
+    id: 1,
   },
-  decorators: [
-    (Story) => (
-      <div style={{ width: "200px" }}>
-        <Story />
-      </div>
-    ),
-  ],
   play: async ({ canvas, userEvent }) => {
     const button = canvas.getByRole("button", { name: /Options toggle/i });
     await userEvent.click(button);

@@ -22,8 +22,8 @@ export async function generateMetadata({
 export default async function MovieDetailPage({
   params,
 }: PageProps<"/movie/[id]">) {
-  const resolvedParams = await params;
+  const resolvedParams = await params; // returns string (id)
   const movieId = resolvedParams.id.match(/^\d+/)?.[0] ?? "";
 
-  return <MovieDetailContent movieId={movieId} />;
+  return <MovieDetailContent movieId={Number(movieId)} />;
 }

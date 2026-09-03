@@ -1,7 +1,4 @@
-"use client";
-
 import styles from "./BookmarkedMovieCard.module.scss";
-import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchMovieDetails } from "@/utils/fetchMovieDetails";
 import MovieCard from "@/components/atoms/MovieCard/MovieCard";
@@ -14,10 +11,13 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useBanner } from "@/hooks/useBanner";
+import { toggleBookmark } from "@/utils/toggleBookmark";
 
-export default function BookmarkedMovieCard({ movieId }: { movieId: string }) {
+export default function BookmarkedMovieCard({ movieId }: { movieId: number }) {
   const queryClient = useQueryClient();
-  const [error, setError] = useState("");
+
+  const { showBanner } = useBanner();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["bookmarks-cards", movieId],
@@ -25,18 +25,15 @@ export default function BookmarkedMovieCard({ movieId }: { movieId: string }) {
   });
 
   const handleBookmarkRemove = async () => {
-    const response = await fetch("/api/bookmarks", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ movieId: Number(movieId) }),
-    });
-
-    if (!response.ok) {
-      const json = await response.json();
-      setError(json.error);
-    } else {
-      setError("");
+    try {
+      await toggleBookmark(true, movieId); // true - always delete
+      showBanner("Removed from your Bookmarks list.", "success");
       queryClient.invalidateQueries({ queryKey: ["bookmarks-page"] });
+    } catch (err) {
+      showBanner(
+        err instanceof Error ? err.message : "Something went wrong",
+        "error",
+      );
     }
   };
 
@@ -51,7 +48,7 @@ export default function BookmarkedMovieCard({ movieId }: { movieId: string }) {
   return (
     <div className={styles.bookmarksGrid}>
       <MovieCard
-        id={String(data.id)}
+        id={data.id}
         imageUrl={`${tmbImageUrl}${data.poster_path}`}
         title={data.title}
         date={data.release_date}
@@ -85,8 +82,6 @@ export default function BookmarkedMovieCard({ movieId }: { movieId: string }) {
           Remove
         </button>
       </div>
-
-      {error && <p className={styles.error}>{error}</p>}
     </div>
   );
 }

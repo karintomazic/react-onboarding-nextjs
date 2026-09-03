@@ -11,33 +11,19 @@ import { movieInfoLabels, movieActionsLabels } from "../../../data/labels";
 import { fetchMovieDetails } from "@/utils/fetchMovieDetails";
 import Spinner from "@/components/atoms/Spinner/Spinner";
 import Image from "next/image";
-import { useState } from "react";
-import { fetchBookmarks } from "@/utils/fetchBookmarks";
-import { useQueryClient } from "@tanstack/react-query";
-import { toggleBookmark } from "@/utils/toggleBookmark";
+import { useToggleBookmark } from "@/hooks/useToggleBookmarks";
 
 const tmbImageUrl = "https://image.tmdb.org/t/p/w500";
 const tmbBackdropUrl = "https://image.tmdb.org/t/p/w1280";
 
 type MovieDetailContentParams = {
-  movieId: string;
+  movieId: number;
 };
 
 export default function MovieDetailContent({
   movieId,
 }: MovieDetailContentParams) {
-  const [error, setError] = useState("");
-
-  const queryClient = useQueryClient();
-
-  const { data: bookmarksData } = useQuery({
-    queryKey: ["bookmarks-page"],
-    queryFn: fetchBookmarks,
-  });
-
-  const bookmarkMovieIds = bookmarksData?.map((m) => {
-    return m.movieId;
-  });
+  const { isBookmarked, handleAddToBookmark } = useToggleBookmark({ movieId });
 
   const {
     data: movieDetailsData,
@@ -47,18 +33,6 @@ export default function MovieDetailContent({
     queryKey: ["movie-detail", movieId],
     queryFn: () => fetchMovieDetails(movieId),
   });
-
-  const isBookmarked = bookmarkMovieIds?.includes(Number(movieId)) ?? false;
-
-  const handleAddToBookmark = async () => {
-    try {
-      await toggleBookmark(isBookmarked, Number(movieId));
-      setError("");
-      queryClient.invalidateQueries({ queryKey: ["bookmarks-page"] });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
-    }
-  };
 
   const releaseYear = movieDetailsData?.release_date
     ? new Date(movieDetailsData.release_date).getFullYear()
@@ -125,7 +99,6 @@ export default function MovieDetailContent({
                 handleAddToBookmark={handleAddToBookmark}
                 isBookmarked={isBookmarked}
               />
-              {error && <p className={styles.error}>{error}</p>}
               <MovieInfo
                 tagline={movieDetailsData?.tagline ?? ""}
                 overview={movieDetailsData?.overview ?? ""}
