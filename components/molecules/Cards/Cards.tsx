@@ -43,7 +43,7 @@ export default function Cards({
             return (
               <Card
                 key={movie.id}
-                id={movie.id.toString()}
+                id={movie.id}
                 image={movie.url}
                 title={movie.title}
                 date={movie.date}

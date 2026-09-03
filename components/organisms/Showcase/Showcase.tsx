@@ -1,5 +1,3 @@
-"use client";
-
 import styles from "./Showcase.module.scss";
 import Tabs from "../../molecules/Tabs/Tabs";
 import Cards from "../../molecules/Cards/Cards";

@@ -1,5 +1,3 @@
-"use client";
-
 import styles from "./MobileNav.module.scss";
 import MainMenu from "../MainMenu/MainMenu";
 import Icon from "../../atoms/Icon/Icon";

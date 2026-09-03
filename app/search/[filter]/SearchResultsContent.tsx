@@ -59,7 +59,7 @@ export function SearchResultsContent({
     contentData = data.movies.map((movie) => (
       <MovieCard
         key={movie.id}
-        id={String(movie.id)}
+        id={movie.id}
         imageUrl={movie.url}
         title={movie.title}
         date={movie.date ? formatDate(movie.date) : ""}

@@ -1,5 +1,3 @@
-"use client";
-
 import { useRef, useState } from "react";
 import styles from "./UserMenu.module.scss";
 import Image from "next/image";

@@ -1,13 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { http, HttpResponse } from "msw";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import HomePageComponent from "./page";
 import {
   mockMovies,
   TMDB_DISCOVER_URL_MOVIE,
   TMDB_DISCOVER_URL_NOW_PLAYING,
 } from "@/mock/mockData";
-import { BannerProvider } from "@/context/BannerContext";
+import { sessionHandler } from "@/mock/authHandlers";
 
 const meta = {
   title: "Component/pages/HomePage",
@@ -15,18 +14,6 @@ const meta = {
   parameters: {
     layout: "fullscreen",
   },
-  decorators: [
-    (Story) => {
-      const queryClient = new QueryClient();
-      return (
-        <QueryClientProvider client={queryClient}>
-          <BannerProvider>
-            <Story />
-          </BannerProvider>
-        </QueryClientProvider>
-      );
-    },
-  ],
 } satisfies Meta<typeof HomePageComponent>;
 
 export default meta;
@@ -37,6 +24,7 @@ export const HomePage: Story = {
   parameters: {
     msw: {
       handlers: [
+        sessionHandler,
         http.get(TMDB_DISCOVER_URL_MOVIE, () =>
           HttpResponse.json({ results: mockMovies }),
         ),

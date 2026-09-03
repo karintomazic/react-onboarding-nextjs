@@ -1,5 +1,3 @@
-"use client";
-
 import MainMenuItem from "../../molecules/MainMenuItem/MainMenuItem";
 import MenuLinkList from "../../molecules/MenuLinkList/MenuLinkList";
 import styles from "./MainMenu.module.scss";

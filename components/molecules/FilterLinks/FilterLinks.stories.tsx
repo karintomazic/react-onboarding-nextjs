@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { http, HttpResponse } from "msw";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 import FilterLinksComponent from "./FilterLinks";
 import { searchFilters } from "../../../data/filterList";
+import { sessionHandler } from "@/mock/authHandlers";
 
 const meta = {
   title: "Component/molecules/FilterLinks",
@@ -10,16 +11,6 @@ const meta = {
   parameters: {
     layout: "fullscreen",
   },
-  decorators: [
-    (Story) => {
-      const queryClient = new QueryClient();
-      return (
-        <QueryClientProvider client={queryClient}>
-          <Story />
-        </QueryClientProvider>
-      );
-    },
-  ],
 } satisfies Meta<typeof FilterLinksComponent>;
 
 export default meta;
@@ -38,11 +29,14 @@ const mockCounts: Record<string, number> = {
 export const FilterLinks: Story = {
   parameters: {
     msw: {
-      handlers: searchFilters.map(({ linkName }) =>
-        http.get(`https://api.themoviedb.org/3/search/${linkName}`, () =>
-          HttpResponse.json({ total_results: mockCounts[linkName] ?? 0 }),
+      handlers: [
+        sessionHandler,
+        searchFilters.map(({ linkName }) =>
+          http.get(`https://api.themoviedb.org/3/search/${linkName}`, () =>
+            HttpResponse.json({ total_results: mockCounts[linkName] ?? 0 }),
+          ),
         ),
-      ),
+      ],
     },
   },
 };

@@ -19,10 +19,16 @@ const movieSchema = z.object({
   vote_average: z.number(),
 });
 
-export async function fetchMovieDetails(id: string) {
+export async function fetchMovieDetails(id: number | string) {
+  const idNumber = typeof id === "string" ? Number(id) : id;
+
+  if (idNumber < 0 || !Number.isInteger(idNumber)) {
+    throw new Error("Invalid movie id");
+  }
+
   const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;
   const response = await fetch(
-    `${tmbUrl}/movie/${id}?api_key=${apiKey}&append_to_response=credits,release_dates`,
+    `${tmbUrl}/movie/${idNumber}?api_key=${apiKey}&append_to_response=credits,release_dates`,
   );
 
   if (!response.ok) {

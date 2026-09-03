@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import MovieDetailPageComponent from "./MovieDetailsContent";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { http, HttpResponse, delay } from "msw";
 import placeholderPoster from "../../../assets/placeholder-poster.jpg";
+import { sessionHandler } from "@/mock/authHandlers";
 
 const meta = {
   title: "Component/pages/MovieDetailPage",
@@ -10,16 +10,6 @@ const meta = {
   parameters: {
     layout: "fullscreen",
   },
-  decorators: [
-    (Story) => {
-      const queryClient = new QueryClient();
-      return (
-        <QueryClientProvider client={queryClient}>
-          <Story />
-        </QueryClientProvider>
-      );
-    },
-  ],
 } satisfies Meta<typeof MovieDetailPageComponent>;
 
 export default meta;
@@ -47,11 +37,12 @@ const mockMovieDetails = {
 
 export const MovieDetailPage: Story = {
   args: {
-    movieId: "3",
+    movieId: 3,
   },
   parameters: {
     msw: {
       handlers: [
+        sessionHandler,
         http.get("https://api.themoviedb.org/3/movie/3", () =>
           HttpResponse.json(mockMovieDetails),
         ),
@@ -65,11 +56,12 @@ export const MovieDetailPage: Story = {
 
 export const MovieDetailPageLoading: Story = {
   args: {
-    movieId: "3",
+    movieId: 3,
   },
   parameters: {
     msw: {
       handlers: [
+        sessionHandler,
         http.get("https://api.themoviedb.org/3/movie/3", async () => {
           await delay("infinite");
           return HttpResponse.json(mockMovieDetails);

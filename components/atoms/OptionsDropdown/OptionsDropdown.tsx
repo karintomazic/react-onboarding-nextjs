@@ -1,5 +1,3 @@
-"use client";
-
 import styles from "./OptionsDropdown.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {

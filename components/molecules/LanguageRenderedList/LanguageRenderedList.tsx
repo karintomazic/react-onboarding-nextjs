@@ -1,5 +1,3 @@
-"use client";
-
 import styles from "./LanguageRenderedList.module.scss";
 
 type LanguageRenderedListProps = {

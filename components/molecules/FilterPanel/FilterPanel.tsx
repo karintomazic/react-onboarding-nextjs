@@ -1,5 +1,3 @@
-"use client";
-
 import styles from "./FilterPanel.module.scss";
 import Icon from "../../atoms/Icon/Icon";
 import {

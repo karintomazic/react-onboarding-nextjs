@@ -1,5 +1,3 @@
-"use client";
-
 import styles from "./MainMenuItem.module.scss";
 import MainMenuLink from "../../atoms/MainMenuLink/MainMenuLink";
 import MenuLinkList from "../MenuLinkList/MenuLinkList";

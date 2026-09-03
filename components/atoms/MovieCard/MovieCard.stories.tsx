@@ -6,7 +6,7 @@ const meta = {
   title: "Component/atoms/MovieCard",
   component: MovieCard,
   args: {
-    id: "1007757",
+    id: 1007757,
     title: "Swapped",
     date: "2026-05-13",
     content:
@@ -31,7 +31,7 @@ export const NoPoster: Story = {
 
 export const Loading: Story = {
   args: {
-    id: "1007757",
+    id: 1007757,
     imageUrl: "",
     title: "",
     date: "",
