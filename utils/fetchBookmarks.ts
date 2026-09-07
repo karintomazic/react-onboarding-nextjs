@@ -1,10 +1,10 @@
 import { z } from "zod";
 
-type Bookmarks = { id: number; userId: number; movieId: number };
+type Bookmarks = { id: string; userId: string; movieId: number };
 
 const bookmarksSchema = z.object({
-  id: z.number(),
-  userId: z.number(),
+  id: z.uuidv7(),
+  userId: z.uuidv7(),
   movieId: z.number(),
 });
 

@@ -89,3 +89,16 @@ export const mobileNavLabels = {
   homeAriaLabel: "Home",
   openMenuAriaLabel: "Open menu",
 };
+
+export const profilePageLabels = {
+  heading: "My Profile",
+  emailLabel: "Email",
+  notLoggedInHeading: "You are not logged in",
+  notLoggedInMessage: "Log in to view and manage your profile.",
+  loginLink: "Login",
+  signUpLink: "Sign up",
+  deleteAccountHeading: "Delete account",
+  deleteAccountMessage:
+    "Permanently delete your account and all associated data. This action cannot be undone.",
+  deleteAccountButton: "Delete account",
+};

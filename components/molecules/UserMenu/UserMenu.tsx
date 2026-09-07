@@ -56,7 +56,10 @@ export default function UserMenu({ joinLabel, loginLabel }: UserMenuProps) {
               <div className={styles.callout} />
               <div className={styles.userInfo}>
                 <p className={styles.userEmail}>{session.data?.user?.email}</p>
-                <p className={styles.viewProfile}>View profile</p>
+                <div className={styles.profileLinks}>
+                  <Link href="/profile">View profile</Link>
+                  <Link href="/bookmarks">My Bookmarks</Link>
+                </div>
               </div>
               <div className={styles.divider} />
               <Button

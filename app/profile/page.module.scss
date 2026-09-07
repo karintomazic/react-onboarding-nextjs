@@ -1,0 +1,117 @@
+.profile {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 60px 40px;
+
+  h2 {
+    margin-bottom: 32px;
+  }
+
+  .infoSection {
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 32px;
+  }
+
+  .infoRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .label {
+    color: var(--color-text);
+  }
+
+  .value {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .dangerZone {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    border: 1px solid #cc2e48;
+    border-radius: 8px;
+    padding: 20px 24px;
+    background: rgba(204, 46, 72, 0.05);
+
+    h3 {
+      margin: 0 0 4px;
+      font-size: 1.2rem;
+      color: #cc2e48;
+    }
+
+    p {
+      margin: 0;
+      font-size: 1rem;
+      color: var(--color-text);
+    }
+  }
+
+  .deleteButton {
+    flex-shrink: 0;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    background: linear-gradient(135deg, #cc2e48, #ae2732);
+    color: var(--color-white);
+    font-weight: 600;
+    cursor: pointer;
+
+    &:hover {
+      filter: brightness(0.95);
+    }
+  }
+}
+
+.notLoggedIn {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 100px 40px;
+  text-align: center;
+
+  h2 {
+    margin-bottom: 8px;
+  }
+
+  p {
+    color: var(--color-text-muted);
+    margin-bottom: 24px;
+  }
+
+  .notLoggedInActions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .loginLink,
+  .signUpLink {
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .loginLink {
+    background: var(--color-navy);
+    color: var(--color-white);
+
+    &:hover {
+      background: var(--color-navy-dark);
+    }
+  }
+
+  .signUpLink {
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+
+    &:hover {
+      background: var(--color-grey-light);
+    }
+  }
+}

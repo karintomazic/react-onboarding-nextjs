@@ -90,3 +90,33 @@ Run Storybook locally
 ```bash
 npm run storybook
 ```
+
+## Troubleshooting
+
+**`npm run dev` fails with a css error that doesn't make sense (e.g. referencing `package.json` or `globals.css` with no real syntax error in either file)**
+
+This is usually a stale Turbopack build cache. Clear the cache and restart:
+
+```bash
+rm -rf .next
+npm run dev
+```
+
+**Local database errors like `no such table: users_table`, or data that doesn't match what you expect**
+
+Local SQLite file (`local.db`) can fall out of sync with the current schema. Reset it and reseed some test data:
+
+```bash
+rm local.db
+npm run db:create
+npm run db:seed
+```
+
+**Drizzle Studio (`npm run db:inspect`) shows old/stale data, or fails to start with `EADDRINUSE: address already in use 127.0.0.1:4983`**
+
+A previous `drizzle-kit studio` process is still running in the background and is still connected to the old state of `local.db`. Kill it and start a fresh one:
+
+```bash
+pkill -f "drizzle-kit studio"
+npm run db:inspect
+```

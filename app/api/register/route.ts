@@ -4,6 +4,9 @@ import db from "@/db"; // Drizzle connection
 import bcrypt from "bcryptjs"; // password-hashing library
 import { z } from "zod"; // validation library
 import { usersTable } from "@/db/schema"; // table definition to insert into
+import { eq } from "drizzle-orm";
+import { isDrizzleUniqueViolation } from "@/utils/isDrizzleUniqueViolation";
+import { internalServerErrorResponse } from "@/utils/internalServerErrorResponse";
 
 // Defines what counts as valid registration input — checked against whatever the client
 // sends, before any hashing or database work happens.
@@ -23,6 +26,20 @@ export async function POST(request: Request) {
     const hashedPassword = await bcrypt.hash(password, 10); // hashes the password before it goes into the database - 10 is the "salt rounds"
     // -  how slow the hash is to compute - harder to brute-force
 
+    // here check for error here first before inserting
+    const existingUser = db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.email, email))
+      .get();
+
+    if (existingUser) {
+      return Response.json(
+        { error: "Email already registered" },
+        { status: 409 },
+      );
+    }
+
     // insert new row into the database - run triggers it
     db.insert(usersTable).values({ email, password: hashedPassword }).run();
   } catch (error) {
@@ -32,23 +49,15 @@ export async function POST(request: Request) {
     }
 
     // the database insert failed
-
-    if (
-      error instanceof Error &&
-      error.cause instanceof Error &&
-      "code" in error.cause &&
-      error.cause.code === "SQLITE_CONSTRAINT_UNIQUE"
-    ) {
+    // keeping it for guarding agains race condition - two users register with the same email at the same time
+    if (isDrizzleUniqueViolation(error)) {
       return Response.json(
         { error: "Email already registered" },
         { status: 409 },
       );
     }
 
-    return Response.json(
-      { error: "Something went wrong, please try again" },
-      { status: 500 },
-    );
+    return internalServerErrorResponse(error);
   }
 
   //return success
