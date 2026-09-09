@@ -4,6 +4,8 @@ import db from "@/db";
 import { bookmarksTable, usersTable } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import { z } from "zod";
+import { isDrizzleUniqueViolation } from "@/utils/isDrizzleUniqueViolation";
+import { internalServerErrorResponse } from "@/utils/internalServerErrorResponse";
 
 const bookmarkSchema = z.object({
   movieId: z.number(), // we need this movieid fromt he client
@@ -29,12 +31,38 @@ export async function POST(request: Request) {
       return Response.json({ error: "No user" }, { status: 401 });
     }
 
+    const existingBookmark = db
+      .select()
+      .from(bookmarksTable)
+      .where(
+        and(
+          eq(bookmarksTable.userId, user.id),
+          eq(bookmarksTable.movieId, movieId),
+        ),
+      )
+      .get();
+
+    if (existingBookmark) {
+      return Response.json(
+        { error: "Movie already bookmarked" },
+        { status: 409 },
+      );
+    }
+
     db.insert(bookmarksTable).values({ movieId, userId: user.id }).run(); // and we get the id from the server
-  } catch {
-    return Response.json(
-      { error: "Something went wrong, please try again" },
-      { status: 500 },
-    );
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return Response.json({ error: "Invalid input" }, { status: 400 });
+    }
+
+    if (isDrizzleUniqueViolation(error)) {
+      return Response.json(
+        { error: "Movie already bookmarked" },
+        { status: 409 },
+      );
+    }
+
+    return internalServerErrorResponse(error);
   }
 
   return Response.json({ success: true }, { status: 201 });
@@ -65,11 +93,8 @@ export async function GET() {
       .all(); // .all = give me every matching row as an array of objects
 
     return Response.json(allBookmarks);
-  } catch {
-    return Response.json(
-      { error: "Something went wrong, please try again" },
-      { status: 500 },
-    );
+  } catch (error) {
+    return internalServerErrorResponse(error);
   }
 }
 
@@ -101,11 +126,8 @@ export async function DELETE(request: Request) {
         ),
       )
       .run();
-  } catch {
-    return Response.json(
-      { error: "Something went wrong, please try again" },
-      { status: 500 },
-    );
+  } catch (error) {
+    return internalServerErrorResponse(error);
   }
 
   return new Response(null, { status: 204 });

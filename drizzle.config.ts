@@ -1,8 +1,8 @@
-// loads env vars from .env.local
+// loads env vars from .env
 // drizzle-kit runs as its own standalone CLI process, completely separate from Next.js,
-// so it never gets the automatic .env.local loading Next.js provides on its own.
+// so it never gets the automatic .env loading Next.js provides on its own.
 import { config } from "dotenv";
-config({ path: ".env.local" });
+config({ path: ".env" });
 
 // helper from drizzle-kit that gives you type-checking/autocomplete for the config object
 // makes sure you don't misspell a key or pass the wrong shape of value.

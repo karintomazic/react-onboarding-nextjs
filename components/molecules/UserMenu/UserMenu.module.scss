@@ -70,10 +70,16 @@
       word-break: break-all;
     }
 
-    .viewProfile {
-      margin: 2px 0 0;
-      font-size: 0.8rem;
-      color: var(--color-text-muted);
+    .profileLinks {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      a {
+        margin: 2px 0 0;
+        font-size: 1rem;
+        color: var(--color-text);
+      }
     }
 
     .divider {

@@ -2,7 +2,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { eq } from "drizzle-orm"; // Drizzle equals helper for the where clause
 import db from "@/db";
 import { usersTable } from "@/db/schema";
-import bcrypt from "bcryptjs"; // used here to compare passwords, not hash them
+import argon2 from "argon2"; // used here to compare passwords, not hash them
 import type { AuthOptions } from "next-auth"; // catches config mistakes at compile time instead of runtime
 
 export const authOptions: AuthOptions = {
@@ -28,10 +28,10 @@ export const authOptions: AuthOptions = {
         if (!user) return null; // no account with this email
 
         // checks the plain password just typed against the already-hashed password from the database
-        const compareCred = await bcrypt.compare(
+        const compareCred = await argon2.verify(
           // have to await so we dont get a promisse object back which is always truthy
-          credentials.password,
           user.password,
+          credentials.password,
         );
 
         // builds what gets returned on success - deliberately excluding the password hash

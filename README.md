@@ -5,7 +5,7 @@ A movie database app built with Next.js App Router, powered by [TMDB](https://ww
 ## Features
 
 - Browse popular movies, search across movies/TV/people, view movie details
-- User registration and login (Auth.js Credentials provider, bcrypt-hashed passwords)
+- User registration and login (Auth.js Credentials provider, argon2-hashed passwords)
 - Session-aware header (logged-in dropdown with logout)
 - Component library documented in Storybook
 
@@ -25,7 +25,7 @@ A movie database app built with Next.js App Router, powered by [TMDB](https://ww
 npm install
 ```
 
-2. Create a .env.local file with:
+2. Create `.env` file with:
 
 ```bash
 NEXT_PUBLIC_TMDB_API_KEY=your_tmdb_api_key
@@ -89,4 +89,34 @@ Run Storybook locally
 
 ```bash
 npm run storybook
+```
+
+## Troubleshooting
+
+**`npm run dev` fails with a css error that doesn't make sense (e.g. referencing `package.json` or `globals.css` with no real syntax error in either file)**
+
+This is usually a stale Turbopack build cache. Clear the cache and restart:
+
+```bash
+rm -rf .next
+npm run dev
+```
+
+**Local database errors like `no such table: users_table`, or data that doesn't match what you expect**
+
+Local SQLite file (`local.db`) can fall out of sync with the current schema. Reset it and reseed some test data:
+
+```bash
+rm local.db
+npm run db:create
+npm run db:seed
+```
+
+**Drizzle Studio (`npm run db:inspect`) shows old/stale data, or fails to start with `EADDRINUSE: address already in use 127.0.0.1:4983`**
+
+A previous `drizzle-kit studio` process is still running in the background and is still connected to the old state of `local.db`. Kill it and start a fresh one:
+
+```bash
+pkill -f "drizzle-kit studio"
+npm run db:inspect
 ```
