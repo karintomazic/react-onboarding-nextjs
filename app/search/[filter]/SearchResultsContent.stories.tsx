@@ -11,12 +11,19 @@ import {
   TMDB_SEARCH_URL_PERSON,
   TMDB_SEARCH_URL_SIMPLE,
 } from "../../../mock/mockData";
-import { sessionHandler } from "@/mock/authHandlers";
+import styles from "./page.module.scss";
 
 const meta = {
   title: "Component/pages/SearchResults",
   component: SearchResultsContent,
   args: { query: "batman", page: 1, filter: "movie" },
+  decorators: [
+    (Story) => (
+      <div className={styles.movieCards}>
+        <Story />
+      </div>
+    ),
+  ],
 } satisfies Meta<typeof SearchResultsContent>;
 
 export default meta;
@@ -27,7 +34,6 @@ export const TvShow: Story = {
   parameters: {
     msw: {
       handlers: [
-        sessionHandler,
         http.get(TMDB_SEARCH_URL_TV, () =>
           HttpResponse.json({ results: mockTV, total_pages: 3 }),
         ),
@@ -40,7 +46,6 @@ export const Movie: Story = {
   parameters: {
     msw: {
       handlers: [
-        sessionHandler,
         http.get(TMDB_SEARCH_URL_MOVIE, () =>
           HttpResponse.json({ results: mockMovies, total_pages: 3 }),
         ),
@@ -54,7 +59,6 @@ export const Person: Story = {
   parameters: {
     msw: {
       handlers: [
-        sessionHandler,
         http.get(TMDB_SEARCH_URL_PERSON, () =>
           HttpResponse.json({ results: mockPeople, total_pages: 3 }),
         ),
@@ -68,7 +72,6 @@ export const Simple: Story = {
   parameters: {
     msw: {
       handlers: [
-        sessionHandler,
         http.get(TMDB_SEARCH_URL_SIMPLE, () =>
           HttpResponse.json({ results: mockSimpleItems, total_pages: 1 }),
         ),
@@ -81,7 +84,6 @@ export const Loading: Story = {
   parameters: {
     msw: {
       handlers: [
-        sessionHandler,
         http.get(TMDB_SEARCH_URL_MOVIE, async () => {
           await delay("infinite");
           return HttpResponse.json({ results: mockMovies, total_pages: 3 });
@@ -95,7 +97,6 @@ export const Error: Story = {
   parameters: {
     msw: {
       handlers: [
-        sessionHandler,
         http.get(TMDB_SEARCH_URL_MOVIE, () => {
           return HttpResponse.json(
             { status_message: "Invalid API key" },
@@ -112,7 +113,6 @@ export const Empty: Story = {
   parameters: {
     msw: {
       handlers: [
-        sessionHandler,
         http.get(TMDB_SEARCH_URL_MOVIE, () =>
           HttpResponse.json({ results: [], total_pages: 0 }),
         ),

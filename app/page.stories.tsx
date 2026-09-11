@@ -6,13 +6,19 @@ import {
   TMDB_DISCOVER_URL_MOVIE,
   TMDB_DISCOVER_URL_NOW_PLAYING,
 } from "@/mock/mockData";
-import { sessionHandler } from "@/mock/authHandlers";
+import { bookmarksHandlers } from "@/mock/handlers";
+
+const mockSession = {
+  user: { name: "Test User", email: "test@example.com" },
+  expires: "9999-12-31T23:59:59.999Z",
+};
 
 const meta = {
   title: "Component/pages/HomePage",
   component: HomePageComponent,
   parameters: {
     layout: "fullscreen",
+    session: mockSession,
   },
 } satisfies Meta<typeof HomePageComponent>;
 
@@ -24,7 +30,7 @@ export const HomePage: Story = {
   parameters: {
     msw: {
       handlers: [
-        sessionHandler,
+        ...bookmarksHandlers,
         http.get(TMDB_DISCOVER_URL_MOVIE, () =>
           HttpResponse.json({ results: mockMovies }),
         ),

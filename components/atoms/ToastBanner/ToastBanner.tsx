@@ -2,6 +2,7 @@ import styles from "./ToastBanner.module.scss";
 import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useBanner } from "@/hooks/useBanner";
+import { toastBannerLabels } from "@/data/labels";
 
 type ToastBannerProps = {
   message: string;
@@ -32,14 +33,16 @@ export default function ToastBanner({
       </div>
       <div className={styles.textBlock}>
         <p className={styles.heading}>
-          {type === "success" ? "Success" : "Error"}
+          {type === "success"
+            ? toastBannerLabels.success
+            : toastBannerLabels.error}
         </p>
         <p className={styles.message}>{message}</p>
       </div>
       <button
         className={styles.dismissButton}
         onClick={removeBanner}
-        aria-label="Dismiss notification"
+        aria-label={toastBannerLabels.dismissAriaLabel}
       >
         <FontAwesomeIcon icon={faXmark} />
       </button>

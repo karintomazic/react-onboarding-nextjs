@@ -6,4 +6,28 @@
   .bookmarksGrid {
     margin: 1rem 0;
   }
+
+  .emptyState {
+    text-align: center;
+    padding: 60px 20px;
+
+    p {
+      color: var(--color-text-muted);
+      margin-bottom: 20px;
+    }
+  }
+
+  .browseLink {
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 6px;
+    background: var(--color-navy);
+    color: var(--color-white);
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      background: var(--color-navy-dark);
+    }
+  }
 }

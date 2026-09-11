@@ -4,7 +4,7 @@ import { mswLoader } from "msw-storybook-addon/csf3";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import { BannerProvider } from "../context/BannerContext";
-import { sessionHandler } from "../mock/authHandlers";
+import { emptyBookmarksHandler } from "../mock/handlers";
 
 const preview: Preview = {
   parameters: {
@@ -19,17 +19,18 @@ const preview: Preview = {
     },
     nextjs: { appDirectory: true }, // mock the Next.js App Router context so hooks from next/navigation
     // (like useSearchParams, useRouter, usePathname) work inside stories instead of returning null.
+
     msw: {
-      handlers: [sessionHandler],
+      handlers: [emptyBookmarksHandler],
     },
   },
   loaders: [mswLoader()],
   decorators: [
-    (Story) => {
+    (Story, context) => {
       const queryClient = new QueryClient();
       return (
         <QueryClientProvider client={queryClient}>
-          <SessionProvider>
+          <SessionProvider session={context.parameters.session ?? null}>
             <BannerProvider>
               <Story />
             </BannerProvider>

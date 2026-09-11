@@ -1,8 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import placeholderPoster from "../../../assets/placeholder-poster.jpg";
 import { cardLabels } from "../../../data/labels";
-
 import CardsComponent from "./Cards";
+import { bookmarksHandlers } from "@/mock/handlers";
+
+const mockSession = {
+  user: { name: "Test User", email: "test@example.com" },
+  expires: "9999-12-31T23:59:59.999Z",
+};
 
 const meta = {
   title: "Component/molecules/Cards",
@@ -13,6 +18,12 @@ const meta = {
     loginLabel: cardLabels.login,
     notAMemberLabel: cardLabels.notAMember,
     signUpLabel: cardLabels.signUp,
+  },
+  parameters: {
+    session: mockSession,
+    msw: {
+      handlers: bookmarksHandlers,
+    },
   },
 } satisfies Meta<typeof CardsComponent>;
 

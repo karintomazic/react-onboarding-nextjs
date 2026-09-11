@@ -11,6 +11,7 @@ import { useClickOutside } from "../../../hooks/useClickOutside";
 import { useRouter } from "next/navigation";
 import SearchResults from "../SearchResults/SearchResults";
 import type { RefObject } from "react";
+import { searchBarLabels } from "@/data/labels";
 
 type SearchBarProps = {
   query: string;
@@ -143,14 +144,14 @@ export default function SearchBar({
             <div className={styles.trendingHeader}>
               <div className={styles.trendingHeaderInner}>
                 <Icon icon={faArrowTrendUp} />
-                <span>Trending</span>
+                <span>{searchBarLabels.trending}</span>
               </div>
             </div>
           )}
 
           {noResults ? (
             <div className={styles.empty}>
-              <p>No results</p>
+              <p>{searchBarLabels.noResults}</p>
             </div>
           ) : (
             <SearchResults

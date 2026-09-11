@@ -1,13 +1,18 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import NavigationBarComponent from "./NavigationBar";
 import { http, HttpResponse } from "msw";
-import { sessionHandler } from "@/mock/authHandlers";
+
+const mockSession = {
+  user: { name: "Test User", email: "test@example.com" },
+  expires: "9999-12-31T23:59:59.999Z",
+};
 
 const meta = {
   title: "Component/organisms/NavigationBar",
   component: NavigationBarComponent,
   parameters: {
     layout: "fullscreen",
+    session: mockSession,
   },
 } satisfies Meta<typeof NavigationBarComponent>;
 
@@ -21,7 +26,6 @@ export const Desktop: Story = {
   parameters: {
     msw: {
       handlers: [
-        sessionHandler,
         http.get("https://api.themoviedb.org/3/trending/movie/day", () =>
           HttpResponse.json({ results: [{ title: "Some Movie", id: 2 }] }),
         ),
@@ -40,7 +44,6 @@ export const Mobile: Story = {
   parameters: {
     msw: {
       handlers: [
-        sessionHandler,
         http.get("https://api.themoviedb.org/3/trending/movie/day", () =>
           HttpResponse.json({ results: [{ title: "Some Movie", id: 2 }] }),
         ),

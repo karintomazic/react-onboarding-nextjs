@@ -33,11 +33,11 @@ export default function ProfilePageContent({ email }: ProfilePageContentProps) {
     onSuccess: () => {
       setModalOpen(false);
       handleSignOut();
-      showBanner("Your account was deleted successfully", "success");
+      showBanner(profilePageLabels.deleteSuccessMessage, "success");
     },
     onError: () => {
       setModalOpen(false);
-      showBanner("We could not remove your account", "error");
+      showBanner(profilePageLabels.deleteErrorMessage, "error");
     },
   });
 

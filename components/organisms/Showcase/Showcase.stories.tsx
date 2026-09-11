@@ -2,12 +2,23 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import pladeholderPoster from "../../../assets/placeholder-poster.jpg";
 import { fn } from "storybook/test";
 import { cardLabels, showcaseLabels, tabsLabels } from "../../../data/labels";
-
 import ShowcaseComponent from "./Showcase";
+import { bookmarksHandlers } from "@/mock/handlers";
+
+const mockSession = {
+  user: { name: "Test User", email: "test@example.com" },
+  expires: "9999-12-31T23:59:59.999Z",
+};
 
 const meta = {
   title: "Component/organisms/Showcase",
   component: ShowcaseComponent,
+  parameters: {
+    session: mockSession,
+    msw: {
+      handlers: bookmarksHandlers,
+    },
+  },
   args: {
     activeTab: 1,
     ref: { current: null },

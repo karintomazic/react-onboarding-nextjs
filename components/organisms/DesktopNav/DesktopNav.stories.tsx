@@ -3,11 +3,17 @@ import { desktopNavLabels } from "../../../data/labels";
 import DesktopNavComponent from "./DesktopNav";
 import { fn } from "storybook/test";
 
+const mockSession = {
+  user: { name: "Test User", email: "test@example.com" },
+  expires: "9999-12-31T23:59:59.999Z",
+};
+
 const meta = {
   title: "Component/organisms/DesktopNav",
   component: DesktopNavComponent,
   parameters: {
     layout: "fullscreen",
+    session: mockSession,
   },
   globals: {
     backgrounds: { value: "dark" },

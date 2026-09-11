@@ -10,8 +10,9 @@ import Link from "next/link";
 import { Ref } from "react";
 import { useSession } from "next-auth/react";
 import { faBookmark } from "@fortawesome/free-solid-svg-icons";
+import { optionsDropdownLabels } from "@/data/labels";
 
-type CardProps = {
+type OptionsDropdownProps = {
   dropdownPosition: { top: number; left: number };
   dropdownRef: Ref<HTMLDivElement>;
   handleAddToBookmark: () => void;
@@ -31,7 +32,7 @@ export default function OptionsDropdown({
   loginLabel,
   notAMemberLabel,
   signUpLabel,
-}: CardProps) {
+}: OptionsDropdownProps) {
   const session = useSession();
 
   const isLoggedIn = session.status === "authenticated";
@@ -47,7 +48,7 @@ export default function OptionsDropdown({
               icon={faList}
               className={`${styles.rowIcon} ${styles.list}`}
             />
-            Add to list
+            {optionsDropdownLabels.addToList}
           </button>
         </div>
         <div className={styles.optionsBlock}>
@@ -56,7 +57,7 @@ export default function OptionsDropdown({
               icon={faHeart}
               className={`${styles.rowIcon} ${styles.favourite}`}
             />
-            Favourite
+            {optionsDropdownLabels.favourite}
           </button>
         </div>
         <div className={styles.optionsBlock}>
@@ -68,13 +69,13 @@ export default function OptionsDropdown({
               icon={faBookmark}
               className={`${styles.rowIcon} ${styles.watchlist}`}
             />
-            Bookmarks
+            {optionsDropdownLabels.bookmarks}
           </button>
         </div>
         <div className={styles.optionsBlock}>
           <button className={styles.rowAction}>
             <FontAwesomeIcon icon={faStar} className={styles.rowIcon} />
-            Your rating
+            {optionsDropdownLabels.yourRating}
           </button>
         </div>
       </>

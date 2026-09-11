@@ -7,7 +7,11 @@ import UserScore from "@/components/molecules/UserScore/UserScore";
 import MovieActions from "@/components/molecules/MovieActions/MovieActions";
 import MovieInfo from "@/components/molecules/MovieInfo/MovieInfo";
 import CrewGrid from "@/components/molecules/CrewGrid/CrewGrid";
-import { movieInfoLabels, movieActionsLabels } from "../../../data/labels";
+import {
+  movieInfoLabels,
+  movieActionsLabels,
+  bookmarkedMovieCardLabels,
+} from "../../../data/labels";
 import { fetchMovieDetails } from "@/utils/fetchMovieDetails";
 import Spinner from "@/components/atoms/Spinner/Spinner";
 import Image from "next/image";
@@ -16,13 +20,13 @@ import { useToggleBookmark } from "@/hooks/useToggleBookmarks";
 const tmbImageUrl = "https://image.tmdb.org/t/p/w500";
 const tmbBackdropUrl = "https://image.tmdb.org/t/p/w1280";
 
-type MovieDetailContentParams = {
+type MovieDetailsContentProps = {
   movieId: number;
 };
 
-export default function MovieDetailContent({
+export default function MovieDetailsContent({
   movieId,
-}: MovieDetailContentParams) {
+}: MovieDetailsContentProps) {
   const { isBookmarked, handleAddToBookmark } = useToggleBookmark({ movieId });
 
   const {
@@ -51,7 +55,7 @@ export default function MovieDetailContent({
   }
 
   if (isError || !movieDetailsData) {
-    return <p>Could not load this movie.</p>;
+    return <p>{bookmarkedMovieCardLabels.loadError}</p>;
   }
   return (
     <SingleColumn>

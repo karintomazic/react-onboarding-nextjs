@@ -10,6 +10,7 @@ import {
 // outside React and stays in sync with it
 // here for exmple the browsers viewport width
 import { useSyncExternalStore } from "react";
+import { mainMenuLabels } from "@/data/labels";
 
 // defines how to liste for changes
 // react will call this function once and give it a callback
@@ -45,7 +46,7 @@ export default function MainMenu() {
   const items = isMobile ? mobileMenuItems : menuItems;
 
   return (
-    <ul className={styles.mainMenuItem} aria-label="Main menu">
+    <ul className={styles.mainMenuItem} aria-label={mainMenuLabels.ariaLabel}>
       {items.map((item) => (
         <MainMenuItem key={item.id} label={item.label} links={item.links} />
       ))}

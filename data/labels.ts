@@ -4,6 +4,7 @@ export const cardLabels = {
   login: "Login",
   notAMember: "Not a member?",
   signUp: "Sign up and join the community",
+  placeholderImageAlt: "placeholder image",
 };
 
 export const movieActionsLabels = {
@@ -17,6 +18,8 @@ export const movieActionsLabels = {
 export const searchBarLabels = {
   placeholder: "Search for a movie, tv show, person...",
   ariaLabel: "Search for a movie, tv show, person",
+  trending: "Trending",
+  noResults: "No results",
 };
 
 export const searchFilterPanelLabels = {
@@ -37,6 +40,9 @@ export const userMenuLabels = {
   ariaLabel: "User menu",
   login: "Login",
   join: "Join",
+  viewProfile: "View profile",
+  myBookmarks: "My Bookmarks",
+  logOut: "Log out",
 };
 
 export const movieInfoLabels = {
@@ -52,6 +58,10 @@ export const popularMoviesPageLabels = {
   resultsAriaLabel: "Movie results",
   searchButton: "Search",
   errorMessage: "Something went wrong loading movies. Please try again.",
+  sortTitle: "Sort",
+  sortSubtitle: "Sort Results By",
+  filtersTitle: "Filters",
+  genresSubtitle: "Genres",
 };
 
 export const searchResultsLabels = {
@@ -103,6 +113,8 @@ export const profilePageLabels = {
   deleteAccountMessage:
     "Permanently delete your account and all associated data. This action cannot be undone.",
   deleteAccountButton: "Delete account",
+  deleteSuccessMessage: "Your account was deleted successfully",
+  deleteErrorMessage: "We could not remove your account",
 };
 
 export const notFoundLabels = {
@@ -110,4 +122,77 @@ export const notFoundLabels = {
   message:
     "The page you're looking for doesn't exist or you don't have access to it.",
   homeLink: "Back to home",
+};
+
+export const loginLabels = {
+  login: "Log in",
+  email: "Email",
+  password: "Password",
+  loggingIn: "Logging in...",
+  passwordPlaceholder: "Your password",
+  emailPlaceholder: "you@example.com",
+  loginFailedError: "Login failed, please try again",
+};
+
+export const bookmarksLabel = {
+  notLoggedIn: "you are NOT logged in",
+  myBookmarks: "My Bookmarks",
+  emptyMessage: "You haven't bookmarked any movies yet.",
+  browseLink: "Browse popular movies",
+};
+
+export const registerLabels = {
+  heading: "Create an account",
+  email: "Email",
+  password: "Password",
+  creatingAccount: "Creating account...",
+  createAccount: "Create account",
+  passwordPlaceholder: "At least 8 characters",
+  emailPlaceholder: "you@example.com",
+};
+
+export const bookmarkedMovieCardLabels = {
+  removedMessage: "Removed from your Bookmarks list.",
+  genericError: "Something went wrong",
+  loadError: "Could not load this movie.",
+  rateIt: "Rate it!",
+  favourite: "Favourite",
+  addToList: "Add to list",
+  remove: "Remove",
+};
+
+export const optionsDropdownLabels = {
+  addToList: "Add to list",
+  favourite: "Favourite",
+  bookmarks: "Bookmarks",
+  yourRating: "Your rating",
+};
+
+export const userScoreLabels = {
+  user: "User",
+  score: "Score",
+  vibeButton: "What's your Vibe?",
+  vibeTooltip: "Login to use TMDB's new rating system.",
+};
+
+export const toastBannerLabels = {
+  success: "Success",
+  error: "Error",
+  dismissAriaLabel: "Dismiss notification",
+};
+
+export const genreFilterLabels = {
+  ariaLabel: "Filter by genre",
+};
+
+export const mainMenuLabels = {
+  ariaLabel: "Main menu",
+};
+
+export const footerLabels = {
+  logoAlt: "The Movie Database",
+};
+
+export const confirmModalLabels = {
+  deletingFallback: "Deleting...",
 };

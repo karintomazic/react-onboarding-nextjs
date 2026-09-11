@@ -7,6 +7,7 @@ import Image from "next/image";
 import { StaticImageData } from "next/image";
 import ScoreCircle from "../ScoreCircle/ScoreCircle";
 import { buildMovieUrl } from "@/utils/buildMovieUrl";
+import { cardLabels } from "@/data/labels";
 
 export type MovieCardProps = {
   id: number;
@@ -34,7 +35,7 @@ const MovieCard = ({
       <div className={imageUrl ? style.poster : style.placeholder}>
         <Link href={movieUrl}>
           {imageUrl ? (
-            <Image src={imageUrl} alt="placeholder image" fill />
+            <Image src={imageUrl} alt={cardLabels.placeholderImageAlt} fill />
           ) : (
             <FontAwesomeIcon icon={faImage} />
           )}

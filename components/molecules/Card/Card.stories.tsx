@@ -2,6 +2,12 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import placeholderPoster from "../../../assets/placeholder-poster.jpg";
 import { cardLabels } from "../../../data/labels";
 import CardComponent from "./Card";
+import { bookmarksHandlers } from "@/mock/handlers";
+
+const mockSession = {
+  user: { name: "Test User", email: "test@example.com" },
+  expires: "9999-12-31T23:59:59.999Z",
+};
 
 const meta = {
   title: "Component/molecules/Card",
@@ -15,6 +21,12 @@ const meta = {
     loginLabel: cardLabels.login,
     notAMemberLabel: cardLabels.notAMember,
     signUpLabel: cardLabels.signUp,
+  },
+  parameters: {
+    session: mockSession,
+    msw: {
+      handlers: bookmarksHandlers,
+    },
   },
   decorators: [
     (Story) => (
@@ -58,6 +70,27 @@ export const PopularOpenOptions: Story = {
   args: {
     variant: "popular",
     id: 1,
+  },
+  play: async ({ canvas, userEvent }) => {
+    const button = canvas.getByRole("button", { name: /Options toggle/i });
+    await userEvent.click(button);
+  },
+};
+
+export const LoggedOutOpenOptions: Story = {
+  args: {
+    image: placeholderPoster,
+    title: "Euphoria",
+    date: "2026-05-13",
+    variant: "popular",
+    id: 2,
+    optionsPromptLabel: cardLabels.optionsPrompt,
+    loginLabel: cardLabels.login,
+    notAMemberLabel: cardLabels.notAMember,
+    signUpLabel: cardLabels.signUp,
+  },
+  parameters: {
+    session: null,
   },
   play: async ({ canvas, userEvent }) => {
     const button = canvas.getByRole("button", { name: /Options toggle/i });

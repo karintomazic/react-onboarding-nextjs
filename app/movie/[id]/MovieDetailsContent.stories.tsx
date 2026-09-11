@@ -1,16 +1,19 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import MovieDetailPageComponent from "./MovieDetailsContent";
+import MovieDetailsContentComponent from "./MovieDetailsContent";
 import { http, HttpResponse, delay } from "msw";
 import placeholderPoster from "../../../assets/placeholder-poster.jpg";
-import { sessionHandler } from "@/mock/authHandlers";
+import { bookmarksHandlers } from "@/mock/handlers";
 
 const meta = {
-  title: "Component/pages/MovieDetailPage",
-  component: MovieDetailPageComponent,
+  title: "Component/pages/MovieDetailsContent",
+  component: MovieDetailsContentComponent,
   parameters: {
     layout: "fullscreen",
   },
-} satisfies Meta<typeof MovieDetailPageComponent>;
+  argTypes: {
+    movieId: { control: false },
+  },
+} satisfies Meta<typeof MovieDetailsContentComponent>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -35,14 +38,14 @@ const mockMovieDetails = {
   vote_average: 8.5,
 };
 
-export const MovieDetailPage: Story = {
+export const MovieDetailsContent: Story = {
   args: {
     movieId: 3,
   },
   parameters: {
     msw: {
       handlers: [
-        sessionHandler,
+        ...bookmarksHandlers,
         http.get("https://api.themoviedb.org/3/movie/3", () =>
           HttpResponse.json(mockMovieDetails),
         ),
@@ -54,14 +57,14 @@ export const MovieDetailPage: Story = {
   },
 };
 
-export const MovieDetailPageLoading: Story = {
+export const MovieDetailsContentLoading: Story = {
   args: {
     movieId: 3,
   },
   parameters: {
     msw: {
       handlers: [
-        sessionHandler,
+        ...bookmarksHandlers,
         http.get("https://api.themoviedb.org/3/movie/3", async () => {
           await delay("infinite");
           return HttpResponse.json(mockMovieDetails);

@@ -11,6 +11,7 @@ import OptionsDropdown from "@/components/atoms/OptionsDropdown/OptionsDropdown"
 import { createPortal } from "react-dom";
 import { buildMovieUrl } from "@/utils/buildMovieUrl";
 import { useToggleBookmark } from "@/hooks/useToggleBookmarks";
+import { cardLabels } from "@/data/labels";
 
 type CardProps = {
   id: number;
@@ -94,7 +95,12 @@ export default function Card({
       >
         <Link href={movieUrl}>
           {image ? (
-            <Image src={image} alt="placeholder image" fill sizes="200px" />
+            <Image
+              src={image}
+              alt={cardLabels.placeholderImageAlt}
+              fill
+              sizes="200px"
+            />
           ) : (
             <FontAwesomeIcon icon={faImage} />
           )}

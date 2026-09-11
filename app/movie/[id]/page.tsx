@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import MovieDetailContent from "./MovieDetailsContent";
+import MovieDetailsContent from "./MovieDetailsContent";
 import { fetchMovieDetails } from "@/utils/fetchMovieDetails";
 
 export async function generateMetadata({
@@ -25,5 +25,5 @@ export default async function MovieDetailPage({
   const resolvedParams = await params; // returns string (id)
   const movieId = resolvedParams.id.match(/^\d+/)?.[0] ?? "";
 
-  return <MovieDetailContent movieId={Number(movieId)} />;
+  return <MovieDetailsContent movieId={Number(movieId)} />;
 }

@@ -1,5 +1,6 @@
 import styles from "./ConfirmModal.module.scss";
 import { createPortal } from "react-dom";
+import { confirmModalLabels } from "@/data/labels";
 
 type ConfirmModalProps = {
   title: string;
@@ -38,7 +39,7 @@ export default function ConfirmModal({
             onClick={onConfirm}
             disabled={isPending}
           >
-            {isPending ? "Deleting..." : confirmLabel}
+            {isPending ? confirmModalLabels.deletingFallback : confirmLabel}
           </button>
         </div>
       </div>

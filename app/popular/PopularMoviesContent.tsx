@@ -103,8 +103,8 @@ export default function PopularMoviesContent({
     <div className={styles.popularWrapper}>
       <div className={styles.filterWrapper}>
         <FilterPanel
-          title={"Sort"}
-          subtitle={"Sort Results By"}
+          title={popularMoviesPageLabels.sortTitle}
+          subtitle={popularMoviesPageLabels.sortSubtitle}
           toggleAction={handleSortToggle}
           toggle={sortToggle}
         >
@@ -115,8 +115,8 @@ export default function PopularMoviesContent({
           />
         </FilterPanel>
         <FilterPanel
-          title={"Filters"}
-          subtitle={"Genres"}
+          title={popularMoviesPageLabels.filtersTitle}
+          subtitle={popularMoviesPageLabels.genresSubtitle}
           toggleAction={handleGenreToggle}
           toggle={genreToggle}
         >

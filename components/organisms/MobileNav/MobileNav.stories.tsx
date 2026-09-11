@@ -1,11 +1,17 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import MobileNavComponent from "./MobileNav";
 
+const mockSession = {
+  user: { name: "Test User", email: "test@example.com" },
+  expires: "9999-12-31T23:59:59.999Z",
+};
+
 const meta = {
   title: "Component/organisms/MobileNav",
   component: MobileNavComponent,
   parameters: {
     layout: "fullscreen",
+    session: mockSession,
   },
   args: {
     homeAriaLabel: "Mobile nav",

@@ -10,6 +10,7 @@ import { useSession } from "next-auth/react";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import profileIcon from "../../../assets/profile.svg";
+import { userMenuLabels } from "@/data/labels";
 
 type UserMenuProps = {
   joinLabel: string;
@@ -57,13 +58,13 @@ export default function UserMenu({ joinLabel, loginLabel }: UserMenuProps) {
               <div className={styles.userInfo}>
                 <p className={styles.userEmail}>{session.data?.user?.email}</p>
                 <div className={styles.profileLinks}>
-                  <Link href="/profile">View profile</Link>
-                  <Link href="/bookmarks">My Bookmarks</Link>
+                  <Link href="/profile">{userMenuLabels.viewProfile}</Link>
+                  <Link href="/bookmarks">{userMenuLabels.myBookmarks}</Link>
                 </div>
               </div>
               <div className={styles.divider} />
               <Button
-                label="Log out"
+                label={userMenuLabels.logOut}
                 onClick={handleSignOut}
                 className={styles.logoutLink}
               />

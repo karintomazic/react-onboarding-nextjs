@@ -1,7 +1,7 @@
 import styles from "./page.module.scss";
 import SingleColumn from "@/components/templates/SingleColumn/SingleColumn";
 import SearchFilterPanel from "@/components/molecules/SearchFilterPanel/SearchFilterPanel";
-import FilterLinks from "@/components/molecules/FilterLinks/FilterLinks";
+import FilterLinksContainer from "@/components/molecules/FilterLinks/FilterLinksContainer";
 import { searchFilterPanelLabels } from "@/data/labels";
 import { Suspense } from "react";
 
@@ -11,7 +11,7 @@ export default function SearchPageLayout({ children }: LayoutProps<"/search">) {
       <div className={styles.searchWrapper}>
         <SearchFilterPanel heading={searchFilterPanelLabels.heading}>
           <Suspense fallback={null}>
-            <FilterLinks />
+            <FilterLinksContainer />
           </Suspense>
         </SearchFilterPanel>
         {children}

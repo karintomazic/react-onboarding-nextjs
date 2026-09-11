@@ -1,6 +1,7 @@
 import styles from "./GenreFilter.module.scss";
 import GenrePill from "../../atoms/GenrePill/GenrePill";
 import type { Dispatch, SetStateAction } from "react";
+import { genreFilterLabels } from "@/data/labels";
 
 type Genre = { id: number; name: string };
 type GenresProps = {
@@ -15,7 +16,7 @@ export default function GenreFilter({
   setSelectedGenres,
 }: GenresProps) {
   return (
-    <ul className={styles.genreList} aria-label="Filter by genre">
+    <ul className={styles.genreList} aria-label={genreFilterLabels.ariaLabel}>
       {genre?.map((g) => {
         const isSelected = selectedGenres.includes(g.id);
         return (

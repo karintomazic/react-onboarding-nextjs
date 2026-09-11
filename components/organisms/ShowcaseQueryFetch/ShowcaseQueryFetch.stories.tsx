@@ -7,11 +7,19 @@ import {
   TMDB_DISCOVER_URL_NOW_PLAYING,
 } from "@/mock/mockData";
 import ShowcaseQueryFetch from "./ShowcaseQueryFetch";
-import { sessionHandler } from "@/mock/authHandlers";
+import { bookmarksHandlers } from "@/mock/handlers";
+
+const mockSession = {
+  user: { name: "Test User", email: "test@example.com" },
+  expires: "9999-12-31T23:59:59.999Z",
+};
 
 const meta = {
   title: "Component/organisms/ShowcaseQueryFetch",
   component: ShowcaseQueryFetch,
+  parameters: {
+    session: mockSession,
+  },
   decorators: [
     (Story) => {
       const queryClient = new QueryClient({
@@ -35,7 +43,7 @@ export const Success: Story = {
   parameters: {
     msw: {
       handlers: [
-        sessionHandler,
+        ...bookmarksHandlers,
         http.get(TMDB_DISCOVER_URL_MOVIE, () =>
           HttpResponse.json({ results: mockMovies }),
         ),
@@ -51,7 +59,7 @@ export const Loading: Story = {
   parameters: {
     msw: {
       handlers: [
-        sessionHandler,
+        ...bookmarksHandlers,
         http.get(TMDB_DISCOVER_URL_MOVIE, async () => {
           await delay("infinite");
           return HttpResponse.json({ results: mockMovies });
@@ -69,7 +77,7 @@ export const Error: Story = {
   parameters: {
     msw: {
       handlers: [
-        sessionHandler,
+        ...bookmarksHandlers,
         http.get(TMDB_DISCOVER_URL_MOVIE, () =>
           HttpResponse.json(
             { status_message: "Invalid API key" },
@@ -91,7 +99,7 @@ export const Empty: Story = {
   parameters: {
     msw: {
       handlers: [
-        sessionHandler,
+        ...bookmarksHandlers,
         http.get(TMDB_DISCOVER_URL_MOVIE, () =>
           HttpResponse.json({ results: [] }),
         ),

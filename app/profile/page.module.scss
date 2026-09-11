@@ -3,6 +3,10 @@
   margin: 0 auto;
   padding: 60px 40px;
 
+  @media (max-width: 768px) {
+    padding: 40px 20px;
+  }
+
   h2 {
     margin-bottom: 32px;
   }
@@ -39,6 +43,11 @@
     padding: 20px 24px;
     background: rgba(204, 46, 72, 0.05);
 
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
     h3 {
       margin: 0 0 4px;
       font-size: 1.2rem;
@@ -61,6 +70,10 @@
     color: var(--color-white);
     font-weight: 600;
     cursor: pointer;
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
 
     &:hover {
       filter: brightness(0.95);

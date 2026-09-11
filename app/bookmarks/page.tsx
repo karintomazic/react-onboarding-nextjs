@@ -1,48 +1,14 @@
-"use client";
+import BookmarksPageContent from "./BookmarksPageContent";
+import { getServerSession } from "next-auth";
+import { notFound } from "next/navigation"; // produces a real 404
+import { authOptions } from "@/lib/auth";
 
-import styles from "./page.module.scss";
-import { useSession } from "next-auth/react";
-import Spinner from "@/components/atoms/Spinner/Spinner";
-import { fetchBookmarks } from "@/utils/fetchBookmarks";
-import { useQuery } from "@tanstack/react-query";
-import BookmarkedMovieCard from "@/components/molecules/BookmarkedMovieCard/BookmarkedMovieCard";
+export default async function Bookmarks() {
+  const session = await getServerSession(authOptions);
 
-export default function Bookmarks() {
-  const session = useSession();
-
-  const { data } = useQuery({
-    queryKey: ["bookmarks-page"],
-    queryFn: fetchBookmarks,
-  });
-
-  const isLoggedIn = session.status === "authenticated";
-  const isNotLoggedIn = session.status === "unauthenticated";
-  const loggedInLoading = session.status === "loading";
-
-  let content;
-
-  if (loggedInLoading) {
-    content = <Spinner />;
-  } else if (isLoggedIn) {
-    if (!data) {
-      return null;
-    }
-
-    content = (
-      <>
-        {data.map((b) => {
-          return <BookmarkedMovieCard key={b.id} movieId={b.movieId} />;
-        })}
-      </>
-    );
-  } else if (isNotLoggedIn) {
-    content = <p>you are NOT logged in</p>;
+  if (!session?.user?.email) {
+    notFound();
   }
 
-  return (
-    <div className={styles.bookmarks}>
-      <h2>My Bookmarks</h2>
-      <div className={styles.bookmarksGrid}>{content}</div>
-    </div>
-  );
+  return <BookmarksPageContent />;
 }

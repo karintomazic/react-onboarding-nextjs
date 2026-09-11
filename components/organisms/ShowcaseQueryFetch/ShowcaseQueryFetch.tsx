@@ -5,7 +5,12 @@ import Showcase from "../Showcase/Showcase";
 import { useState } from "react";
 import { useRef } from "react";
 import { fetchShowcaseData } from "../../../utils/fetchShowcaseData";
-import { cardLabels, showcaseLabels, tabsLabels } from "../../../data/labels";
+import {
+  cardLabels,
+  showcaseLabels,
+  tabsLabels,
+  searchResultsLabels,
+} from "../../../data/labels";
 
 type Movie = { id: number; url: string; title: string; date: string };
 
@@ -20,7 +25,9 @@ export default function ShowcaseQueryFetch() {
 
   if (error) {
     return (
-      <p>{error instanceof Error ? error.message : "Something went wrong"}</p>
+      <p>
+        {error instanceof Error ? error.message : searchResultsLabels.error}
+      </p>
     );
   }
 

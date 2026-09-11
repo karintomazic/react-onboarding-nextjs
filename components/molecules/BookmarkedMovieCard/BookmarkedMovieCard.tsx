@@ -13,6 +13,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useBanner } from "@/hooks/useBanner";
 import { toggleBookmark } from "@/utils/toggleBookmark";
+import { bookmarkedMovieCardLabels } from "@/data/labels";
 
 export default function BookmarkedMovieCard({ movieId }: { movieId: number }) {
   const queryClient = useQueryClient();
@@ -27,11 +28,13 @@ export default function BookmarkedMovieCard({ movieId }: { movieId: number }) {
   const handleBookmarkRemove = async () => {
     try {
       await toggleBookmark(true, movieId); // true - always delete
-      showBanner("Removed from your Bookmarks list.", "success");
+      showBanner(bookmarkedMovieCardLabels.removedMessage, "success");
       queryClient.invalidateQueries({ queryKey: ["bookmarks-page"] });
     } catch (err) {
       showBanner(
-        err instanceof Error ? err.message : "Something went wrong",
+        err instanceof Error
+          ? err.message
+          : bookmarkedMovieCardLabels.genericError,
         "error",
       );
     }
@@ -42,7 +45,7 @@ export default function BookmarkedMovieCard({ movieId }: { movieId: number }) {
   }
 
   if (isError || !data) {
-    return <p>Could not load this movie.</p>;
+    return <p>{bookmarkedMovieCardLabels.loadError}</p>;
   }
 
   return (
@@ -61,25 +64,25 @@ export default function BookmarkedMovieCard({ movieId }: { movieId: number }) {
           <span className={`${styles.actionIcon} ${styles.rateIt}`}>
             <FontAwesomeIcon icon={faStar} />
           </span>
-          Rate it!
+          {bookmarkedMovieCardLabels.rateIt}
         </button>
         <button className={styles.actionButton}>
           <span className={`${styles.actionIcon} ${styles.favourite}`}>
             <FontAwesomeIcon icon={faHeart} />
           </span>
-          Favourite
+          {bookmarkedMovieCardLabels.favourite}
         </button>
         <button className={styles.actionButton}>
           <span className={`${styles.actionIcon} ${styles.list}`}>
             <FontAwesomeIcon icon={faList} />
           </span>
-          Add to list
+          {bookmarkedMovieCardLabels.addToList}
         </button>
         <button className={styles.actionButton} onClick={handleBookmarkRemove}>
           <span className={`${styles.actionIcon} ${styles.remove}`}>
             <FontAwesomeIcon icon={faXmark} />
           </span>
-          Remove
+          {bookmarkedMovieCardLabels.remove}
         </button>
       </div>
     </div>
