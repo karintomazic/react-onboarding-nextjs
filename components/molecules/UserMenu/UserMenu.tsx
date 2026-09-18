@@ -9,8 +9,8 @@ import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
-import profileIcon from "../../../assets/profile.svg";
 import { userMenuLabels } from "@/data/labels";
+import { icons } from "@/assets/icons";
 
 type UserMenuProps = {
   joinLabel: string;
@@ -25,9 +25,13 @@ export default function UserMenu({ joinLabel, loginLabel }: UserMenuProps) {
 
   const isClickedOutside = useClickOutside(usermenuRef);
 
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
-  const handleSignOut = async () => await signOut();
+  const handleSignOut = async () => {
+    await signOut();
+  };
 
   //  useSession().status states
   const isLoggedIn = session.status === "authenticated";
@@ -44,8 +48,8 @@ export default function UserMenu({ joinLabel, loginLabel }: UserMenuProps) {
         <Icon icon={faBell} />
         <div className={styles.userMenuWrapper} ref={usermenuRef}>
           <Image
-            src={profileIcon}
-            alt=""
+            src={icons.profileIcon}
+            alt={userMenuLabels.profileIconAlt}
             className={styles.profileIcon}
             width={32}
             height={32}
@@ -56,7 +60,7 @@ export default function UserMenu({ joinLabel, loginLabel }: UserMenuProps) {
             <div className={styles.userDropdown}>
               <div className={styles.callout} />
               <div className={styles.userInfo}>
-                <p className={styles.userEmail}>{session.data?.user?.email}</p>
+                <p className={styles.userEmail}>{session.data.user?.email}</p>
                 <div className={styles.profileLinks}>
                   <Link href="/profile">{userMenuLabels.viewProfile}</Link>
                   <Link href="/bookmarks">{userMenuLabels.myBookmarks}</Link>
@@ -65,7 +69,7 @@ export default function UserMenu({ joinLabel, loginLabel }: UserMenuProps) {
               <div className={styles.divider} />
               <Button
                 label={userMenuLabels.logOut}
-                onClick={handleSignOut}
+                onClick={() => void handleSignOut()}
                 className={styles.logoutLink}
               />
             </div>

@@ -42,7 +42,6 @@ export const OpenFilter: Story = {
     const buttonDefaultLanguage = canvas.getAllByRole("button", {
       name: /afrikaans/i,
     })[0];
-    if (!buttonDefaultLanguage) throw new Error("Afrikaans button not found");
     await userEvent.click(buttonDefaultLanguage);
 
     await expect(
@@ -86,7 +85,6 @@ export const ClickOutsideClosesAll: Story = {
     const buttonDefaultLanguage = canvas.getAllByRole("button", {
       name: /afrikaans/i,
     })[0];
-    if (!buttonDefaultLanguage) throw new Error("Afrikaans button not found");
     await userEvent.click(buttonDefaultLanguage); // open autocomplete list
 
     await expect(

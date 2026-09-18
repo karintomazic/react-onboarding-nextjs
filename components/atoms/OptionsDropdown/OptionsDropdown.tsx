@@ -11,6 +11,7 @@ import { Ref } from "react";
 import { useSession } from "next-auth/react";
 import { faBookmark } from "@fortawesome/free-solid-svg-icons";
 import { optionsDropdownLabels } from "@/data/labels";
+import clsx from "clsx";
 
 type OptionsDropdownProps = {
   dropdownPosition: { top: number; left: number };
@@ -62,7 +63,7 @@ export default function OptionsDropdown({
         </div>
         <div className={styles.optionsBlock}>
           <button
-            className={`${styles.rowAction} ${isBookmarked ? styles.active : ""}`}
+            className={clsx(styles.rowAction, isBookmarked && styles.active)}
             onClick={handleAddToBookmark}
           >
             <FontAwesomeIcon
@@ -93,7 +94,7 @@ export default function OptionsDropdown({
         </div>
         <div className={styles.optionsBlock}>
           <p className={styles.optionsPrompt}>{notAMemberLabel}</p>
-          <p className={styles.optionsAction ?? ""}>
+          <p className={styles.optionsAction}>
             <Link href="/register">
               {signUpLabel} <FontAwesomeIcon icon={faChevronRight} />
             </Link>
@@ -105,7 +106,7 @@ export default function OptionsDropdown({
 
   return (
     <div
-      className={`${styles.optionsDropdown} ${isLoggedIn ? styles.small : ""}`}
+      className={clsx(styles.optionsDropdown, isLoggedIn && styles.small)}
       ref={dropdownRef}
       style={{
         top: dropdownPosition.top,

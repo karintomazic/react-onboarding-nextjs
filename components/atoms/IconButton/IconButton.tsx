@@ -1,6 +1,7 @@
 import styles from "./IconButton.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import clsx from "clsx";
 
 type IconButtonProps = {
   icon: IconDefinition;
@@ -17,7 +18,7 @@ export default function IconButton({
 }: IconButtonProps) {
   return (
     <button
-      className={`${styles.iconButton} ${isActive ? styles.active : ""}`}
+      className={clsx(styles.iconButton, isActive && styles.active)}
       aria-label={label}
       onClick={onclick}
     >

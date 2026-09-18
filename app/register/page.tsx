@@ -5,6 +5,9 @@ import styles from "./page.module.scss";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react"; // for auto-login once registration succeeds
 import RegistrationForm from "@/components/molecules/RegistrationForm/RegistrationForm";
+import { z } from "zod";
+
+const registerErrorSchema = z.object({ error: z.string() });
 
 export default function RegisterPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -25,8 +28,8 @@ export default function RegisterPage() {
 
     if (!response.ok) {
       // registration failed
-      const json = await response.json();
-      setError(json.error);
+      const { error } = registerErrorSchema.parse(await response.json());
+      setError(error);
     } else {
       const result = await signIn("credentials", {
         // If registration succeeded, attempts to log the user in with the same credentials they just registered with
@@ -46,7 +49,7 @@ export default function RegisterPage() {
   return (
     <div className={styles.registerWrapper}>
       <RegistrationForm
-        handleSubmit={handleSubmit}
+        handleSubmit={(email, password) => void handleSubmit(email, password)}
         isSubmitting={isSubmitting}
         error={error}
       />

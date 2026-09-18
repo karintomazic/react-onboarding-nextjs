@@ -1,4 +1,5 @@
 import styles from "./Button.module.scss";
+import clsx from "clsx";
 
 export type ButtonProps = {
   label: string;
@@ -25,7 +26,7 @@ export default function Button({
     <button
       type={type}
       onClick={onClick}
-      className={`${styles[variant] ?? ""} ${className ?? ""}`}
+      className={clsx(styles[variant], className)}
       aria-expanded={ariaExpanded}
       aria-label={ariaLabel}
       disabled={disabled}

@@ -3,6 +3,8 @@
 import NextAuth from "next-auth"; // main function - hands back a request handler managing all of Auth.js internal endpoints
 import { authOptions } from "@/lib/auth";
 
+// NextAuth internal types declare the return as `any`.
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const handler = NextAuth(authOptions);
 
 // same handler exported under both names — Auth.js endpoints need to respond to

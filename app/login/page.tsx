@@ -29,7 +29,7 @@ export default function LoginPage() {
       setError(loginLabels.loginFailedError);
     } else {
       // success - redirect
-      void router.push(`/`);
+      router.push(`/`);
     }
 
     setIsSubmitting(false);
@@ -38,7 +38,7 @@ export default function LoginPage() {
   return (
     <div className={styles.loginWrapper}>
       <LoginForm
-        handleSubmit={handleSubmit}
+        handleSubmit={(email, password) => void handleSubmit(email, password)} // evalutes to undefined meaning - dont count this expressions value as anything you need to track
         isSubmitting={isSubmitting}
         error={error}
       />

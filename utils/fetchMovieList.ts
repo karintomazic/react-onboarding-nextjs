@@ -16,8 +16,7 @@ export async function fetchMovieList(url: string) {
     throw new Error(`Request failed with status ${String(response.status)}`);
   }
 
-  const json: unknown = await response.json();
-  const data = movieListSchema.parse(json);
+  const data = movieListSchema.parse(await response.json());
 
   return data.results.slice(0, 10);
 }

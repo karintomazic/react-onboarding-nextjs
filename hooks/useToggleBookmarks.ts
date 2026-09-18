@@ -33,7 +33,7 @@ export function useToggleBookmark({ movieId }: useToggleBookmarkProps) {
           : "Added to your Bookmarks list.",
         "success",
       );
-      queryClient.invalidateQueries({ queryKey: ["bookmarks-page"] });
+      await queryClient.invalidateQueries({ queryKey: ["bookmarks-page"] });
     } catch (err) {
       showBanner(
         err instanceof Error ? err.message : "Something went wrong",

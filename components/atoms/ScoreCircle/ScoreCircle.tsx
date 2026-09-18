@@ -1,4 +1,5 @@
 import styles from "./ScoreCircle.module.scss";
+import clsx from "clsx";
 
 type MoviesProps = { score: number; variant?: "regular" | "small" };
 
@@ -15,7 +16,7 @@ export default function ScoreCircle({
     clampedScore >= 70 ? "#21d07a" : clampedScore >= 40 ? "#d2d531" : "#db2360";
 
   return (
-    <div className={`${styles.scoreCircleContainer} ${styles[variant] ?? ""}`}>
+    <div className={clsx(styles.scoreCircleContainer, styles[variant])}>
       <svg viewBox="0 0 100 100" className={styles.scoreCircle}>
         <circle cx="50" cy="50" r="48" className={styles.scoreBg} />
         <circle cx="50" cy="50" r={radius} className={styles.scoreTrack} />

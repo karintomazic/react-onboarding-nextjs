@@ -1,4 +1,5 @@
 import styles from "./GenrePill.module.scss";
+import clsx from "clsx";
 
 type Genre = { id: number; name: string };
 
@@ -28,7 +29,7 @@ export default function GenrePill({
           onToggle();
         }
       }}
-      className={`${(isSelected ? styles.active : "") ?? ""} ${styles.pill ?? ""}`}
+      className={clsx(isSelected && styles.active, styles.pill)}
     >
       {genre.name}
     </li>

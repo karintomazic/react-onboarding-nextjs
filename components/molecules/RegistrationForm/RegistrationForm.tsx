@@ -35,7 +35,9 @@ export default function RegistrationForm({
         <Input
           type="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
           placeholder={registerLabels.emailPlaceholder}
         />
       </label>
@@ -45,7 +47,9 @@ export default function RegistrationForm({
         <Input
           type="password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
           placeholder={registerLabels.passwordPlaceholder}
         />
       </label>

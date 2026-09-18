@@ -1,6 +1,7 @@
 // import { NavLink } from "react-router"; - add active link here
 import Link from "next/link";
 import styles from "./SearchFilterLink.module.scss";
+import clsx from "clsx";
 
 type searchFilterLinkProps = {
   linkName: string;
@@ -18,9 +19,7 @@ export default function SearchFilterLink({
   isActive,
 }: searchFilterLinkProps) {
   return (
-    <li
-      className={`${styles.searchFilterLink} ${isActive ? styles.active : ""}`}
-    >
+    <li className={clsx(styles.searchFilterLink, isActive && styles.active)}>
       <Link
         href={{
           pathname: linkName,

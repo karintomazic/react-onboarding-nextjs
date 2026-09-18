@@ -16,7 +16,7 @@ export const authOptions: AuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null; // reject this sign-in attempt
+        if (!credentials?.email || !credentials.password) return null; // reject this sign-in attempt
 
         //  in the database look up one user row by email
         const user = db
@@ -35,7 +35,7 @@ export const authOptions: AuthOptions = {
         );
 
         // builds what gets returned on success - deliberately excluding the password hash
-        const idAdnUsername = { id: user.id.toString(), email: user.email };
+        const idAdnUsername = { id: user.id, email: user.email };
 
         if (compareCred) {
           return idAdnUsername;

@@ -34,7 +34,7 @@ export default function PopularMoviesContent({
     const url = new URL("/popular", window.location.origin);
     url.searchParams.set("genres", selectedGenres.join(","));
     url.searchParams.set("sort", selectedSort.value);
-    void router.push(`${url.pathname}${url.search}`);
+    router.push(`${url.pathname}${url.search}`);
   };
 
   const {
@@ -78,8 +78,7 @@ export default function PopularMoviesContent({
   } else if (isError) {
     content = (
       <p className={styles.errorMessage}>
-        {popularMoviesPageLabels.errorMessage ??
-          "Something went wrong loading movies. Please try again."}
+        {popularMoviesPageLabels.errorMessage}
       </p>
     );
   } else {

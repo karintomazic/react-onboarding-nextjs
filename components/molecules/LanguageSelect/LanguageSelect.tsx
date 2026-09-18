@@ -7,9 +7,7 @@ import {
 import Icon from "../../atoms/Icon/Icon";
 import Input from "../../atoms/Input/Input";
 import type { ChangeEvent, KeyboardEvent } from "react";
-
 import LanguageRenderedList from "../LanguageRenderedList/LanguageRenderedList";
-
 import { useClickOutside } from "../../../hooks/useClickOutside";
 
 export type LanguageSelectProps = {
@@ -82,47 +80,42 @@ export default function LanguageSelect({
         item.label.toLowerCase().includes(filter.toLowerCase()),
       );
 
-      let listItems: HTMLLIElement[]; // will be array
+      if (filtered.length === 0) return; // nothing to navigate to
+
+      let listItems: HTMLLIElement[];
 
       if (listRef.current !== null) {
-        const lanList = listRef.current.querySelectorAll("li"); // search gor lis inside listRef ul
-        listItems = Array.from(lanList); // convert lanList into array
+        const lanList = listRef.current.querySelectorAll("li");
+        listItems = Array.from(lanList);
       } else {
         listItems = [];
       }
 
-      const i = listItems.indexOf(document.activeElement as HTMLLIElement); // the position of selected element inside listItems array
+      // derive position from filtered and highlighted
+      const currentIndex = filtered.findIndex(
+        (item) => item.code === highlighted,
+      );
 
       if (e.key === "ArrowDown") {
-        const next = i + 1 < listItems.length ? i + 1 : 0; // check if the next item is smaller than the listItems array - if its grather move to the first index - to the start of the list
+        const next = currentIndex + 1 < filtered.length ? currentIndex + 1 : 0; // check if the next item is smaller than the listItems array - if its grather move to the first index - to the start of the list
 
-        if (!filtered[next]) return; // if there is no next
-
-        const target = listItems[next] as HTMLElement;
-        target.focus({ preventScroll: true }); // focus on the next one when going dow/up with the arrow
-        target.scrollIntoView({ block: "nearest" });
+        listItems[next]?.focus({ preventScroll: true });
+        listItems[next]?.scrollIntoView({ block: "nearest" });
 
         setHighlighted(filtered[next].code);
       } else {
         // ArrowUp
-        if (i <= 0) {
-          // if you are at the first item or the input and you go up
-          if (inputRef.current !== null) {
-            inputRef.current.focus(); // move focus to the input
-          }
+        if (currentIndex <= 0) {
+          // nothing highlighted, or already at the first item - move back to the input
+          inputRef.current?.focus();
           setHighlighted(null); // remove hilight (so the hilihted is currently selected)
         } else {
-          const target = listItems[i - 1] as HTMLElement;
-          target.focus({ preventScroll: true }); // focus on one step above the current
-          target.scrollIntoView({ block: "nearest" });
+          const prev = currentIndex - 1;
 
-          const itemAbove = filtered[i - 1]; // item you are moving up to
+          listItems[prev]?.focus({ preventScroll: true });
+          listItems[prev]?.scrollIntoView({ block: "nearest" });
 
-          if (itemAbove !== undefined) {
-            setHighlighted(itemAbove.code);
-          } else {
-            setHighlighted(null);
-          }
+          setHighlighted(filtered[prev].code);
         }
       }
     }

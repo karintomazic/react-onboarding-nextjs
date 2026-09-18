@@ -8,15 +8,41 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useBanner } from "@/hooks/useBanner";
 import { useRouter } from "next/navigation";
+import { z } from "zod";
 
 type ProfilePageContentProps = {
   email: string;
 };
 
+const errorResponseSchema = z.object({
+  error: z.string(),
+});
+
 export default function ProfilePageContent({ email }: ProfilePageContentProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const { showBanner } = useBanner();
   const router = useRouter();
+
+  const handleSignOut = async () => {
+    try {
+      await signOut({ redirect: false });
+      router.push("/");
+    } catch {
+      showBanner(profilePageLabels.signOutError, "error");
+    }
+  };
+
+  const handleDeleteModalOpen = () => {
+    setModalOpen(true);
+  };
+
+  const onConfirm = () => {
+    deleteAccountMutation.mutate();
+  };
+
+  const onCancel = () => {
+    setModalOpen(false);
+  };
 
   const deleteAccountMutation = useMutation({
     mutationFn: async () => {
@@ -26,13 +52,13 @@ export default function ProfilePageContent({ email }: ProfilePageContentProps) {
       });
 
       if (!response.ok) {
-        const json = await response.json();
-        throw new Error(json.error);
+        const { error } = errorResponseSchema.parse(await response.json());
+        throw new Error(error);
       }
     },
     onSuccess: () => {
       setModalOpen(false);
-      handleSignOut();
+      void handleSignOut(); // fire and forget
       showBanner(profilePageLabels.deleteSuccessMessage, "success");
     },
     onError: () => {
@@ -40,23 +66,6 @@ export default function ProfilePageContent({ email }: ProfilePageContentProps) {
       showBanner(profilePageLabels.deleteErrorMessage, "error");
     },
   });
-
-  const handleSignOut = async () => {
-    await signOut({ redirect: false });
-    router.push("/");
-  };
-
-  const handleDeleteModalOpen = async () => {
-    setModalOpen(true);
-  };
-
-  const onConfirm = async () => {
-    deleteAccountMutation.mutate();
-  };
-
-  const onCancel = () => {
-    setModalOpen(false);
-  };
 
   return (
     <div className={styles.profile}>

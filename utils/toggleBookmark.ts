@@ -1,3 +1,9 @@
+import { z } from "zod";
+
+const bookmarkErrorSchema = z.object({
+  error: z.string(),
+});
+
 export async function toggleBookmark(isBookmarked: boolean, movieId: number) {
   const response = await fetch("/api/bookmarks", {
     method: isBookmarked ? "DELETE" : "POST",
@@ -6,7 +12,7 @@ export async function toggleBookmark(isBookmarked: boolean, movieId: number) {
   });
 
   if (!response.ok) {
-    const json = await response.json();
-    throw new Error(json.error);
+    const { error } = bookmarkErrorSchema.parse(await response.json());
+    throw new Error(error);
   }
 }

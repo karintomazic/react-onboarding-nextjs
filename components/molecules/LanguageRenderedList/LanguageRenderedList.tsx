@@ -1,4 +1,5 @@
 import styles from "./LanguageRenderedList.module.scss";
+import clsx from "clsx";
 
 type LanguageRenderedListProps = {
   languageList: Array<{ code: string; label: string }>;
@@ -30,9 +31,10 @@ export default function LanguageRenderedList({
             onSelect(list.code, type);
             setIsOpen(false);
           }}
-          className={
-            `${(list.code === (highlighted ?? selected) ? styles.active : "") ?? ""} ${styles.languageList ?? ""}` // checks and adds active class if active
-          }
+          className={clsx(
+            styles.languageList,
+            list.code === (highlighted ?? selected) && styles.active,
+          )}
           role="option"
           tabIndex={0}
           aria-selected={list.code === (highlighted ?? selected)}

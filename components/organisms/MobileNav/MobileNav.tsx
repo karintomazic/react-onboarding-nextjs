@@ -4,11 +4,12 @@ import Icon from "../../atoms/Icon/Icon";
 import UserMenu from "../../molecules/UserMenu/UserMenu";
 import Link from "next/link";
 import Image from "next/image";
-import mobileLogo from "../../../assets/mobile-logo.svg";
 import { faMagnifyingGlass, faBars } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { userMenuLabels } from "../../../data/labels";
 import { usePathname } from "next/navigation";
+import clsx from "clsx";
+import { icons } from "@/assets/icons";
 
 type MobileNavProps = {
   homeAriaLabel: string;
@@ -45,7 +46,7 @@ export default function MobileNav({
           <Icon icon={faBars} />
         </button>
         <Link href="/" className={styles.mobileLogo} aria-label={homeAriaLabel}>
-          <Image src={mobileLogo} alt="" />
+          <Image src={icons.mobileLogo} alt="" />
         </Link>
         <div className={styles.mobileRight}>
           <UserMenu
@@ -66,9 +67,7 @@ export default function MobileNav({
           }}
         />
       )}
-      <div
-        className={`${styles.drawer ?? ""} ${(menuOpen ? styles.drawerOpen : "") ?? ""}`}
-      >
+      <div className={clsx(styles.drawer, menuOpen && styles.drawerOpen)}>
         <MainMenu />
       </div>
     </>

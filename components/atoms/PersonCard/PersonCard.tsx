@@ -1,7 +1,7 @@
 import styles from "./PersonCard.module.scss";
-import profileIcon from "../../../assets/profile.svg";
 import Image from "next/image";
 import { StaticImageData } from "next/image";
+import { icons } from "@/assets/icons";
 
 type PersonCardProps = {
   name: string;
@@ -22,7 +22,7 @@ export default function PersonCard({
         {profileImg ? (
           <Image src={profileImg} alt={name} width="80" height="80" />
         ) : (
-          <Image src={profileIcon} alt={""} width="80" height="80" />
+          <Image src={icons.profileIcon} alt="" width="80" height="80" />
         )}
       </div>
       <div className={styles.info}>

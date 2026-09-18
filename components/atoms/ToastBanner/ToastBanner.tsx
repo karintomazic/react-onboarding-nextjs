@@ -20,7 +20,7 @@ export default function ToastBanner({
   const { dismissBanner } = useBanner();
 
   const removeBanner = () => {
-    return dismissBanner(id);
+    dismissBanner(id);
   };
 
   return (

@@ -15,7 +15,7 @@ export async function generateMetadata({
     : null;
 
   return {
-    title: `${movieDetailsData?.title ?? ""} (${releaseYear !== null ? String(releaseYear) : ""})- The Movie Database(TMDB)`,
+    title: `${movieDetailsData.title} (${releaseYear !== null ? String(releaseYear) : ""})- The Movie Database(TMDB)`,
   };
 }
 

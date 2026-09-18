@@ -99,6 +99,7 @@ export default function SearchBar({
       );
     } else if (e.key === "Enter") {
       const movie = currentList[highlightedIndex];
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- highlightedIndex starts at -1, so pressing Enter before any arrow-key press makes this genuinely undefined at runtime
       if (movie) handleSearchTitle(movie.title);
     }
   };
@@ -109,7 +110,7 @@ export default function SearchBar({
   const handleSearchTitle = (movTitle: string) => {
     const url = new URL("/search/movie", window.location.origin);
     url.searchParams.set("query", movTitle);
-    void router.push(`${url.pathname}${url.search}`);
+    router.push(`${url.pathname}${url.search}`);
     setIsOpen(false);
     onQueryChange(movTitle);
   };

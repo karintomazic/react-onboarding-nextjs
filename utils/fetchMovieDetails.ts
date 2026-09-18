@@ -1,4 +1,6 @@
 import { z } from "zod";
+import { tmdbApiKey } from "./tmdbApiKey";
+
 const tmbUrl = "https://api.themoviedb.org/3";
 
 const movieSchema = z.object({
@@ -26,17 +28,15 @@ export async function fetchMovieDetails(id: number | string) {
     throw new Error("Invalid movie id");
   }
 
-  const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;
   const response = await fetch(
-    `${tmbUrl}/movie/${idNumber}?api_key=${apiKey}&append_to_response=credits,release_dates`,
+    `${tmbUrl}/movie/${String(idNumber)}?api_key=${tmdbApiKey}&append_to_response=credits,release_dates`,
   );
 
   if (!response.ok) {
     throw new Error(`Request failed with status ${String(response.status)}`);
   }
 
-  const json: unknown = await response.json();
-  const data = movieSchema.parse(json);
+  const data = movieSchema.parse(await response.json());
 
   return data;
 }

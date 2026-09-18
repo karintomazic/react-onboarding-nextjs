@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { tmdbApiKey } from "./tmdbApiKey";
 
 const tmdbMovieSchema = z.object({
   id: z.number(),
@@ -38,8 +39,7 @@ async function fetchAndMapMovies(url: string): Promise<Movie[]> {
     throw new Error(`Request failed with status ${String(response.status)}`);
   }
 
-  const json: unknown = await response.json();
-  const data = tmdbResponseSchema.parse(json);
+  const data = tmdbResponseSchema.parse(await response.json());
 
   return showcaseMoviesSchema.decode(
     data.results.map((movie) => ({
@@ -52,17 +52,15 @@ async function fetchAndMapMovies(url: string): Promise<Movie[]> {
 }
 
 export async function fetchShowcaseData(): Promise<ShowcaseData> {
-  const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;
-
   const [streaming, rent, theater] = await Promise.all([
     fetchAndMapMovies(
-      `${tmbUrl}/discover/movie?api_key=${apiKey}&watch_region=US&with_watch_monetization_types=flatrate&sort_by=popularity.desc`,
+      `${tmbUrl}/discover/movie?api_key=${tmdbApiKey}&watch_region=US&with_watch_monetization_types=flatrate&sort_by=popularity.desc`,
     ),
     fetchAndMapMovies(
-      `${tmbUrl}/discover/movie?api_key=${apiKey}&watch_region=US&with_watch_monetization_types=rent&sort_by=popularity.desc`,
+      `${tmbUrl}/discover/movie?api_key=${tmdbApiKey}&watch_region=US&with_watch_monetization_types=rent&sort_by=popularity.desc`,
     ),
     fetchAndMapMovies(
-      `${tmbUrl}/movie/now_playing?api_key=${apiKey}&region=US`,
+      `${tmbUrl}/movie/now_playing?api_key=${tmdbApiKey}&region=US`,
     ),
   ]);
   return { streaming, rent, theater };

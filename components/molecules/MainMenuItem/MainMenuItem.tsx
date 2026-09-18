@@ -2,6 +2,7 @@ import styles from "./MainMenuItem.module.scss";
 import MainMenuLink from "../../atoms/MainMenuLink/MainMenuLink";
 import MenuLinkList from "../MenuLinkList/MenuLinkList";
 import { useState } from "react";
+import clsx from "clsx";
 
 export type MainMenuItemProps = {
   label: string;
@@ -18,7 +19,7 @@ export default function MainMenuItem({ label, links }: MainMenuItemProps) {
 
   return (
     <li
-      className={` ${styles.mainMenu ?? ""} ${(open ? styles.open : "") ?? ""}`}
+      className={clsx(styles.mainMenu, open && styles.open)}
       // aria-expanded={open} - check where to put it
     >
       <MainMenuLink label={label} handleMenuToggle={toggleMenuOpen} />

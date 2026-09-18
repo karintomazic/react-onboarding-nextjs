@@ -23,7 +23,12 @@ export default function ConfirmModal({
 }: ConfirmModalProps) {
   return createPortal(
     <div className={styles.backdrop} onClick={onCancel}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+      <div
+        className={styles.modal}
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+      >
         <h3>{title}</h3>
         <p>{message}</p>
         <div className={styles.actions}>

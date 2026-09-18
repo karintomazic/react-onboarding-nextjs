@@ -1,6 +1,7 @@
 import styles from "./CardSkeleton.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
+import clsx from "clsx";
 
 type CardSkeletonProps = {
   loadingLabel: string;
@@ -12,7 +13,7 @@ export default function CardSkeleton({
   variant,
 }: CardSkeletonProps) {
   return (
-    <div className={`${styles.cardSkeleton ?? ""} ${styles[variant] ?? ""}`}>
+    <div className={clsx(styles.cardSkeleton, styles[variant])}>
       <div className={styles.placeholder}>
         <FontAwesomeIcon icon={faImage} />
       </div>

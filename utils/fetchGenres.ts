@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { tmdbApiKey } from "./tmdbApiKey";
 
 const tmbUrl = "https://api.themoviedb.org/3";
 type Genre = { id: number; name: string };
@@ -13,15 +14,15 @@ const genreResponseSchema = z.object({
 });
 
 export async function fetchGenres(): Promise<Genre[]> {
-  const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;
-  const response = await fetch(`${tmbUrl}/genre/movie/list?api_key=${apiKey}`);
+  const response = await fetch(
+    `${tmbUrl}/genre/movie/list?api_key=${tmdbApiKey}`,
+  );
 
   if (!response.ok) {
     throw new Error(`Request failed with status ${String(response.status)}`);
   }
 
-  const json: unknown = await response.json();
-  const data = genreResponseSchema.parse(json);
+  const data = genreResponseSchema.parse(await response.json());
 
   return data.genres;
 }

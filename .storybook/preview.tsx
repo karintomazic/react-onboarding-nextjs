@@ -5,6 +5,22 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import { BannerProvider } from "../context/BannerContext";
 import { emptyBookmarksHandler } from "../mock/handlers";
+import { z } from "zod";
+
+const sessionSchema = z
+  .object({
+    user: z
+      .object({
+        name: z.string().nullable().optional(),
+        email: z.string().nullable().optional(),
+        image: z.string().nullable().optional(),
+      })
+      .optional(),
+    expires: z.string(),
+  })
+  .nullable()
+  .catch(null);
+
 
 const preview: Preview = {
   parameters: {
@@ -30,7 +46,10 @@ const preview: Preview = {
       const queryClient = new QueryClient();
       return (
         <QueryClientProvider client={queryClient}>
-          <SessionProvider session={context.parameters.session ?? null}>
+          {/* no-unsafe-assignment = context.parameters is typed any by storybook. we assert it as Session | null */}
+          <SessionProvider
+            session={sessionSchema.parse(context.parameters.session)}
+          >
             <BannerProvider>
               <Story />
             </BannerProvider>

@@ -5,10 +5,8 @@ import SearchBar from "../../molecules/SearchBar/SearchBar";
 import MobileNav from "../MobileNav/MobileNav";
 import DesktopNav from "../DesktopNav/DesktopNav";
 import { useState, useRef } from "react";
-// import { useNavigate } from "react-router";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-// import { useSearchParams, useLocation } from "react-router";
 import { useSearchParams } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useDebounce } from "../../../hooks/useDebounce";
@@ -18,9 +16,9 @@ import {
   desktopNavLabels,
   mobileNavLabels,
 } from "../../../data/labels";
+import { tmdbApiKey } from "@/utils/tmdbApiKey";
 
 const tmdbUrl = "https://api.themoviedb.org/3";
-const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;
 
 export default function NavigationBar() {
   const searchParams = useSearchParams();
@@ -48,7 +46,7 @@ export default function NavigationBar() {
   const trendingQuery = useQuery({
     queryKey: ["trending-results"],
     queryFn: () =>
-      fetchMovieList(`${tmdbUrl}/trending/movie/day?api_key=${apiKey}`),
+      fetchMovieList(`${tmdbUrl}/trending/movie/day?api_key=${tmdbApiKey}`),
   });
 
   // Wait for typing to pause before actually searching, so we don't
@@ -59,7 +57,7 @@ export default function NavigationBar() {
     queryKey: ["search-results", debounceQuery],
     queryFn: () =>
       fetchMovieList(
-        `${tmdbUrl}/search/movie?api_key=${apiKey}&query=${encodeURIComponent(debounceQuery)}&page=1`,
+        `${tmdbUrl}/search/movie?api_key=${tmdbApiKey}&query=${encodeURIComponent(debounceQuery)}&page=1`,
       ),
     // skip the search when input is empty.
     enabled: debounceQuery !== "",
@@ -74,7 +72,7 @@ export default function NavigationBar() {
   function handleSearchSubmit() {
     const url = new URL("/search/movie", window.location.origin);
     url.searchParams.set("query", query);
-    void router.push(`${url.pathname}${url.search}`);
+    router.push(`${url.pathname}${url.search}`);
   }
 
   const handleLoopClick = () => {

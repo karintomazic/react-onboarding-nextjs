@@ -43,6 +43,7 @@ export const userMenuLabels = {
   viewProfile: "View profile",
   myBookmarks: "My Bookmarks",
   logOut: "Log out",
+  profileIconAlt: "Open profile menu",
 };
 
 export const movieInfoLabels = {
@@ -115,6 +116,7 @@ export const profilePageLabels = {
   deleteAccountButton: "Delete account",
   deleteSuccessMessage: "Your account was deleted successfully",
   deleteErrorMessage: "We could not remove your account",
+  signOutError: "We could not sign you out. Please try again.",
 };
 
 export const notFoundLabels = {
@@ -195,4 +197,8 @@ export const footerLabels = {
 
 export const confirmModalLabels = {
   deletingFallback: "Deleting...",
+};
+
+export const movieDetailsLabels = {
+  posterAltSuffix: "poster",
 };

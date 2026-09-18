@@ -11,6 +11,7 @@ import {
   movieInfoLabels,
   movieActionsLabels,
   bookmarkedMovieCardLabels,
+  movieDetailsLabels,
 } from "../../../data/labels";
 import { fetchMovieDetails } from "@/utils/fetchMovieDetails";
 import Spinner from "@/components/atoms/Spinner/Spinner";
@@ -62,53 +63,56 @@ export default function MovieDetailsContent({
       <div
         className={styles.backdrop}
         style={{
-          backgroundImage: movieDetailsData?.backdrop_path
+          backgroundImage: movieDetailsData.backdrop_path
             ? `url(${tmbBackdropUrl}${movieDetailsData.backdrop_path})`
             : "none",
         }}
       >
         <div className={styles.backdropBackground}>
           <div className={styles.innerWrapper}>
-            {movieDetailsData?.poster_path && (
+            {movieDetailsData.poster_path && (
               <Image
                 src={`${tmbImageUrl}${movieDetailsData.poster_path}`}
-                alt=""
+                alt={`${movieDetailsData.title} ${movieDetailsLabels.posterAltSuffix}`}
                 height={500}
                 width={350}
               />
             )}
             <div>
               <h2>
-                {movieDetailsData?.title} <span>({releaseYear})</span>
+                {movieDetailsData.title} <span>({releaseYear})</span>
               </h2>
               <div className={styles.facts}>
-                <time dateTime={movieDetailsData?.release_date}>
+                <time dateTime={movieDetailsData.release_date}>
                   {releaseDate}
                 </time>
                 <span>
-                  {movieDetailsData?.genres.map((g) => g.name).join(", ")}
+                  {movieDetailsData.genres.map((g) => g.name).join(", ")}
                 </span>
                 <span>
-                  {Math.floor((movieDetailsData?.runtime ?? 0) / 60)}h
-                  {(movieDetailsData?.runtime ?? 0) % 60}m
+                  {Math.floor(movieDetailsData.runtime / 60)}h
+                  {movieDetailsData.runtime % 60}m
                 </span>
               </div>
-              <UserScore score={movieDetailsData?.vote_average ?? 0} />
+              <UserScore score={movieDetailsData.vote_average} />
               <MovieActions
                 addToListLabel={movieActionsLabels.addToList}
                 addToFavoritesLabel={movieActionsLabels.addToFavorites}
                 addToWatchlistLabel={movieActionsLabels.addToWatchlist}
                 removeFromWatchlist={movieActionsLabels.removeFromWatchlist}
                 playTrailerLabel={movieActionsLabels.playTrailer}
-                handleAddToBookmark={handleAddToBookmark}
+                // no-misused-promises - fire the function and move on - we dont need to await for it to resolve. because useToggleBookmarks
+                // is already a async with try/catch that handles errors. if toggleBookmark fails - handleAddToBookmark catches it and shows the banner
+                // () => void handleAddToBookmark() creates a brand new different function - satisfies the prop type
+                handleAddToBookmark={() => void handleAddToBookmark()}
                 isBookmarked={isBookmarked}
               />
               <MovieInfo
-                tagline={movieDetailsData?.tagline ?? ""}
-                overview={movieDetailsData?.overview ?? ""}
+                tagline={movieDetailsData.tagline}
+                overview={movieDetailsData.overview}
                 overviewHeading={movieInfoLabels.overviewHeading}
               />
-              <CrewGrid crewDetails={movieDetailsData?.credits.crew ?? []} />
+              <CrewGrid crewDetails={movieDetailsData.credits.crew} />
             </div>
           </div>
         </div>

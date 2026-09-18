@@ -12,6 +12,7 @@ import { createPortal } from "react-dom";
 import { buildMovieUrl } from "@/utils/buildMovieUrl";
 import { useToggleBookmark } from "@/hooks/useToggleBookmarks";
 import { cardLabels } from "@/data/labels";
+import clsx from "clsx";
 
 type CardProps = {
   id: number;
@@ -88,7 +89,7 @@ export default function Card({
   }, [optionsOpen]);
 
   return (
-    <div className={`${styles.showcaseCard ?? ""} ${styles[variant] ?? ""}`}>
+    <div className={clsx(styles.showcaseCard, styles[variant])}>
       <div
         className={image ? styles.posterImage : styles.placeholder}
         ref={cardRef}
@@ -117,7 +118,7 @@ export default function Card({
               <OptionsDropdown
                 dropdownPosition={dropdownPosition}
                 dropdownRef={dropdownRef}
-                handleAddToBookmark={handleAddToBookmark}
+                handleAddToBookmark={() => void handleAddToBookmark()}
                 isBookmarked={isBookmarked}
                 optionsPromptLabel={optionsPromptLabel}
                 loginLabel={loginLabel}

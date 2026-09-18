@@ -7,6 +7,7 @@ import { usersTable } from "@/db/schema"; // table definition to insert into
 import { eq } from "drizzle-orm";
 import { isDrizzleUniqueViolation } from "@/utils/isDrizzleUniqueViolation";
 import { internalServerErrorResponse } from "@/utils/internalServerErrorResponse";
+import { badRequestError } from "@/utils/badRequestError";
 
 // Defines what counts as valid registration input — checked against whatever the client
 // sends, before any hashing or database work happens.
@@ -16,11 +17,9 @@ const registerSchema = z.object({
 });
 
 export async function POST(request: Request) {
-  const body = await request.json();
-
   // checks for validation and duplicate email
   try {
-    const { email, password } = registerSchema.parse(body);
+    const { email, password } = registerSchema.parse(await request.json());
 
     // hash the password
     const hashedPassword = await argon2.hash(password); // hashes the password before it goes into the database
@@ -46,6 +45,9 @@ export async function POST(request: Request) {
     if (error instanceof z.ZodError) {
       return Response.json({ error: "Invalid input" }, { status: 400 });
     }
+
+    const badRequest = badRequestError(error);
+    if (badRequest) return badRequest;
 
     // the database insert failed
     // keeping it for guarding agains race condition - two users register with the same email at the same time

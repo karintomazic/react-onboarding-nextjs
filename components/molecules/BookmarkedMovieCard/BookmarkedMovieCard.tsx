@@ -29,7 +29,7 @@ export default function BookmarkedMovieCard({ movieId }: { movieId: number }) {
     try {
       await toggleBookmark(true, movieId); // true - always delete
       showBanner(bookmarkedMovieCardLabels.removedMessage, "success");
-      queryClient.invalidateQueries({ queryKey: ["bookmarks-page"] });
+      await queryClient.invalidateQueries({ queryKey: ["bookmarks-page"] });
     } catch (err) {
       showBanner(
         err instanceof Error
@@ -78,7 +78,10 @@ export default function BookmarkedMovieCard({ movieId }: { movieId: number }) {
           </span>
           {bookmarkedMovieCardLabels.addToList}
         </button>
-        <button className={styles.actionButton} onClick={handleBookmarkRemove}>
+        <button
+          className={styles.actionButton}
+          onClick={() => void handleBookmarkRemove()}
+        >
           <span className={`${styles.actionIcon} ${styles.remove}`}>
             <FontAwesomeIcon icon={faXmark} />
           </span>

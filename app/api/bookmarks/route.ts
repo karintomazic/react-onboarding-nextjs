@@ -6,6 +6,7 @@ import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 import { isDrizzleUniqueViolation } from "@/utils/isDrizzleUniqueViolation";
 import { internalServerErrorResponse } from "@/utils/internalServerErrorResponse";
+import { badRequestError } from "@/utils/badRequestError";
 
 const bookmarkSchema = z.object({
   movieId: z.number(), // we need this movieid fromt he client
@@ -13,9 +14,8 @@ const bookmarkSchema = z.object({
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
     const session = await getServerSession(authOptions);
-    const { movieId } = bookmarkSchema.parse(body);
+    const { movieId } = bookmarkSchema.parse(await request.json());
 
     if (!session || !session.user?.email) {
       return Response.json({ error: "You must be logged in" }, { status: 401 });
@@ -54,6 +54,9 @@ export async function POST(request: Request) {
     if (error instanceof z.ZodError) {
       return Response.json({ error: "Invalid input" }, { status: 400 });
     }
+
+    const badRequest = badRequestError(error);
+    if (badRequest) return badRequest;
 
     if (isDrizzleUniqueViolation(error)) {
       return Response.json(
@@ -100,9 +103,8 @@ export async function GET() {
 
 export async function DELETE(request: Request) {
   try {
-    const body = await request.json();
     const session = await getServerSession(authOptions);
-    const { movieId } = bookmarkSchema.parse(body);
+    const { movieId } = bookmarkSchema.parse(await request.json());
 
     if (!session || !session.user?.email) {
       return Response.json({ error: "You must be logged in" }, { status: 401 });
@@ -127,6 +129,13 @@ export async function DELETE(request: Request) {
       )
       .run();
   } catch (error) {
+    if (error instanceof z.ZodError) {
+      return Response.json({ error: "Invalid input" }, { status: 400 });
+    }
+
+    const badRequest = badRequestError(error);
+    if (badRequest) return badRequest;
+
     return internalServerErrorResponse(error);
   }
 
