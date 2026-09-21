@@ -5,7 +5,7 @@ const tmdbMovieSchema = z.object({
   id: z.number(),
 });
 
-const movieListSchema = z.object({
+export const movieListSchema = z.object({
   results: z.array(tmdbMovieSchema),
 });
 
@@ -16,7 +16,5 @@ export async function fetchMovieList(url: string) {
     throw new Error(`Request failed with status ${String(response.status)}`);
   }
 
-  const data = movieListSchema.parse(await response.json());
-
-  return data.results.slice(0, 10);
+  return z.array(tmdbMovieSchema).parse(await response.json());
 }

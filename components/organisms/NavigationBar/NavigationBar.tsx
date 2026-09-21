@@ -10,15 +10,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useDebounce } from "../../../hooks/useDebounce";
-import { fetchMovieList } from "../../../utils/fetchMovieList";
 import {
   searchBarLabels,
   desktopNavLabels,
   mobileNavLabels,
 } from "../../../data/labels";
-import { tmdbApiKey } from "@/utils/tmdbApiKey";
-
-const tmdbUrl = "https://api.themoviedb.org/3";
+import { fetchMovieList } from "@/utils/fetchMovieList";
 
 export default function NavigationBar() {
   const searchParams = useSearchParams();
@@ -45,8 +42,7 @@ export default function NavigationBar() {
 
   const trendingQuery = useQuery({
     queryKey: ["trending-results"],
-    queryFn: () =>
-      fetchMovieList(`${tmdbUrl}/trending/movie/day?api_key=${tmdbApiKey}`),
+    queryFn: () => fetchMovieList(`/api/tmdb/trending`),
   });
 
   // Wait for typing to pause before actually searching, so we don't
@@ -57,7 +53,7 @@ export default function NavigationBar() {
     queryKey: ["search-results", debounceQuery],
     queryFn: () =>
       fetchMovieList(
-        `${tmdbUrl}/search/movie?api_key=${tmdbApiKey}&query=${encodeURIComponent(debounceQuery)}&page=1`,
+        `/api/tmdb/search?query=${encodeURIComponent(debounceQuery)}`,
       ),
     // skip the search when input is empty.
     enabled: debounceQuery !== "",
