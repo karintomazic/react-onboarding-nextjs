@@ -1,9 +1,6 @@
 import { z } from "zod";
-import { tmdbApiKey } from "./tmdbApiKey";
 
-const tmbUrl = "https://api.themoviedb.org/3";
-
-const movieSchema = z.object({
+export const movieSchema = z.object({
   id: z.number(),
   overview: z.string(),
   title: z.string(),
@@ -21,22 +18,20 @@ const movieSchema = z.object({
   vote_average: z.number(),
 });
 
-export async function fetchMovieDetails(id: number | string) {
+export async function fetchMovieDetails(
+  id: number | string,
+): Promise<z.infer<typeof movieSchema>> {
   const idNumber = typeof id === "string" ? Number(id) : id;
 
   if (idNumber < 0 || !Number.isInteger(idNumber)) {
     throw new Error("Invalid movie id");
   }
 
-  const response = await fetch(
-    `${tmbUrl}/movie/${String(idNumber)}?api_key=${tmdbApiKey}&append_to_response=credits,release_dates`,
-  );
+  const response = await fetch(`/api/tmdb/movie/${String(idNumber)}`);
 
   if (!response.ok) {
     throw new Error(`Request failed with status ${String(response.status)}`);
   }
 
-  const data = movieSchema.parse(await response.json());
-
-  return data;
+  return response.json() as Promise<z.infer<typeof movieSchema>>;
 }
