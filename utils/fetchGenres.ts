@@ -19,8 +19,7 @@ export async function fetchGenres(): Promise<Genre[]> {
     throw new Error(`Request failed with status ${String(response.status)}`);
   }
 
-  const data = genreResponseSchema.parse(await response.json());
-  return data.genres;
+  return z.array(genreSchema).parse(await response.json());
 }
 
 export async function fetchTmdbGenres(): Promise<Genre[]> {
