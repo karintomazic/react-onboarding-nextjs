@@ -28,8 +28,7 @@ export async function fetchPopularMovies(
   sortBy: string,
   genreId: number[],
 ): Promise<Movie[]> {
-  const genreParam =
-    genreId.length > 0 ? `&genreId=${genreId.join(",")}` : "";
+  const genreParam = genreId.length > 0 ? `&genreId=${genreId.join(",")}` : "";
 
   const response = await fetch(
     `/api/tmdb/popular?sortBy=${sortBy}${genreParam}`,
@@ -39,16 +38,8 @@ export async function fetchPopularMovies(
     throw new Error(`Request failed with status ${String(response.status)}`);
   }
 
-  const data = tmdbResponseSchema.parse(await response.json());
-
-  return popularMoviesSchema.decode(
-    data.results.map((movie) => ({
-      id: movie.id,
-      title: movie.title,
-      url: movie.poster_path ? `${tmbImageUrl}${movie.poster_path}` : "",
-      date: movie.release_date ?? "",
-    })),
-  );
+  const data = popularMoviesSchema.parse(await response.json());
+  return data;
 }
 
 export async function fetchTmdbPopularMovies(
