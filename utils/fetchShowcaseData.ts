@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { tmdbApiKey } from "./tmdbApiKey";
+import { tmdbFetch } from "./tmdbFetch";
 
 const tmdbMovieSchema = z.object({
   id: z.number(),
@@ -12,7 +12,6 @@ const tmdbResponseSchema = z.object({
   results: z.array(tmdbMovieSchema),
 });
 
-const tmbUrl = "https://api.themoviedb.org/3";
 const tmbImageUrl = "https://image.tmdb.org/t/p/w500";
 
 type Movie = { id: number; url: string; title: string; date: string };
@@ -32,8 +31,8 @@ type ShowcaseData = {
   theater: Movie[];
 };
 
-async function fetchAndMapMovies(url: string): Promise<Movie[]> {
-  const response = await fetch(url);
+async function fetchAndMapTmdbMovies(url: string): Promise<Movie[]> {
+  const response = await tmdbFetch(url);
 
   if (!response.ok) {
     throw new Error(`Request failed with status ${String(response.status)}`);
@@ -52,16 +51,24 @@ async function fetchAndMapMovies(url: string): Promise<Movie[]> {
 }
 
 export async function fetchShowcaseData(): Promise<ShowcaseData> {
+  const response = await fetch("/api/tmdb/showcase");
+
+  if (!response.ok) {
+    throw new Error(`Request failed with status ${String(response.status)}`);
+  }
+
+  return response.json() as Promise<ShowcaseData>;
+}
+
+export async function fetchTmdbShowcaseData(): Promise<ShowcaseData> {
   const [streaming, rent, theater] = await Promise.all([
-    fetchAndMapMovies(
-      `${tmbUrl}/discover/movie?api_key=${tmdbApiKey}&watch_region=US&with_watch_monetization_types=flatrate&sort_by=popularity.desc`,
+    fetchAndMapTmdbMovies(
+      `/discover/movie?watch_region=US&with_watch_monetization_types=flatrate&sort_by=popularity.desc`,
     ),
-    fetchAndMapMovies(
-      `${tmbUrl}/discover/movie?api_key=${tmdbApiKey}&watch_region=US&with_watch_monetization_types=rent&sort_by=popularity.desc`,
+    fetchAndMapTmdbMovies(
+      `/discover/movie?watch_region=US&with_watch_monetization_types=rent&sort_by=popularity.desc`,
     ),
-    fetchAndMapMovies(
-      `${tmbUrl}/movie/now_playing?api_key=${tmdbApiKey}&region=US`,
-    ),
+    fetchAndMapTmdbMovies(`/movie/now_playing?region=US`),
   ]);
   return { streaming, rent, theater };
 }
