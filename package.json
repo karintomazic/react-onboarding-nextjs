@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "check": "tsc --noEmit && eslint . && vitest run",
+    "check": "npm run build && tsc --noEmit && npm run format:check && eslint . && vitest run",
     "format:check": "prettier --check \"{app,components,utils,context,data,db,hooks,lib,mock,utils}/**/*.{js,ts,tsx,json,css,scss,md}\"",
     "format:write": "prettier --write \"{app,components,utils,context,data,db,hooks,lib,mock,utils}/**/*.{js,ts,tsx,json,css,scss,md}\"",
     "lint": "eslint",

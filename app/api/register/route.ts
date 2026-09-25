@@ -1,30 +1,29 @@
-// registration Route Handler
-
-import db from "@/db"; // Drizzle connection
-import argon2 from "argon2"; // password-hashing library
-import { z } from "zod"; // validation library
-import { usersTable } from "@/db/schema"; // table definition to insert into
+import db from "@/db";
+import argon2 from "argon2";
+import { z } from "zod";
+import { usersTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { isDrizzleUniqueViolation } from "@/utils/isDrizzleUniqueViolation";
 import { internalServerErrorResponse } from "@/utils/internalServerErrorResponse";
 import { badRequestError } from "@/utils/badRequestError";
-
-// Defines what counts as valid registration input — checked against whatever the client
-// sends, before any hashing or database work happens.
-const registerSchema = z.object({
-  email: z.email(),
-  password: z.string().min(8),
-});
+import { registerSchema } from "@/lib/registerSchema";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export async function POST(request: Request) {
+  const session = await getServerSession(authOptions);
+
+  if (session) {
+    return Response.json({ error: "Forbidden" }, { status: 403 });
+  }
+
   // checks for validation and duplicate email
   try {
     const { email, password } = registerSchema.parse(await request.json());
 
     // hash the password
-    const hashedPassword = await argon2.hash(password); // hashes the password before it goes into the database
+    const hashedPassword = await argon2.hash(password);
 
-    // here check for error here first before inserting
     const existingUser = db
       .select()
       .from(usersTable)
@@ -33,7 +32,7 @@ export async function POST(request: Request) {
 
     if (existingUser) {
       return Response.json(
-        { error: "Email already registered" },
+        { fieldErrors: { email: ["Email already registered"] } },
         { status: 409 },
       );
     }
@@ -41,9 +40,9 @@ export async function POST(request: Request) {
     // insert new row into the database - run triggers it
     db.insert(usersTable).values({ email, password: hashedPassword }).run();
   } catch (error) {
-    // the input itself was invalid
     if (error instanceof z.ZodError) {
-      return Response.json({ error: "Invalid input" }, { status: 400 });
+      const { fieldErrors, formErrors } = z.flattenError(error);
+      return Response.json({ fieldErrors, formErrors }, { status: 400 });
     }
 
     const badRequest = badRequestError(error);
@@ -53,7 +52,7 @@ export async function POST(request: Request) {
     // keeping it for guarding agains race condition - two users register with the same email at the same time
     if (isDrizzleUniqueViolation(error)) {
       return Response.json(
-        { error: "Email already registered" },
+        { fieldErrors: { email: ["Email already registered"] } },
         { status: 409 },
       );
     }
@@ -61,6 +60,5 @@ export async function POST(request: Request) {
     return internalServerErrorResponse(error);
   }
 
-  //return success
   return Response.json({ success: true }, { status: 201 }); // 201 = "Created" -  status specifically for successfully creating a new resource
 }

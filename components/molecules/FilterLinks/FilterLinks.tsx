@@ -1,5 +1,3 @@
-"use client";
-
 import SearchFilterLink from "@/components/atoms/SearchFilterLink/SearchFilterLink";
 import { searchFilters } from "@/data/filterList";
 

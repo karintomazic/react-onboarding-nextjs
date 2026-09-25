@@ -8,7 +8,8 @@ const meta = {
   args: {
     handleSubmit: fn(),
     isSubmitting: false,
-    error: "",
+    allErrors: null,
+    clearFieldError: fn(),
   },
 } satisfies Meta<typeof LoginFormComponent>;
 
@@ -19,7 +20,10 @@ export const LoginForm: Story = {};
 
 export const LoginFormErrorMessage: Story = {
   args: {
-    error: "Something went wrong, please try again",
+    allErrors: {
+      fieldErrors: {},
+      formErrors: ["Something went wrong, please try again"],
+    },
   },
 };
 

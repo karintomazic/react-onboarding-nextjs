@@ -3,6 +3,7 @@ import { fetchBookmarks } from "@/utils/fetchBookmarks";
 import { useQueryClient } from "@tanstack/react-query";
 import { useBanner } from "@/hooks/useBanner";
 import { useQuery } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 
 type useToggleBookmarkProps = {
   movieId: number;
@@ -10,10 +11,13 @@ type useToggleBookmarkProps = {
 
 export function useToggleBookmark({ movieId }: useToggleBookmarkProps) {
   const { showBanner } = useBanner();
+  const session = useSession();
+  const isLoggedIn = session.status === "authenticated";
 
   const { data: bookmarksData } = useQuery({
     queryKey: ["bookmarks-page"],
     queryFn: fetchBookmarks,
+    enabled: isLoggedIn,
   });
 
   const queryClient = useQueryClient();

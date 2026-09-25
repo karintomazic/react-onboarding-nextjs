@@ -8,7 +8,8 @@ const meta = {
   args: {
     handleSubmit: fn(),
     isSubmitting: false,
-    error: "",
+    allErrors: null,
+    clearFieldError: fn(),
   },
 } satisfies Meta<typeof RegistrationFormComponent>;
 
@@ -19,12 +20,26 @@ export const RegistrationForm: Story = {};
 
 export const RegistrationFormErrorMessage: Story = {
   args: {
-    error: "Something went wrong, please try again",
+    allErrors: {
+      fieldErrors: {
+        email: ["Invalid email address"],
+        password: ["Too small: expected string to have >=8 characters"],
+      },
+      formErrors: [],
+    },
   },
 };
-
 export const RegistrationFormIsSubmitting: Story = {
   args: {
     isSubmitting: true,
+  },
+};
+
+export const RegistrationFormFormError: Story = {
+  args: {
+    allErrors: {
+      fieldErrors: {},
+      formErrors: ["Email already registered"],
+    },
   },
 };

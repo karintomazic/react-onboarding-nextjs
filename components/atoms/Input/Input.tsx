@@ -1,9 +1,10 @@
 import styles from "./Input.module.scss";
-import type { ChangeEvent, Ref } from "react";
+import type { ChangeEvent, FocusEvent, Ref } from "react";
 
 export type InputProps = {
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
   onClick?: () => void;
   placeholder?: string;
   ariaLabel?: string;
@@ -15,6 +16,7 @@ export default function Input({
   value,
   onChange,
   onClick,
+  onBlur,
   placeholder,
   ariaLabel,
   type = "text",
@@ -26,6 +28,7 @@ export default function Input({
       value={value}
       onChange={onChange}
       onClick={onClick}
+      onBlur={onBlur}
       placeholder={placeholder}
       aria-label={ariaLabel}
       className={styles.input}
