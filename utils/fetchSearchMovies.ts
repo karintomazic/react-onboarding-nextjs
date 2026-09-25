@@ -1,7 +1,5 @@
 import { z } from "zod";
-import { tmdbApiKey } from "./tmdbApiKey";
-
-const tmbUrl = "https://api.themoviedb.org/3";
+import { tmdbFetch } from "./tmdbFetch";
 const tmbImageUrl = "https://image.tmdb.org/t/p/w500";
 
 type Movie = {
@@ -92,7 +90,23 @@ export async function fetchSearchMovies(
   query: string,
 ): Promise<SearchResult> {
   const response = await fetch(
-    `${tmbUrl}/search/${filter}?api_key=${tmdbApiKey}&query=${query}&page=${String(page)}`,
+    `/api/tmdb/movie-search?filter=${filter}&query=${query}&page=${String(page)}`,
+  );
+
+  if (!response.ok) {
+    throw new Error(`Request failed with status ${String(response.status)}`);
+  }
+  
+  return response.json() as Promise<SearchResult>;
+}
+
+export async function fetchTmdbSearchMovies(
+  page: number,
+  filter: string,
+  query: string,
+): Promise<SearchResult> {
+  const response = await tmdbFetch(
+    `/search/${filter}?query=${query}&page=${String(page)}`,
   );
 
   if (!response.ok) {
