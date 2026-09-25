@@ -6,16 +6,6 @@ export async function GET(request: Request) {
   const query = searchParams.get("query") ?? "";
   const pageNumber = searchParams.get("page") ?? "";
 
-
-
-  console.log(filter);
-  console.log(query);
-  console.log(pageNumber);
-
-  //   page: number,
-  // filter: string,
-  // query: string,
-
   try {
     const data = await fetchTmdbSearchMovies(Number(pageNumber), filter, query);
     return Response.json(data);

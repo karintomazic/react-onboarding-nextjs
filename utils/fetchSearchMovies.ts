@@ -96,7 +96,7 @@ export async function fetchSearchMovies(
   if (!response.ok) {
     throw new Error(`Request failed with status ${String(response.status)}`);
   }
-  
+
   return response.json() as Promise<SearchResult>;
 }
 
