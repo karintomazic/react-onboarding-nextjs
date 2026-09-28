@@ -8,6 +8,7 @@ import Spinner from "@/components/atoms/Spinner/Spinner";
 import PersonCard from "@/components/atoms/PersonCard/PersonCard";
 import { fetchSearchMoviesFromApi } from "@/utils/fetchSearchMovies";
 import { searchResultsLabels } from "@/data/labels";
+import { useSearchParams } from "next/navigation";
 
 type SearchResultsContentParams = {
   query: string;
@@ -20,6 +21,15 @@ export function SearchResultsContent({
   page,
   filter,
 }: SearchResultsContentParams) {
+  // const [searchParams] = useSearchParams(); - different shape, we dont get a setter here
+  const searchParams = useSearchParams();
+
+  function pageHref(targetPage: number) {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", targetPage.toString());
+    return `?${params.toString()}`;
+  }
+
   const { data, isLoading, error } = useQuery({
     queryKey: ["search-movies", page, filter, query],
     queryFn: () => fetchSearchMoviesFromApi(page, filter, query),
@@ -75,7 +85,11 @@ export function SearchResultsContent({
   return (
     <>
       {contentData}
-      <Pagination page={page} totalPages={data.totalPages} />
+      <Pagination
+        page={page}
+        totalPages={data.totalPages}
+        pageHref={pageHref}
+      />
     </>
   );
 }
