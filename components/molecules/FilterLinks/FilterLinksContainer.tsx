@@ -19,11 +19,15 @@ export default function FilterLinksContainer() {
 
   const totalCount = filterQuery.data;
 
+  function getFilterHref(linkName: string) {
+    return `/${linkName}?${searchParams.toString()}`;
+  }
+
   return (
     <FilterLinks
       totalCount={totalCount}
-      searchParams={searchParams.toString()}
       filter={activeFilter}
+      getFilterHref={getFilterHref}
     />
   );
 }
