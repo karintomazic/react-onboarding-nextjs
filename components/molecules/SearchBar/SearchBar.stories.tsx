@@ -15,6 +15,7 @@ const meta = {
     isOpen: true,
     setIsOpen: fn(),
     loopRef: { current: null },
+    onSelectMovie: fn(),
   },
   play: async ({ canvas, userEvent }) => {
     const dropdownBtn = canvas.getByRole("searchbox", {
