@@ -57,6 +57,7 @@ export const FirstPage: Story = {
   args: {
     page: 1,
     totalPages: 10,
+    pageHref: (targetPage) => `?page=${String(targetPage)}`,
   },
 };
 
@@ -64,5 +65,6 @@ export const LastPage: Story = {
   args: {
     page: 10,
     totalPages: 10,
+    pageHref: (targetPage) => `?page=${String(targetPage)}`,
   },
 };
