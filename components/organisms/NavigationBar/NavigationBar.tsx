@@ -68,11 +68,21 @@ export default function NavigationBar() {
 
   const router = useRouter();
 
+  function navigateToSearch(searchQuery: string) {
+    const url = new URL("/search/movie", window.location.origin);
+    url.searchParams.set("query", searchQuery);
+    router.push(`${url.pathname}${url.search}`);
+  }
+
   // Navigates to the search page with the current query in the URL.
   function handleSearchSubmit() {
-    const url = new URL("/search/movie", window.location.origin);
-    url.searchParams.set("query", query);
-    router.push(`${url.pathname}${url.search}`);
+    navigateToSearch(query);
+  }
+
+  function handleTitleSearch(title: string) {
+    navigateToSearch(title);
+    setIsOpen(false);
+    setQuery(title);
   }
 
   const handleLoopClick = () => {
@@ -103,6 +113,7 @@ export default function NavigationBar() {
         setIsOpen={setIsOpen}
         setIsInFocus={setIsInFocus}
         loopRef={loopRef}
+        onSelectMovie={handleTitleSearch}
         // True while we're still waiting on a result — either the
         // debounce hasn't caught up yet, or the fetch is in flight.
         isSearching={searchQuery.isFetching || query !== debounceQuery}
