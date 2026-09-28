@@ -5,10 +5,9 @@ const meta = {
   title: "Component/atoms/SearchFilterLink",
   component: SearchFilterLinkComponent,
   args: {
-    linkName: "/popular",
     linkLabel: "Popular",
     count: 1,
-    searchParams: "",
+    href: "/movie?query=batman",
   },
 } satisfies Meta<typeof SearchFilterLinkComponent>;
 

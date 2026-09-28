@@ -15,24 +15,21 @@ export const SearchFilterPanel: Story = {
     children: (
       <>
         <SearchFilterLink
-          linkName="movie"
           linkLabel="Movies"
           count={12}
-          searchParams=""
+          href="/movie?query=batman"
           isActive={false}
         />
         <SearchFilterLink
-          linkName="tv"
           linkLabel="TV Shows"
           count={8}
-          searchParams=""
+          href="/tv?query=batman"
           isActive={true}
         />
         <SearchFilterLink
-          linkName="person"
           linkLabel="People"
           count={3}
-          searchParams=""
+          href="/person?query=batman"
           isActive={false}
         />
       </>
