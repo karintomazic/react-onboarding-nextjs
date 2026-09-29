@@ -2,14 +2,6 @@ import { z } from "zod";
 import { tmdbFetch } from "./tmdbFetch";
 const tmbImageUrl = "https://image.tmdb.org/t/p/w500";
 
-// type Movie = {
-//   id: number;
-//   url: string;
-//   title: string;
-//   date: string;
-//   description: string;
-// };
-
 const searchMoviesSchema = z.array(
   z.object({
     id: z.number(),
@@ -19,14 +11,6 @@ const searchMoviesSchema = z.array(
     description: z.string(),
   }),
 );
-
-// type Person = {
-//   id: number;
-//   name: string;
-//   department: string;
-//   profileImg: string;
-//   known_for: string[];
-// };
 
 const searchPersonSchema = z.array(
   z.object({
@@ -38,19 +22,12 @@ const searchPersonSchema = z.array(
   }),
 );
 
-// type SimpleItem = { id: number; name: string };
-
 const searchSimpleItemSchema = z.array(
   z.object({
     id: z.number(),
     name: z.string(),
   }),
 );
-
-// type SearchResult =
-//   | { kind: "media"; movies: Movie[]; totalPages: number }
-//   | { kind: "person"; people: Person[]; totalPages: number }
-//   | { kind: "simple"; items: SimpleItem[]; totalPages: number };
 
 const searchResultsSchema = z.discriminatedUnion("kind", [
   z.object({
