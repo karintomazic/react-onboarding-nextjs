@@ -14,22 +14,23 @@ const tmdbResponseSchema = z.object({
 
 const tmbImageUrl = "https://image.tmdb.org/t/p/w500";
 
-type Movie = { id: number; url: string; title: string; date: string };
+const showcaseMovieSchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  url: z.string(),
+  date: z.string(),
+});
 
-const showcaseMoviesSchema = z.array(
-  z.object({
-    id: z.number(),
-    title: z.string(),
-    url: z.string(),
-    date: z.string(),
-  }),
-);
+const showcaseMoviesSchema = z.array(showcaseMovieSchema);
 
-type ShowcaseData = {
-  streaming: Movie[];
-  rent: Movie[];
-  theater: Movie[];
-};
+const showcaseDataSchema = z.object({
+  streaming: showcaseMoviesSchema,
+  rent: showcaseMoviesSchema,
+  theater: showcaseMoviesSchema,
+});
+
+type Movie = z.infer<typeof showcaseMovieSchema>;
+type ShowcaseData = z.infer<typeof showcaseDataSchema>;
 
 async function fetchAndMapTmdbMovies(url: string): Promise<Movie[]> {
   const response = await tmdbFetch(url);
@@ -57,7 +58,8 @@ export async function fetchShowcaseData(): Promise<ShowcaseData> {
     throw new Error(`Request failed with status ${String(response.status)}`);
   }
 
-  return response.json() as Promise<ShowcaseData>;
+  const data = showcaseDataSchema.parse(await response.json());
+  return data;
 }
 
 export async function fetchTmdbShowcaseData(): Promise<ShowcaseData> {
