@@ -1,4 +1,5 @@
 import { fetchTmdbPopularMovies } from "@/utils/fetchPopularMovies";
+import { tmdbRouteHandler } from "@/utils/tmdbRouteHandler";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -6,10 +7,5 @@ export async function GET(request: Request) {
   const genreId =
     searchParams.get("genreId")?.split(",").filter(Boolean).map(Number) ?? [];
 
-  try {
-    const data = await fetchTmdbPopularMovies(sortby, genreId);
-    return Response.json(data);
-  } catch {
-    return Response.json({ error: "Request failed" }, { status: 502 });
-  }
+  return tmdbRouteHandler(() => fetchTmdbPopularMovies(sortby, genreId));
 }

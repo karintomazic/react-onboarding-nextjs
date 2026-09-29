@@ -1,4 +1,5 @@
 import { fetchTmdbSearchMovies } from "@/utils/fetchSearchMovies";
+import { tmdbRouteHandler } from "@/utils/tmdbRouteHandler";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -6,10 +7,5 @@ export async function GET(request: Request) {
   const query = searchParams.get("query") ?? "";
   const pageNumber = searchParams.get("page") ?? "";
 
-  try {
-    const data = await fetchTmdbSearchMovies(Number(pageNumber), filter, query);
-    return Response.json(data);
-  } catch {
-    return Response.json({ error: "Request failed" }, { status: 502 });
-  }
+  return tmdbRouteHandler(() => fetchTmdbSearchMovies(Number(pageNumber), filter, query))
 }

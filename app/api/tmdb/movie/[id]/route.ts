@@ -1,4 +1,5 @@
 import { fetchTmdbMovieDetails } from "@/utils/fetchMovieDetails";
+import { tmdbRouteHandler } from "@/utils/tmdbRouteHandler";
 
 export async function GET(
   request: Request,
@@ -11,10 +12,5 @@ export async function GET(
     return Response.json({ error: "Invalid movie id" }, { status: 400 });
   }
 
-  try {
-    const data = await fetchTmdbMovieDetails(idNumber);
-    return Response.json(data);
-  } catch {
-    return Response.json({ error: "Request failed" }, { status: 502 });
-  }
+  return tmdbRouteHandler(() => fetchTmdbMovieDetails(idNumber))
 }
