@@ -16,7 +16,7 @@ export async function fetchGenres(): Promise<Genre[]> {
   const response = await fetch(`/api/tmdb/genres`);
 
   if (!response.ok) {
-    throw new Error(`Request failed with status ${String(response.status)}`);
+    throw new Error(`Request failed with status ${response.status}`);
   }
 
   return z.array(genreSchema).parse(await response.json());
@@ -26,7 +26,7 @@ export async function fetchTmdbGenres(): Promise<Genre[]> {
   const response = await tmdbFetch(`/genre/movie/list`);
 
   if (!response.ok) {
-    throw new Error(`Request failed with status ${String(response.status)}`);
+    throw new Error(`Request failed with status ${response.status}`);
   }
 
   const data = genreResponseSchema.parse(await response.json());

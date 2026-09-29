@@ -28,10 +28,10 @@ export async function fetchMovieDetails(
     throw new Error("Invalid movie id");
   }
 
-  const response = await fetch(`/api/tmdb/movie/${String(idNumber)}`);
+  const response = await fetch(`/api/tmdb/movie/${idNumber}`);
 
   if (!response.ok) {
-    throw new Error(`Request failed with status ${String(response.status)}`);
+    throw new Error(`Request failed with status ${response.status}`);
   }
 
   const data = movieSchema.parse(await response.json());
@@ -42,11 +42,11 @@ export async function fetchTmdbMovieDetails(
   id: number | string,
 ): Promise<z.infer<typeof movieSchema>> {
   const response = await tmdbFetch(
-    `/movie/${String(id)}?append_to_response=credits,release_dates`,
+    `/movie/${id}?append_to_response=credits,release_dates`,
   );
 
   if (!response.ok) {
-    throw new Error(`Request failed with status ${String(response.status)}`);
+    throw new Error(`Request failed with status ${response.status}`);
   }
 
   return movieSchema.parse(await response.json());

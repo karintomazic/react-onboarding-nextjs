@@ -35,7 +35,7 @@ export async function fetchPopularMovies(
   );
 
   if (!response.ok) {
-    throw new Error(`Request failed with status ${String(response.status)}`);
+    throw new Error(`Request failed with status ${response.status}`);
   }
 
   const data = popularMoviesSchema.parse(await response.json());
@@ -54,7 +54,7 @@ export async function fetchTmdbPopularMovies(
   );
 
   if (!response.ok) {
-    throw new Error(`Request failed with status ${String(response.status)}`);
+    throw new Error(`Request failed with status ${response.status}`);
   }
 
   const data = tmdbResponseSchema.parse(await response.json());

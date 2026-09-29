@@ -87,11 +87,11 @@ export async function fetchSearchMovies(
   query: string,
 ): Promise<SearchResult> {
   const response = await fetch(
-    `/api/tmdb/movie-search?filter=${filter}&query=${query}&page=${String(page)}`,
+    `/api/tmdb/movie-search?filter=${filter}&query=${query}&page=${page}`,
   );
 
   if (!response.ok) {
-    throw new Error(`Request failed with status ${String(response.status)}`);
+    throw new Error(`Request failed with status ${response.status}`);
   }
 
   const data = searchResultsSchema.parse(await response.json());
@@ -105,11 +105,11 @@ export async function fetchTmdbSearchMovies(
   query: string,
 ): Promise<SearchResult> {
   const response = await tmdbFetch(
-    `/search/${filter}?query=${query}&page=${String(page)}`,
+    `/search/${filter}?query=${query}&page=${page}`,
   );
 
   if (!response.ok) {
-    throw new Error(`Request failed with status ${String(response.status)}`);
+    throw new Error(`Request failed with status ${response.status}`);
   }
 
   let searchResult: SearchResult;

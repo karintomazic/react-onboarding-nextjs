@@ -20,7 +20,7 @@ export async function fetchAllCounts(query: string) {
   );
 
   if (!response.ok) {
-    throw new Error(`Request failed with status ${String(response.status)}`);
+    throw new Error(`Request failed with status ${response.status}`);
   }
 
   const data = countsDataSchema.parse(await response.json());

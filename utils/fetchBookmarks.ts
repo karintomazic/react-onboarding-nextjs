@@ -14,7 +14,7 @@ export async function fetchBookmarks(): Promise<Bookmarks[]> {
   const response = await fetch("/api/bookmarks");
 
   if (!response.ok) {
-    throw new Error(`Request failed with status ${String(response.status)}`);
+    throw new Error(`Request failed with status ${response.status}`);
   }
 
   const data = bookmarkResponseSchema.parse(await response.json());

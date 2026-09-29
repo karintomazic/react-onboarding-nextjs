@@ -36,7 +36,7 @@ async function fetchAndMapTmdbMovies(url: string): Promise<Movie[]> {
   const response = await tmdbFetch(url);
 
   if (!response.ok) {
-    throw new Error(`Request failed with status ${String(response.status)}`);
+    throw new Error(`Request failed with status ${response.status}`);
   }
 
   const data = tmdbResponseSchema.parse(await response.json());
@@ -55,7 +55,7 @@ export async function fetchShowcaseData(): Promise<ShowcaseData> {
   const response = await fetch("/api/tmdb/showcase");
 
   if (!response.ok) {
-    throw new Error(`Request failed with status ${String(response.status)}`);
+    throw new Error(`Request failed with status ${response.status}`);
   }
 
   const data = showcaseDataSchema.parse(await response.json());

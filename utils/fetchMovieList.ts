@@ -13,7 +13,7 @@ export async function fetchMovieList(url: string) {
   const response = await fetch(url);
 
   if (!response.ok) {
-    throw new Error(`Request failed with status ${String(response.status)}`);
+    throw new Error(`Request failed with status ${response.status}`);
   }
 
   return z.array(tmdbMovieSchema).parse(await response.json());
