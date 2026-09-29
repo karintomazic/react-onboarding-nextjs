@@ -34,7 +34,8 @@ export async function fetchMovieDetails(
     throw new Error(`Request failed with status ${String(response.status)}`);
   }
 
-  return response.json() as Promise<z.infer<typeof movieSchema>>;
+  const data = movieSchema.parse(await response.json());
+  return data;
 }
 
 export async function fetchTmdbMovieDetails(

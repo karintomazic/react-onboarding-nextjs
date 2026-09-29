@@ -2,13 +2,13 @@ import { z } from "zod";
 import { tmdbFetch } from "./tmdbFetch";
 const tmbImageUrl = "https://image.tmdb.org/t/p/w500";
 
-type Movie = {
-  id: number;
-  url: string;
-  title: string;
-  date: string;
-  description: string;
-};
+// type Movie = {
+//   id: number;
+//   url: string;
+//   title: string;
+//   date: string;
+//   description: string;
+// };
 
 const searchMoviesSchema = z.array(
   z.object({
@@ -20,13 +20,13 @@ const searchMoviesSchema = z.array(
   }),
 );
 
-type Person = {
-  id: number;
-  name: string;
-  department: string;
-  profileImg: string;
-  known_for: string[];
-};
+// type Person = {
+//   id: number;
+//   name: string;
+//   department: string;
+//   profileImg: string;
+//   known_for: string[];
+// };
 
 const searchPersonSchema = z.array(
   z.object({
@@ -38,7 +38,7 @@ const searchPersonSchema = z.array(
   }),
 );
 
-type SimpleItem = { id: number; name: string };
+// type SimpleItem = { id: number; name: string };
 
 const searchSimpleItemSchema = z.array(
   z.object({
@@ -47,10 +47,30 @@ const searchSimpleItemSchema = z.array(
   }),
 );
 
-type SearchResult =
-  | { kind: "media"; movies: Movie[]; totalPages: number }
-  | { kind: "person"; people: Person[]; totalPages: number }
-  | { kind: "simple"; items: SimpleItem[]; totalPages: number };
+// type SearchResult =
+//   | { kind: "media"; movies: Movie[]; totalPages: number }
+//   | { kind: "person"; people: Person[]; totalPages: number }
+//   | { kind: "simple"; items: SimpleItem[]; totalPages: number };
+
+const searchResultsSchema = z.discriminatedUnion("kind", [
+  z.object({
+    kind: z.literal("media"),
+    movies: searchMoviesSchema,
+    totalPages: z.number(),
+  }),
+  z.object({
+    kind: z.literal("person"),
+    people: searchPersonSchema,
+    totalPages: z.number(),
+  }),
+  z.object({
+    kind: z.literal("simple"),
+    items: searchSimpleItemSchema,
+    totalPages: z.number(),
+  }),
+]);
+
+type SearchResult = z.infer<typeof searchResultsSchema>;
 
 const mediaItemSchema = z.object({
   id: z.number(),
@@ -97,7 +117,9 @@ export async function fetchSearchMovies(
     throw new Error(`Request failed with status ${String(response.status)}`);
   }
 
-  return response.json() as Promise<SearchResult>;
+  const data = searchResultsSchema.parse(await response.json());
+  return data;
+  // return response.json() as Promise<SearchResult>;
 }
 
 export async function fetchTmdbSearchMovies(
