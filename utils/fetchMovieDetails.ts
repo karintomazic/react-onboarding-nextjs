@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { tmdbFetch } from "./tmdbFetch";
+import { apiUrl } from "./apiUrl";
 
 export const movieSchema = z.object({
   id: z.number(),
@@ -28,7 +29,7 @@ export async function fetchMovieDetails(
     throw new Error("Invalid movie id");
   }
 
-  const response = await fetch(`/api/tmdb/movie/${idNumber}`);
+  const response = await fetch(apiUrl(`movie/${idNumber}`));
 
   if (!response.ok) {
     throw new Error(`Request failed with status ${response.status}`);

@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { tmdbFetch } from "./tmdbFetch";
+import { apiUrl } from "./apiUrl";
 
 const tmdbMovieSchema = z.object({
   id: z.number(),
@@ -52,7 +53,7 @@ async function fetchAndMapTmdbMovies(url: string): Promise<Movie[]> {
 }
 
 export async function fetchShowcaseData(): Promise<ShowcaseData> {
-  const response = await fetch("/api/tmdb/showcase");
+  const response = await fetch(apiUrl(`showcase`));
 
   if (!response.ok) {
     throw new Error(`Request failed with status ${response.status}`);

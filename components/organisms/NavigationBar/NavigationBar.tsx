@@ -16,6 +16,7 @@ import {
   mobileNavLabels,
 } from "../../../data/labels";
 import { fetchMovieList } from "@/utils/fetchMovieList";
+import { apiUrl } from "@/utils/apiUrl";
 
 export default function NavigationBar() {
   const searchParams = useSearchParams();
@@ -42,7 +43,7 @@ export default function NavigationBar() {
 
   const trendingQuery = useQuery({
     queryKey: ["trending-results"],
-    queryFn: () => fetchMovieList(`/api/tmdb/trending`),
+    queryFn: () => fetchMovieList(apiUrl(`trending`)),
   });
 
   // Wait for typing to pause before actually searching, so we don't
@@ -53,7 +54,7 @@ export default function NavigationBar() {
     queryKey: ["search-results", debounceQuery],
     queryFn: () =>
       fetchMovieList(
-        `/api/tmdb/search?query=${encodeURIComponent(debounceQuery)}`,
+        apiUrl(`search?query=${encodeURIComponent(debounceQuery)}`),
       ),
     // skip the search when input is empty.
     enabled: debounceQuery !== "",

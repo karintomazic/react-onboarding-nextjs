@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { tmdbFetch } from "./tmdbFetch";
+import { apiUrl } from "./apiUrl";
 
 type Genre = { id: number; name: string };
 
@@ -13,7 +14,7 @@ const genreResponseSchema = z.object({
 });
 
 export async function fetchGenres(): Promise<Genre[]> {
-  const response = await fetch(`/api/tmdb/genres`);
+  const response = await fetch(apiUrl(`genres`));
 
   if (!response.ok) {
     throw new Error(`Request failed with status ${response.status}`);

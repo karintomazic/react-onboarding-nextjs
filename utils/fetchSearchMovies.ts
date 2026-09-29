@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { tmdbFetch } from "./tmdbFetch";
+import { apiUrl } from "./apiUrl";
 const tmbImageUrl = "https://image.tmdb.org/t/p/w500";
 
 const searchMoviesSchema = z.array(
@@ -87,7 +88,7 @@ export async function fetchSearchMovies(
   query: string,
 ): Promise<SearchResult> {
   const response = await fetch(
-    `/api/tmdb/movie-search?filter=${filter}&query=${query}&page=${page}`,
+    apiUrl(`movie-search?filter=${filter}&query=${query}&page=${page}`),
   );
 
   if (!response.ok) {

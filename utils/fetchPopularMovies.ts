@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { tmdbFetch } from "./tmdbFetch";
+import { apiUrl } from "./apiUrl";
 const tmbImageUrl = "https://image.tmdb.org/t/p/w500";
 
 type Movie = { id: number; url: string; title: string; date: string };
@@ -30,9 +31,7 @@ export async function fetchPopularMovies(
 ): Promise<Movie[]> {
   const genreParam = genreId.length > 0 ? `&genreId=${genreId.join(",")}` : "";
 
-  const response = await fetch(
-    `/api/tmdb/popular?sortBy=${sortBy}${genreParam}`,
-  );
+  const response = await fetch(apiUrl(`popular?sortBy=${sortBy}${genreParam}`));
 
   if (!response.ok) {
     throw new Error(`Request failed with status ${response.status}`);
