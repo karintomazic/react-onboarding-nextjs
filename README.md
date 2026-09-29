@@ -28,7 +28,7 @@ npm install
 2. Create `.env` file with:
 
 ```bash
-NEXT_PUBLIC_TMDB_API_KEY=your_tmdb_api_key
+TMDB_ACCESS_TOKEN=your_tmdb_access_token
 DB_FILE_NAME=local.db
 NEXTAUTH_SECRET=your_generated_secret
 ```

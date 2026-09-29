@@ -12,5 +12,5 @@ export async function GET(
     return Response.json({ error: "Invalid movie id" }, { status: 400 });
   }
 
-  return tmdbRouteHandler(() => fetchTmdbMovieDetails(idNumber))
+  return tmdbRouteHandler(() => fetchTmdbMovieDetails(idNumber));
 }

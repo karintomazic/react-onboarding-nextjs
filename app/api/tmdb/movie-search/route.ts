@@ -7,5 +7,7 @@ export async function GET(request: Request) {
   const query = searchParams.get("query") ?? "";
   const pageNumber = searchParams.get("page") ?? "";
 
-  return tmdbRouteHandler(() => fetchTmdbSearchMovies(Number(pageNumber), filter, query))
+  return tmdbRouteHandler(() =>
+    fetchTmdbSearchMovies(Number(pageNumber), filter, query),
+  );
 }
