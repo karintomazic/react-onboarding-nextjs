@@ -12,7 +12,6 @@ export async function GET(request: Request) {
     );
 
     const data = movieListSchema.parse(await response.json());
-
-    return data.results.slice(0, 10);
+    return data.results;
   });
 }

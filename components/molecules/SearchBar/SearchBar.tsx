@@ -82,7 +82,10 @@ export default function SearchBar({
     onQueryChange(e.target.value);
   };
 
-  const currentList = query === "" ? topTenMovies : searchResults;
+  const currentList = (query === "" ? topTenMovies : searchResults).slice(
+    0,
+    10,
+  );
 
   const handleKeyDown = (e: KeyboardEvent) => {
     if (e.key === "Escape") {
@@ -156,7 +159,7 @@ export default function SearchBar({
             </div>
           ) : (
             <SearchResults
-              movieList={query === "" ? topTenMovies : searchResults}
+              movieList={currentList}
               handleSearch={handleSearchTitle}
               highlightedIndex={highlightedIndex}
             />
