@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { tmdbFetch } from "./tmdbFetch";
 import { apiFetch } from "./apiFetch";
 import { apiUrl } from "./apiUrl";
+import { tmdbFetch } from "./tmdbFetch";
 const tmbImageUrl = "https://image.tmdb.org/t/p/w500";
 
 type Movie = { id: number; url: string; title: string; date: string };
@@ -45,15 +45,10 @@ export async function fetchTmdbPopularMovies(
   const genreParam =
     genreId.length > 0 ? `&with_genres=${genreId.join(",")}` : "";
 
-  const response = await tmdbFetch(
+  const data = await tmdbFetch(
     `/discover/movie?sort_by=${sortBy}${genreParam}`,
+    tmdbResponseSchema,
   );
-
-  if (!response.ok) {
-    throw new Error(`Request failed with status ${response.status}`);
-  }
-
-  const data = tmdbResponseSchema.parse(await response.json());
 
   return popularMoviesSchema.decode(
     data.results.map((movie) => ({

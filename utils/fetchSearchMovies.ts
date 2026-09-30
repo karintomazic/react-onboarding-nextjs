@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { tmdbFetch } from "./tmdbFetch";
 import { apiFetch } from "./apiFetch";
 import { apiUrl } from "./apiUrl";
+import { tmdbFetch } from "./tmdbFetch";
 const tmbImageUrl = "https://image.tmdb.org/t/p/w500";
 
 const searchMoviesSchema = z.array(
@@ -99,20 +99,16 @@ export async function fetchTmdbSearchMovies(
   filter: string,
   query: string,
 ): Promise<SearchResult> {
-  const response = await tmdbFetch(
-    `/search/${filter}?query=${query}&page=${page}`,
-  );
-
-  if (!response.ok) {
-    throw new Error(`Request failed with status ${response.status}`);
-  }
-
   let searchResult: SearchResult;
 
+  const pathString = `/search/${filter}?query=${query}&page=${page}`;
+
   if (filter === "person") {
-    const data = responseEnvelope(personItemSchema).parse(
-      await response.json(),
+    const data = await tmdbFetch(
+      pathString,
+      responseEnvelope(personItemSchema),
     );
+
     searchResult = {
       kind: "person",
       people: searchPersonSchema.decode(
@@ -127,9 +123,11 @@ export async function fetchTmdbSearchMovies(
       totalPages: data.total_pages,
     };
   } else if (filter === "keyword" || filter === "company") {
-    const data = responseEnvelope(simpleItemSchema).parse(
-      await response.json(),
+    const data = await tmdbFetch(
+      pathString,
+      responseEnvelope(simpleItemSchema),
     );
+
     searchResult = {
       kind: "simple",
       items: searchSimpleItemSchema.decode(
@@ -138,7 +136,8 @@ export async function fetchTmdbSearchMovies(
       totalPages: data.total_pages,
     };
   } else {
-    const data = responseEnvelope(mediaItemSchema).parse(await response.json());
+    const data = await tmdbFetch(pathString, responseEnvelope(mediaItemSchema));
+
     searchResult = {
       kind: "media",
       movies: searchMoviesSchema.decode(

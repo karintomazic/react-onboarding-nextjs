@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { tmdbFetch } from "./tmdbFetch";
 import { apiFetch } from "./apiFetch";
 import { apiUrl } from "./apiUrl";
+import { tmdbFetch } from "./tmdbFetch";
 
 export const movieSchema = z.object({
   id: z.number(),
@@ -36,13 +36,8 @@ export async function fetchMovieDetails(
 export async function fetchTmdbMovieDetails(
   id: number | string,
 ): Promise<z.infer<typeof movieSchema>> {
-  const response = await tmdbFetch(
+  return tmdbFetch(
     `/movie/${id}?append_to_response=credits,release_dates`,
+    movieSchema,
   );
-
-  if (!response.ok) {
-    throw new Error(`Request failed with status ${response.status}`);
-  }
-
-  return movieSchema.parse(await response.json());
 }

@@ -1,8 +1,8 @@
 import { searchFilters } from "@/data/filterList";
-import { tmdbFetch } from "./tmdbFetch";
 import { z } from "zod";
 import { apiFetch } from "./apiFetch";
 import { apiUrl } from "./apiUrl";
+import { tmdbFetch } from "./tmdbFetch";
 
 const countsDataSchema = z.array(
   z.object({
@@ -23,14 +23,16 @@ export async function fetchAllCounts(query: string) {
   );
 }
 
-// server version calling tmdbFetch
+// server version
 export async function fetchTmdbAllCounts(query: string) {
   const results = await Promise.all(
-    searchFilters.map(({ linkName }) =>
-      tmdbFetch(`/search/${linkName}?query=${query}&page=1`)
-        .then(async (r) => tmdbCountResponseSchema.parse(await r.json()))
-        .then((data) => ({ filter: linkName, count: data.total_results })),
-    ),
+    searchFilters.map(async ({ linkName }) => {
+      const data = await tmdbFetch(
+        `/search/${linkName}?query=${query}&page=1`,
+        tmdbCountResponseSchema,
+      );
+      return { filter: linkName, count: data.total_results };
+    }),
   );
 
   return results;
