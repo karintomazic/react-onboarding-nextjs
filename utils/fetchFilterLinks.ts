@@ -1,6 +1,7 @@
 import { searchFilters } from "@/data/filterList";
 import { tmdbFetch } from "./tmdbFetch";
 import { z } from "zod";
+import { apiFetch } from "./apiFetch";
 import { apiUrl } from "./apiUrl";
 
 const countsDataSchema = z.array(
@@ -16,16 +17,10 @@ const tmdbCountResponseSchema = z.object({
 
 // client-safe version
 export async function fetchAllCounts(query: string) {
-  const response = await fetch(
+  return apiFetch(
     apiUrl(`filter-counts?query=${encodeURIComponent(query)}`),
+    countsDataSchema,
   );
-
-  if (!response.ok) {
-    throw new Error(`Request failed with status ${response.status}`);
-  }
-
-  const data = countsDataSchema.parse(await response.json());
-  return data;
 }
 
 // server version calling tmdbFetch
