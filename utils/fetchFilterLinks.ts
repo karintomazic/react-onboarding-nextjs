@@ -1,16 +1,38 @@
 import { searchFilters } from "@/data/filterList";
-const tmbUrl = "https://api.themoviedb.org/3";
-import { tmdbApiKey } from "./tmdbApiKey";
+import { z } from "zod";
+import { apiFetch } from "./apiFetch";
+import { apiUrl } from "./apiUrl";
+import { tmdbFetch } from "./tmdbFetch";
 
+const countsDataSchema = z.array(
+  z.object({
+    filter: z.string(),
+    count: z.number(),
+  }),
+);
+
+const tmdbCountResponseSchema = z.object({
+  total_results: z.number(),
+});
+
+// client-safe version
 export async function fetchAllCounts(query: string) {
+  return apiFetch(
+    apiUrl(`filter-counts?query=${encodeURIComponent(query)}`),
+    countsDataSchema,
+  );
+}
+
+// server version
+export async function fetchTmdbAllCounts(query: string) {
   const results = await Promise.all(
-    searchFilters.map(({ linkName }) =>
-      fetch(
-        `${tmbUrl}/search/${linkName}?api_key=${tmdbApiKey}&query=${query}&page=1`,
-      )
-        .then((r) => r.json() as Promise<{ total_results: number }>)
-        .then((data) => ({ filter: linkName, count: data.total_results })),
-    ),
+    searchFilters.map(async ({ linkName }) => {
+      const data = await tmdbFetch(
+        `/search/${linkName}?query=${query}&page=1`,
+        tmdbCountResponseSchema,
+      );
+      return { filter: linkName, count: data.total_results };
+    }),
   );
 
   return results;

@@ -1,5 +1,7 @@
 import { z } from "zod";
-import { tmdbApiKey } from "./tmdbApiKey";
+import { apiFetch } from "./apiFetch";
+import { apiUrl } from "./apiUrl";
+import { tmdbFetch } from "./tmdbFetch";
 
 const tmdbMovieSchema = z.object({
   id: z.number(),
@@ -12,34 +14,28 @@ const tmdbResponseSchema = z.object({
   results: z.array(tmdbMovieSchema),
 });
 
-const tmbUrl = "https://api.themoviedb.org/3";
 const tmbImageUrl = "https://image.tmdb.org/t/p/w500";
 
-type Movie = { id: number; url: string; title: string; date: string };
+const showcaseMovieSchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  url: z.string(),
+  date: z.string(),
+});
 
-const showcaseMoviesSchema = z.array(
-  z.object({
-    id: z.number(),
-    title: z.string(),
-    url: z.string(),
-    date: z.string(),
-  }),
-);
+const showcaseMoviesSchema = z.array(showcaseMovieSchema);
 
-type ShowcaseData = {
-  streaming: Movie[];
-  rent: Movie[];
-  theater: Movie[];
-};
+const showcaseDataSchema = z.object({
+  streaming: showcaseMoviesSchema,
+  rent: showcaseMoviesSchema,
+  theater: showcaseMoviesSchema,
+});
 
-async function fetchAndMapMovies(url: string): Promise<Movie[]> {
-  const response = await fetch(url);
+type Movie = z.infer<typeof showcaseMovieSchema>;
+type ShowcaseData = z.infer<typeof showcaseDataSchema>;
 
-  if (!response.ok) {
-    throw new Error(`Request failed with status ${String(response.status)}`);
-  }
-
-  const data = tmdbResponseSchema.parse(await response.json());
+async function fetchAndMapTmdbMovies(url: string): Promise<Movie[]> {
+  const data = await tmdbFetch(url, tmdbResponseSchema);
 
   return showcaseMoviesSchema.decode(
     data.results.map((movie) => ({
@@ -52,16 +48,18 @@ async function fetchAndMapMovies(url: string): Promise<Movie[]> {
 }
 
 export async function fetchShowcaseData(): Promise<ShowcaseData> {
+  return apiFetch(apiUrl(`showcase`), showcaseDataSchema);
+}
+
+export async function fetchTmdbShowcaseData(): Promise<ShowcaseData> {
   const [streaming, rent, theater] = await Promise.all([
-    fetchAndMapMovies(
-      `${tmbUrl}/discover/movie?api_key=${tmdbApiKey}&watch_region=US&with_watch_monetization_types=flatrate&sort_by=popularity.desc`,
+    fetchAndMapTmdbMovies(
+      `/discover/movie?watch_region=US&with_watch_monetization_types=flatrate&sort_by=popularity.desc`,
     ),
-    fetchAndMapMovies(
-      `${tmbUrl}/discover/movie?api_key=${tmdbApiKey}&watch_region=US&with_watch_monetization_types=rent&sort_by=popularity.desc`,
+    fetchAndMapTmdbMovies(
+      `/discover/movie?watch_region=US&with_watch_monetization_types=rent&sort_by=popularity.desc`,
     ),
-    fetchAndMapMovies(
-      `${tmbUrl}/movie/now_playing?api_key=${tmdbApiKey}&region=US`,
-    ),
+    fetchAndMapTmdbMovies(`/movie/now_playing?region=US`),
   ]);
   return { streaming, rent, theater };
 }

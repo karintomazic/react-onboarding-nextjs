@@ -32,10 +32,16 @@ const eslintConfig = defineConfig([
       },
     },
     rules: {
+      "@typescript-eslint/restrict-template-expressions": [
+        "error",
+        { allowNumber: true },
+      ],
       "import/no-extraneous-dependencies": [
         "error", // severity
-        { // options object
-          devDependencies: [ // which files are allowed to import devDependency-only packages
+        {
+          // options object
+          devDependencies: [
+            // which files are allowed to import devDependency-only packages
             "**/*.config.*",
             ".storybook/**",
             "**/*.stories.tsx",
