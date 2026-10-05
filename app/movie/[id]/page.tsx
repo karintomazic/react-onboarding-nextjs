@@ -7,6 +7,7 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import { cache } from "react";
+import { notFound } from "next/navigation";
 
 const getMovieDetails = cache(fetchTmdbMovieDetails);
 
@@ -19,6 +20,11 @@ export async function generateMetadata({
   params,
 }: PageProps<"/movie/[id]">): Promise<Metadata> {
   const movieId = await getMovieId(params);
+
+
+    if (!(movieId > 0 && Number.isInteger(movieId))) {
+    notFound();
+  }
 
   const movieDetailsData = await getMovieDetails(movieId);
 
@@ -35,6 +41,12 @@ export default async function MovieDetailPage({
   params,
 }: PageProps<"/movie/[id]">) {
   const movieId = await getMovieId(params);
+
+  console.log(movieId);
+
+  if (!(movieId > 0 && Number.isInteger(movieId))) {
+    notFound();
+  }
 
   const queryClient = new QueryClient();
 
