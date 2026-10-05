@@ -25,6 +25,7 @@ export default function NavigationBar() {
   // Save the last pathname - so we can compare it when it changes.
   const [prevPathname, setPrevPathname] = useState(location);
   const [isOpen, setIsOpen] = useState(false);
+  const [isInFocus, setIsInFocus] = useState(false);
 
   const loopRef = useRef<HTMLDivElement>(null);
 
@@ -40,9 +41,12 @@ export default function NavigationBar() {
     }
   }
 
+  const fetchTrending = query === "" && isInFocus;
+
   const trendingQuery = useQuery({
     queryKey: ["trending-results"],
     queryFn: () => fetchMovieList(`trending`),
+    enabled: fetchTrending,
   });
 
   // Wait for typing to pause before actually searching, so we don't
@@ -95,6 +99,7 @@ export default function NavigationBar() {
         onSubmit={handleSearchSubmit}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
+        setIsInFocus={setIsInFocus}
         loopRef={loopRef}
         // True while we're still waiting on a result — either the
         // debounce hasn't caught up yet, or the fetch is in flight.

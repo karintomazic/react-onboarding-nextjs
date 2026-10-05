@@ -6,6 +6,7 @@ export type InputProps = {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
   onClick?: () => void;
+  onFocus?: () => void;
   placeholder?: string;
   ariaLabel?: string;
   type?: "text" | "search" | "password" | "email";
@@ -17,6 +18,7 @@ export default function Input({
   onChange,
   onClick,
   onBlur,
+  onFocus,
   placeholder,
   ariaLabel,
   type = "text",
@@ -29,6 +31,7 @@ export default function Input({
       onChange={onChange}
       onClick={onClick}
       onBlur={onBlur}
+      onFocus={onFocus}
       placeholder={placeholder}
       aria-label={ariaLabel}
       className={styles.input}

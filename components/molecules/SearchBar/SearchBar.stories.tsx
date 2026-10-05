@@ -14,6 +14,7 @@ const meta = {
     onQueryChange: fn(),
     isOpen: true,
     setIsOpen: fn(),
+    setIsInFocus: fn(),
     loopRef: { current: null },
   },
   play: async ({ canvas, userEvent }) => {

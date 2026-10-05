@@ -24,6 +24,7 @@ type SearchBarProps = {
   isSearching: boolean;
   isOpen: boolean;
   setIsOpen: (arg: boolean) => void;
+  setIsInFocus: (arg: boolean) => void;
   loopRef: RefObject<HTMLDivElement | null>;
 };
 
@@ -38,6 +39,7 @@ export default function SearchBar({
   isSearching,
   isOpen,
   setIsOpen,
+  setIsInFocus,
   loopRef,
 }: SearchBarProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -80,6 +82,14 @@ export default function SearchBar({
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setIsOpen(true);
     onQueryChange(e.target.value);
+  };
+
+  const handleBlur = () => {
+    setIsInFocus(false);
+  };
+
+  const handleFocus = () => {
+    setIsInFocus(true);
   };
 
   const currentList = (query === "" ? topTenMovies : searchResults).slice(
@@ -138,6 +148,8 @@ export default function SearchBar({
           value={query}
           onClick={handleClick}
           onChange={handleChange}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
           ref={inputRef}
         />
       </form>
