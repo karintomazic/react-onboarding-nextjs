@@ -19,10 +19,8 @@ export default function FilterLinks({
     return (
       <SearchFilterLink
         key={links.linkName}
-
         linkLabel={links.label}
         count={count}
-
         isActive={filter === links.linkName}
         href={getFilterHref(links.linkName)}
       />
