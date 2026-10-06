@@ -9,6 +9,7 @@ import {
 import { cache } from "react";
 import { notFound } from "next/navigation";
 import { isValidMovieId } from "@/utils/isValidMovieId";
+import { TmdbError } from "@/utils/tmdbFetch";
 
 const getMovieDetails = cache(fetchTmdbMovieDetails);
 
@@ -26,7 +27,17 @@ export async function generateMetadata({
     notFound();
   }
 
-  const movieDetailsData = await getMovieDetails(movieId);
+  let movieDetailsData;
+
+  try {
+    movieDetailsData = await getMovieDetails(movieId);
+  } catch (error) {
+    if (error instanceof TmdbError && error.status === 404) {
+      notFound();
+    } else {
+      throw error;
+    }
+  }
 
   const releaseYear = movieDetailsData.release_date
     ? new Date(movieDetailsData.release_date).getFullYear()
@@ -48,10 +59,18 @@ export default async function MovieDetailPage({
 
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery({
-    queryKey: ["movie-detail", movieId],
-    queryFn: () => getMovieDetails(movieId),
-  });
+  try {
+    await queryClient.fetchQuery({
+      queryKey: ["movie-detail", movieId],
+      queryFn: () => getMovieDetails(movieId),
+    });
+  } catch (error) {
+    if (error instanceof TmdbError && error.status === 404) {
+      notFound();
+    } else {
+      throw error;
+    }
+  }
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

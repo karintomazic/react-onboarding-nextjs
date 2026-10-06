@@ -8,6 +8,10 @@ export async function tmdbRouteHandler<T>(fetchFn: () => Promise<T>) {
     console.error(error);
 
     if (error instanceof TmdbError) {
+      if (error.status === 404) {
+        return Response.json({ error: "Not found" }, { status: 404 });
+      }
+
       return Response.json({ error: "TMDB request failed" }, { status: 502 });
     }
 
