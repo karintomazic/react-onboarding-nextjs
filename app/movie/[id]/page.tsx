@@ -8,6 +8,7 @@ import {
 } from "@tanstack/react-query";
 import { cache } from "react";
 import { notFound } from "next/navigation";
+import { isValidMovieId } from "@/utils/isValidMovieId";
 
 const getMovieDetails = cache(fetchTmdbMovieDetails);
 
@@ -21,8 +22,7 @@ export async function generateMetadata({
 }: PageProps<"/movie/[id]">): Promise<Metadata> {
   const movieId = await getMovieId(params);
 
-
-    if (!(movieId > 0 && Number.isInteger(movieId))) {
+  if (!isValidMovieId(movieId)) {
     notFound();
   }
 
@@ -42,9 +42,7 @@ export default async function MovieDetailPage({
 }: PageProps<"/movie/[id]">) {
   const movieId = await getMovieId(params);
 
-  console.log(movieId);
-
-  if (!(movieId > 0 && Number.isInteger(movieId))) {
+  if (!isValidMovieId(movieId)) {
     notFound();
   }
 
