@@ -52,7 +52,7 @@ export default function BookmarkedMovieCard({ movieId }: { movieId: number }) {
     <div className={styles.bookmarksGrid}>
       <MovieCard
         id={data.id}
-        imageUrl={`${tmbImageUrl}${data.poster_path}`}
+        imageUrl={data.poster_path && `${tmbImageUrl}${data.poster_path}`}
         title={data.title}
         date={data.release_date}
         content={data.overview}

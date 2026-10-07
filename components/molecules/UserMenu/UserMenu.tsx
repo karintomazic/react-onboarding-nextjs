@@ -21,11 +21,9 @@ type UserMenuProps = {
 export default function UserMenu({ joinLabel, loginLabel }: UserMenuProps) {
   const usermenuRef = useRef<HTMLDivElement>(null);
 
-  const session = useSession();
+  const { status, data } = useSession();
   const [open, setOpen] = useState(false);
-
   const isHydrated = useIsHydrated();
-
   const isClickedOutside = useClickOutside(usermenuRef);
 
   const handleOpen = () => {
@@ -36,16 +34,11 @@ export default function UserMenu({ joinLabel, loginLabel }: UserMenuProps) {
     await signOut();
   };
 
-  //  useSession().status states
-  const isLoggedIn = session.status === "authenticated";
-  const isNotLoggedIn = session.status === "unauthenticated";
-  const loggedInLoading = session.status === "loading" || !isHydrated;
-
   let loggedInContent;
 
-  if (loggedInLoading) {
+  if (status === "loading" || !isHydrated) {
     loggedInContent = <Spinner variant="smallSpinner" />;
-  } else if (isLoggedIn) {
+  } else if (status === "authenticated") {
     loggedInContent = (
       <div className={styles.loggedIn}>
         <Icon icon={faBell} />
@@ -58,12 +51,11 @@ export default function UserMenu({ joinLabel, loginLabel }: UserMenuProps) {
             height={32}
             onClick={handleOpen}
           />
-
           {open && !isClickedOutside && (
             <div className={styles.userDropdown}>
               <div className={styles.callout} />
               <div className={styles.userInfo}>
-                <p className={styles.userEmail}>{session.data.user?.email}</p>
+                <p className={styles.userEmail}>{data.user?.email}</p>
                 <div className={styles.profileLinks}>
                   <Link href="/profile">{userMenuLabels.viewProfile}</Link>
                   <Link href="/bookmarks">{userMenuLabels.myBookmarks}</Link>
@@ -80,7 +72,7 @@ export default function UserMenu({ joinLabel, loginLabel }: UserMenuProps) {
         </div>
       </div>
     );
-  } else if (isNotLoggedIn) {
+  } else {
     loggedInContent = (
       <div className={styles.notLoggedIn}>
         <Link href="/login">{loginLabel}</Link>
