@@ -68,7 +68,7 @@ export function SearchResultsContent({
     ));
   }
 
-  if (contentData.length == 0) {
+  if (contentData.length === 0) {
     return <p>{searchResultsLabels.empty}</p>;
   }
 

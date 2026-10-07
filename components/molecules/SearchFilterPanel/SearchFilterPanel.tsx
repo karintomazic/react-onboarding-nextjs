@@ -1,7 +1,7 @@
 import styles from "./SearchFilterPanel.module.scss";
 import type { ReactNode } from "react";
 
-type searchFilterPanelProps = {
+type SearchFilterPanelProps = {
   children: ReactNode;
   heading: string;
 };
@@ -9,7 +9,7 @@ type searchFilterPanelProps = {
 export default function SearchFilterPanel({
   children,
   heading,
-}: searchFilterPanelProps) {
+}: SearchFilterPanelProps) {
   return (
     <div className={styles.searchFilters}>
       <div className={styles.searchHeader}>

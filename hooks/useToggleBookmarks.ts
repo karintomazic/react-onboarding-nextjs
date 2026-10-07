@@ -5,11 +5,11 @@ import { useBanner } from "@/hooks/useBanner";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 
-type useToggleBookmarkProps = {
+type UseToggleBookmarkProps = {
   movieId: number;
 };
 
-export function useToggleBookmark({ movieId }: useToggleBookmarkProps) {
+export function useToggleBookmark({ movieId }: UseToggleBookmarkProps) {
   const { showBanner } = useBanner();
   const session = useSession();
   const isLoggedIn = session.status === "authenticated";
