@@ -12,7 +12,7 @@ export default function FilterLinks({
   searchParams,
   filter,
 }: FilterLinksProps) {
-  const filteLinks = searchFilters.map((links) => {
+  const filterLinks = searchFilters.map((links) => {
     const match = totalCount?.find((r) => r.filter === links.linkName);
     const count = match?.count ?? 0;
 
@@ -28,5 +28,5 @@ export default function FilterLinks({
     );
   });
 
-  return filteLinks;
+  return filterLinks;
 }

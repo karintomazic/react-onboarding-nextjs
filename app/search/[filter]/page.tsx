@@ -12,6 +12,7 @@ import {
 } from "@tanstack/react-query";
 import { fetchTmdbAllCounts } from "@/utils/fetchFilterLinks";
 import { fetchTmdbSearchMovies } from "@/utils/fetchSearchMovies";
+import { isValidMovieId } from "@/utils/isValidMovieId";
 
 export async function generateMetadata({
   searchParams,
@@ -37,11 +38,9 @@ export default async function SearchResults({
   const filter = resolvedParams.filter;
 
   const queryParam = resolvedSearchParams.query;
-  const query = Array.isArray(queryParam)
-    ? (queryParam[0] ?? "")
-    : (queryParam ?? "");
-  const pageParam = resolvedSearchParams.page;
-  const page = Number(pageParam) ? Number(pageParam) : 1;
+  const query = [queryParam].flat()[0] ?? "";
+  const pageParam = Number(resolvedSearchParams.page);
+  const page = isValidMovieId(pageParam) ? pageParam : 1;
 
   const queryClient = new QueryClient();
 

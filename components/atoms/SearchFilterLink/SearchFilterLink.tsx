@@ -3,7 +3,7 @@ import Link from "next/link";
 import styles from "./SearchFilterLink.module.scss";
 import clsx from "clsx";
 
-type searchFilterLinkProps = {
+type SearchFilterLinkProps = {
   linkName: string;
   linkLabel: string;
   count: number;
@@ -17,7 +17,7 @@ export default function SearchFilterLink({
   count,
   searchParams,
   isActive,
-}: searchFilterLinkProps) {
+}: SearchFilterLinkProps) {
   return (
     <li className={clsx(styles.searchFilterLink, isActive && styles.active)}>
       <Link
