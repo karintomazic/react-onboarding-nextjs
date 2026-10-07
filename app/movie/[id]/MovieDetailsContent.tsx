@@ -1,20 +1,21 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
 import styles from "./page.module.scss";
 import SingleColumn from "@/components/templates/SingleColumn/SingleColumn";
 import UserScore from "@/components/molecules/UserScore/UserScore";
 import MovieActions from "@/components/molecules/MovieActions/MovieActions";
 import MovieInfo from "@/components/molecules/MovieInfo/MovieInfo";
 import CrewGrid from "@/components/molecules/CrewGrid/CrewGrid";
+import Spinner from "@/components/atoms/Spinner/Spinner";
+import MovieFacts from "@/components/atoms/MovieFacts/MovieFacts";
 import {
   movieInfoLabels,
   movieActionsLabels,
   bookmarkedMovieCardLabels,
   movieDetailsLabels,
 } from "../../../data/labels";
+import { useQuery } from "@tanstack/react-query";
 import { fetchMovieDetails } from "@/utils/fetchMovieDetails";
-import Spinner from "@/components/atoms/Spinner/Spinner";
 import Image from "next/image";
 import { useToggleBookmark } from "@/hooks/useToggleBookmarks";
 import { tmdbImageUrl, tmbBackdropUrl } from "@/data/tmdb";
@@ -41,13 +42,6 @@ export default function MovieDetailsContent({
     ? new Date(movieDetailsData.release_date).getFullYear()
     : null;
 
-  const releaseDate = movieDetailsData?.release_date
-    ? new Date(movieDetailsData.release_date).toLocaleDateString("en-GB", {
-        day: "numeric",
-        month: "numeric",
-        year: "numeric",
-      })
-    : "";
 
   if (isLoading) {
     return <Spinner />;
@@ -56,6 +50,7 @@ export default function MovieDetailsContent({
   if (isError || !movieDetailsData) {
     return <p>{bookmarkedMovieCardLabels.loadError}</p>;
   }
+
   return (
     <SingleColumn>
       <div
@@ -72,26 +67,21 @@ export default function MovieDetailsContent({
               <Image
                 src={`${tmdbImageUrl}${movieDetailsData.poster_path}`}
                 alt={`${movieDetailsData.title} ${movieDetailsLabels.posterAltSuffix}`}
-                height={500}
-                width={350}
+                height={200}
+                width={150}
+                loading="eager"
               />
             )}
             <div>
               <h2>
                 {movieDetailsData.title} <span>({releaseYear})</span>
               </h2>
-              <div className={styles.facts}>
-                <time dateTime={movieDetailsData.release_date}>
-                  {releaseDate}
-                </time>
-                <span>
-                  {movieDetailsData.genres.map((g) => g.name).join(", ")}
-                </span>
-                <span>
-                  {Math.floor(movieDetailsData.runtime / 60)}h
-                  {movieDetailsData.runtime % 60}m
-                </span>
-              </div>
+
+              <MovieFacts
+                releaseDate={movieDetailsData.release_date}
+                genres={movieDetailsData.genres}
+                runtime={movieDetailsData.runtime}
+              />
               <UserScore score={movieDetailsData.vote_average} />
               <MovieActions
                 addToListLabel={movieActionsLabels.addToList}

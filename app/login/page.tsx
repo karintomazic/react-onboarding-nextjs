@@ -1,10 +1,10 @@
 "use client";
 
 import styles from "./page.module.scss";
+import LoginForm from "@/components/molecules/LoginForm/LoginForm";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import LoginForm from "@/components/molecules/LoginForm/LoginForm";
 import { loginLabels } from "@/data/labels";
 import { type LoginErr, loginSchema } from "@/lib/loginSchema";
 import { useMutation } from "@tanstack/react-query";

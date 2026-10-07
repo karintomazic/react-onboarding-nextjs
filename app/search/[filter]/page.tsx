@@ -38,16 +38,14 @@ export default async function SearchResults({
   const filter = resolvedParams.filter;
   const queryParam = resolvedSearchParams.query;
   const query = getFirstParam(queryParam, "");
-    
   const pageParam = Number(resolvedSearchParams.page);
   const page = isPositiveInteger(pageParam) ? pageParam : 1;
+  const queryClient = new QueryClient();
 
   const linksArray = searchFilters.map((lNames) => lNames.linkName);
   if (linksArray.indexOf(filter) === -1) {
     notFound();
   }
-
-  const queryClient = new QueryClient();
 
   await Promise.all([
     queryClient.prefetchQuery({

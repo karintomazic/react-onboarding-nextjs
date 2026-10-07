@@ -1,13 +1,13 @@
 "use client";
 
 import styles from "./page.module.scss";
-import { fetchBookmarks } from "@/utils/fetchBookmarks";
-import { useQuery } from "@tanstack/react-query";
 import BookmarkedMovieCard from "@/components/molecules/BookmarkedMovieCard/BookmarkedMovieCard";
-import { bookmarksLabel } from "@/data/labels";
-import Link from "next/link";
 import SingleColumn from "@/components/templates/SingleColumn/SingleColumn";
 import Spinner from "@/components/atoms/Spinner/Spinner";
+import { fetchBookmarks } from "@/utils/fetchBookmarks";
+import { useQuery } from "@tanstack/react-query";
+import { bookmarksLabel } from "@/data/labels";
+import Link from "next/link";
 
 export default function BookmarksPageContent() {
   const { data } = useQuery({

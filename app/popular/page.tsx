@@ -22,9 +22,9 @@ export default async function PopularMovies({
 }: PageProps<"/popular">) {
   const resolvedParams = await searchParams;
   const genresParam = resolvedParams.genres;
-  const genres = getFirstParam(genresParam, "")
+  const genres = getFirstParam(genresParam, "");
   const sortParam = resolvedParams.sort;
-  const sort = getFirstParam(sortParam, DEFAULT_SORT.value)
+  const sort = getFirstParam(sortParam, DEFAULT_SORT.value);
 
   const queryClient = new QueryClient();
 
