@@ -9,7 +9,7 @@ import { useState } from "react";
 import { userMenuLabels } from "../../../data/labels";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-import { icons } from "@/assets/icons";
+import mobileLogo from "@/assets/mobile-logo.svg";
 
 type MobileNavProps = {
   homeAriaLabel: string;
@@ -21,9 +21,7 @@ export default function MobileNav({
   openMenuAriaLabel,
 }: MobileNavProps) {
   const [menuOpen, setMenuOpen] = useState(false);
-
   const location = usePathname();
-
   const [prevPath, setPrevPath] = useState(location);
 
   if (location !== prevPath) {
@@ -46,7 +44,7 @@ export default function MobileNav({
           <Icon icon={faBars} />
         </button>
         <Link href="/" className={styles.mobileLogo} aria-label={homeAriaLabel}>
-          <Image src={icons.mobileLogo} alt="" />
+          <Image src={mobileLogo} alt="" />
         </Link>
         <div className={styles.mobileRight}>
           <UserMenu

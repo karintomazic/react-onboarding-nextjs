@@ -10,8 +10,8 @@ import { useSession } from "next-auth/react";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { userMenuLabels } from "@/data/labels";
-import { icons } from "@/assets/icons";
 import { useIsHydrated } from "@/hooks/useIsHydrated";
+import profileIcon from "@/assets/profile.svg";
 
 type UserMenuProps = {
   joinLabel: string;
@@ -44,7 +44,7 @@ export default function UserMenu({ joinLabel, loginLabel }: UserMenuProps) {
         <Icon icon={faBell} />
         <div className={styles.userMenuWrapper} ref={usermenuRef}>
           <Image
-            src={icons.profileIcon}
+            src={profileIcon}
             alt={userMenuLabels.profileIconAlt}
             className={styles.profileIcon}
             width={32}
