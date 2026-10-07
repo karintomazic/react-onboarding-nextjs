@@ -6,10 +6,7 @@ export default function BannerList() {
 
   return (
     <>
-      {/* Map has no .map() method like arrays
-      Array.from(banners.values()) - pulls out the banner objects
-      without the ids - and turn it into array so we can map */}
-      {Array.from(banners.values()).map((banner, index) => {
+      {[...banners.values()].map((banner, index) => {
         return (
           <ToastBanner
             key={banner.id}

@@ -42,7 +42,6 @@ export default function MovieDetailsContent({
     ? new Date(movieDetailsData.release_date).getFullYear()
     : null;
 
-
   if (isLoading) {
     return <Spinner />;
   }

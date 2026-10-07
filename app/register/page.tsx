@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
 import styles from "./page.module.scss";
 import RegistrationForm from "@/components/molecules/RegistrationForm/RegistrationForm";
-import { z } from "zod";
+import { useState } from "react";
 import { registerSchema, RegisterErr } from "@/lib/registerSchema";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react"; // for auto-login once registration succeeds
 import { useMutation } from "@tanstack/react-query";
+import { z } from "zod";
 
 function parseRegisterError(json: unknown): RegisterErr {
   const obj = (

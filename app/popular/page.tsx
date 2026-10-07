@@ -25,7 +25,6 @@ export default async function PopularMovies({
   const genres = getFirstParam(genresParam, "");
   const sortParam = resolvedParams.sort;
   const sort = getFirstParam(sortParam, DEFAULT_SORT.value);
-
   const queryClient = new QueryClient();
 
   await Promise.all([

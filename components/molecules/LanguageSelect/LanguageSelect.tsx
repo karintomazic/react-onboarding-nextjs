@@ -84,6 +84,8 @@ export default function LanguageSelect({
 
       let listItems: HTMLLIElement[];
 
+      // console.log(listRef);
+
       if (listRef.current !== null) {
         const lanList = listRef.current.querySelectorAll("li");
         listItems = Array.from(lanList);
