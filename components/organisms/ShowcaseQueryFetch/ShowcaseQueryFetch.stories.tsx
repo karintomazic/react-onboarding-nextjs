@@ -1,11 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { http, HttpResponse, delay } from "msw";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import {
-  mockMovies,
-  TMDB_DISCOVER_URL_MOVIE,
-  TMDB_DISCOVER_URL_NOW_PLAYING,
-} from "@/mock/mockData";
+import { mockShowcaseData } from "@/mock/mockData";
 import ShowcaseQueryFetch from "./ShowcaseQueryFetch";
 import { bookmarksHandlers } from "@/mock/handlers";
 
@@ -44,11 +40,8 @@ export const Success: Story = {
     msw: {
       handlers: [
         ...bookmarksHandlers,
-        http.get(TMDB_DISCOVER_URL_MOVIE, () =>
-          HttpResponse.json({ results: mockMovies }),
-        ),
-        http.get(TMDB_DISCOVER_URL_NOW_PLAYING, () =>
-          HttpResponse.json({ results: mockMovies }),
+        http.get("/api/tmdb/showcase", () =>
+          HttpResponse.json(mockShowcaseData),
         ),
       ],
     },
@@ -60,13 +53,9 @@ export const Loading: Story = {
     msw: {
       handlers: [
         ...bookmarksHandlers,
-        http.get(TMDB_DISCOVER_URL_MOVIE, async () => {
+        http.get("/api/tmdb/showcase", async () => {
           await delay("infinite");
-          return HttpResponse.json({ results: mockMovies });
-        }),
-        http.get(TMDB_DISCOVER_URL_NOW_PLAYING, async () => {
-          await delay("infinite");
-          return HttpResponse.json({ results: mockMovies });
+          return HttpResponse.json(mockShowcaseData);
         }),
       ],
     },
@@ -78,17 +67,8 @@ export const Error: Story = {
     msw: {
       handlers: [
         ...bookmarksHandlers,
-        http.get(TMDB_DISCOVER_URL_MOVIE, () =>
-          HttpResponse.json(
-            { status_message: "Invalid API key" },
-            { status: 401 },
-          ),
-        ),
-        http.get(TMDB_DISCOVER_URL_NOW_PLAYING, () =>
-          HttpResponse.json(
-            { status_message: "Invalid API key" },
-            { status: 401 },
-          ),
+        http.get("/api/tmdb/showcase", () =>
+          HttpResponse.json({ error: "TMDB request failed" }, { status: 502 }),
         ),
       ],
     },
@@ -100,11 +80,8 @@ export const Empty: Story = {
     msw: {
       handlers: [
         ...bookmarksHandlers,
-        http.get(TMDB_DISCOVER_URL_MOVIE, () =>
-          HttpResponse.json({ results: [] }),
-        ),
-        http.get(TMDB_DISCOVER_URL_NOW_PLAYING, () =>
-          HttpResponse.json({ results: [] }),
+        http.get("/api/tmdb/showcase", () =>
+          HttpResponse.json({ streaming: [], rent: [], theater: [] }),
         ),
       ],
     },

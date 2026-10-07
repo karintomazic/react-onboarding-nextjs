@@ -42,7 +42,7 @@ export const BookmarkedMovieCard: Story = {
     msw: {
       handlers: [
         ...bookmarksHandlers,
-        http.get("https://api.themoviedb.org/3/movie/123", () =>
+        http.get("/api/tmdb/movie/123", () =>
           HttpResponse.json(mockMovieDetails),
         ),
         http.get("https://image.tmdb.org/t/p/*", () =>

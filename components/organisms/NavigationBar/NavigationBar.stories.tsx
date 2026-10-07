@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import NavigationBarComponent from "./NavigationBar";
 import { http, HttpResponse } from "msw";
+import { mockMovieList } from "@/mock/mockData";
 
 const mockSession = {
   user: { name: "Test User", email: "test@example.com" },
@@ -26,12 +27,8 @@ export const Desktop: Story = {
   parameters: {
     msw: {
       handlers: [
-        http.get("https://api.themoviedb.org/3/trending/movie/day", () =>
-          HttpResponse.json({ results: [{ title: "Some Movie", id: 2 }] }),
-        ),
-        http.get("https://api.themoviedb.org/3/search/movie", () =>
-          HttpResponse.json({ results: [{ title: "Some Movie", id: 2 }] }),
-        ),
+        http.get("/api/tmdb/trending", () => HttpResponse.json(mockMovieList)),
+        http.get("/api/tmdb/search", () => HttpResponse.json(mockMovieList)),
       ],
     },
   },
@@ -44,12 +41,8 @@ export const Mobile: Story = {
   parameters: {
     msw: {
       handlers: [
-        http.get("https://api.themoviedb.org/3/trending/movie/day", () =>
-          HttpResponse.json({ results: [{ title: "Some Movie", id: 2 }] }),
-        ),
-        http.get("https://api.themoviedb.org/3/search/movie", () =>
-          HttpResponse.json({ results: [{ title: "Some Movie", id: 2 }] }),
-        ),
+        http.get("/api/tmdb/trending", () => HttpResponse.json(mockMovieList)),
+        http.get("/api/tmdb/search", () => HttpResponse.json(mockMovieList)),
       ],
     },
   },

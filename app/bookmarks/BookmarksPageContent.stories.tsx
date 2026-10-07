@@ -51,12 +51,8 @@ export const BookmarksPage: Story = {
           () => new HttpResponse(null, { status: 204 }),
         ),
 
-        http.get("https://api.themoviedb.org/3/movie/123", () =>
-          HttpResponse.json(mockMovie123),
-        ),
-        http.get("https://api.themoviedb.org/3/movie/456", () =>
-          HttpResponse.json(mockMovie456),
-        ),
+        http.get("/api/tmdb/movie/123", () => HttpResponse.json(mockMovie123)),
+        http.get("/api/tmdb/movie/456", () => HttpResponse.json(mockMovie456)),
         http.get("https://image.tmdb.org/t/p/*", () =>
           HttpResponse.redirect(placeholderPoster.src),
         ),

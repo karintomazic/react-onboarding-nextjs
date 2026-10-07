@@ -11,6 +11,7 @@ import { useClickOutside } from "@/hooks/useClickOutside";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { userMenuLabels } from "@/data/labels";
 import { icons } from "@/assets/icons";
+import { useIsHydrated } from "@/hooks/useIsHydrated";
 
 type UserMenuProps = {
   joinLabel: string;
@@ -22,6 +23,8 @@ export default function UserMenu({ joinLabel, loginLabel }: UserMenuProps) {
 
   const session = useSession();
   const [open, setOpen] = useState(false);
+
+  const isHydrated = useIsHydrated();
 
   const isClickedOutside = useClickOutside(usermenuRef);
 
@@ -36,7 +39,7 @@ export default function UserMenu({ joinLabel, loginLabel }: UserMenuProps) {
   //  useSession().status states
   const isLoggedIn = session.status === "authenticated";
   const isNotLoggedIn = session.status === "unauthenticated";
-  const loggedInLoading = session.status === "loading";
+  const loggedInLoading = session.status === "loading" || !isHydrated;
 
   let loggedInContent;
 

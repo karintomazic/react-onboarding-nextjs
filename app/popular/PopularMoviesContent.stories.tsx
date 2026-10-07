@@ -9,29 +9,25 @@ const mockSession = {
   expires: "9999-12-31T23:59:59.999Z",
 };
 
-const mockPopularMovies = {
-  results: [
-    {
-      id: 1,
-      title: "Interstellar",
-      poster_path: "/placeholder-poster.jpg",
-      release_date: "2014-11-07",
-    },
-    {
-      id: 2,
-      title: "Inception",
-      poster_path: "/placeholder-poster.jpg",
-      release_date: "2010-07-16",
-    },
-  ],
-};
+const mockPopularMovies = [
+  {
+    id: 1,
+    title: "Interstellar",
+    url: placeholderPoster.src,
+    date: "2014-11-07",
+  },
+  {
+    id: 2,
+    title: "Inception",
+    url: placeholderPoster.src,
+    date: "2010-07-16",
+  },
+];
 
-const mockGenres = {
-  genres: [
-    { id: 28, name: "Action" },
-    { id: 18, name: "Drama" },
-  ],
-};
+const mockGenres = [
+  { id: 28, name: "Action" },
+  { id: 18, name: "Drama" },
+];
 
 const meta = {
   title: "Component/pages/PopularMovies",
@@ -50,12 +46,10 @@ export const PopularMovies: Story = {
     msw: {
       handlers: [
         ...bookmarksHandlers,
-        http.get("https://api.themoviedb.org/3/discover/movie", () =>
+        http.get("/api/tmdb/popular", () =>
           HttpResponse.json(mockPopularMovies),
         ),
-        http.get("https://api.themoviedb.org/3/genre/movie/list", () =>
-          HttpResponse.json(mockGenres),
-        ),
+        http.get("/api/tmdb/genres", () => HttpResponse.json(mockGenres)),
         http.get("https://image.tmdb.org/t/p/*", () =>
           HttpResponse.redirect(placeholderPoster.src),
         ),

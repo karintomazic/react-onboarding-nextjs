@@ -2,14 +2,10 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { SearchResultsContent } from "./SearchResultsContent";
 import { http, HttpResponse, delay } from "msw";
 import {
-  mockTV,
-  mockMovies,
-  mockPeople,
-  mockSimpleItems,
-  TMDB_SEARCH_URL_TV,
-  TMDB_SEARCH_URL_MOVIE,
-  TMDB_SEARCH_URL_PERSON,
-  TMDB_SEARCH_URL_SIMPLE,
+  mockSearchTV,
+  mockSearchMovies,
+  mockSearchPeople,
+  mockSearchSimpleItems,
 } from "../../../mock/mockData";
 import styles from "./page.module.scss";
 
@@ -34,8 +30,8 @@ export const TvShow: Story = {
   parameters: {
     msw: {
       handlers: [
-        http.get(TMDB_SEARCH_URL_TV, () =>
-          HttpResponse.json({ results: mockTV, total_pages: 3 }),
+        http.get("/api/tmdb/movie-search", () =>
+          HttpResponse.json(mockSearchTV),
         ),
       ],
     },
@@ -46,8 +42,8 @@ export const Movie: Story = {
   parameters: {
     msw: {
       handlers: [
-        http.get(TMDB_SEARCH_URL_MOVIE, () =>
-          HttpResponse.json({ results: mockMovies, total_pages: 3 }),
+        http.get("/api/tmdb/movie-search", () =>
+          HttpResponse.json(mockSearchMovies),
         ),
       ],
     },
@@ -59,8 +55,8 @@ export const Person: Story = {
   parameters: {
     msw: {
       handlers: [
-        http.get(TMDB_SEARCH_URL_PERSON, () =>
-          HttpResponse.json({ results: mockPeople, total_pages: 3 }),
+        http.get("/api/tmdb/movie-search", () =>
+          HttpResponse.json(mockSearchPeople),
         ),
       ],
     },
@@ -72,8 +68,8 @@ export const Simple: Story = {
   parameters: {
     msw: {
       handlers: [
-        http.get(TMDB_SEARCH_URL_SIMPLE, () =>
-          HttpResponse.json({ results: mockSimpleItems, total_pages: 1 }),
+        http.get("/api/tmdb/movie-search", () =>
+          HttpResponse.json(mockSearchSimpleItems),
         ),
       ],
     },
@@ -84,9 +80,9 @@ export const Loading: Story = {
   parameters: {
     msw: {
       handlers: [
-        http.get(TMDB_SEARCH_URL_MOVIE, async () => {
+        http.get("/api/tmdb/movie-search", async () => {
           await delay("infinite");
-          return HttpResponse.json({ results: mockMovies, total_pages: 3 });
+          return HttpResponse.json(mockSearchMovies);
         }),
       ],
     },
@@ -97,10 +93,10 @@ export const Error: Story = {
   parameters: {
     msw: {
       handlers: [
-        http.get(TMDB_SEARCH_URL_MOVIE, () => {
+        http.get("/api/tmdb/movie-search", () => {
           return HttpResponse.json(
-            { status_message: "Invalid API key" },
-            { status: 401 },
+            { error: "TMDB request failed" },
+            { status: 502 },
           );
         }),
       ],
@@ -113,8 +109,8 @@ export const Empty: Story = {
   parameters: {
     msw: {
       handlers: [
-        http.get(TMDB_SEARCH_URL_MOVIE, () =>
-          HttpResponse.json({ results: [], total_pages: 0 }),
+        http.get("/api/tmdb/movie-search", () =>
+          HttpResponse.json({ kind: "media", movies: [], totalPages: 0 }),
         ),
       ],
     },

@@ -1,10 +1,25 @@
 import SingleColumn from "@/components/templates/SingleColumn/SingleColumn";
 import ShowcaseQueryFetch from "@/components/organisms/ShowcaseQueryFetch/ShowcaseQueryFetch";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
+import { fetchTmdbShowcaseData } from "@/utils/fetchShowcaseData";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ["showcase-movies"],
+    queryFn: fetchTmdbShowcaseData,
+  });
+
   return (
     <SingleColumn>
-      <ShowcaseQueryFetch />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <ShowcaseQueryFetch />
+      </HydrationBoundary>
     </SingleColumn>
   );
 }

@@ -46,7 +46,7 @@ export const MovieDetailsContent: Story = {
     msw: {
       handlers: [
         ...bookmarksHandlers,
-        http.get("https://api.themoviedb.org/3/movie/3", () =>
+        http.get("/api/tmdb/movie/3", () =>
           HttpResponse.json(mockMovieDetails),
         ),
         http.get("https://image.tmdb.org/t/p/*", () =>
@@ -65,7 +65,7 @@ export const MovieDetailsContentLoading: Story = {
     msw: {
       handlers: [
         ...bookmarksHandlers,
-        http.get("https://api.themoviedb.org/3/movie/3", async () => {
+        http.get("/api/tmdb/movie/3", async () => {
           await delay("infinite");
           return HttpResponse.json(mockMovieDetails);
         }),

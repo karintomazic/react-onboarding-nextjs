@@ -4,6 +4,13 @@ import { popularMoviesPageLabels } from "@/data/labels";
 import PopularMoviesContent from "./PopularMoviesContent";
 import { DEFAULT_SORT } from "@/data/sortingOptions";
 import type { Metadata } from "next";
+import {
+  dehydrate,
+  QueryClient,
+  HydrationBoundary,
+} from "@tanstack/react-query";
+import { fetchTmdbPopularMovies } from "@/utils/fetchPopularMovies";
+import { fetchTmdbGenres } from "@/utils/fetchGenres";
 
 export const metadata: Metadata = {
   title: "Popular Movies Page - The Movie Database(TMDB)",
@@ -23,11 +30,30 @@ export default async function PopularMovies({
     ? (sortParam[0] ?? DEFAULT_SORT.value)
     : (sortParam ?? DEFAULT_SORT.value);
 
+  const queryClient = new QueryClient();
+
+  await Promise.all([
+    queryClient.prefetchQuery({
+      queryKey: ["popular-movies-page", sort, genres],
+      queryFn: () =>
+        fetchTmdbPopularMovies(
+          sort,
+          genres ? genres.split(",").map(Number) : [],
+        ),
+    }),
+    queryClient.prefetchQuery({
+      queryKey: ["genre-list"],
+      queryFn: fetchTmdbGenres,
+    }),
+  ]);
+
   return (
     <SingleColumn>
       <div className={styles.PopularMoviesContainer}>
         <h2>{popularMoviesPageLabels.heading}</h2>
-        <PopularMoviesContent genres={genres} sort={sort} />
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <PopularMoviesContent genres={genres} sort={sort} />
+        </HydrationBoundary>
       </div>
     </SingleColumn>
   );
