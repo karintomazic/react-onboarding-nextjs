@@ -66,8 +66,8 @@ export default function MovieDetailsContent({
               <Image
                 src={`${tmdbImageUrl}${movieDetailsData.poster_path}`}
                 alt={`${movieDetailsData.title} ${movieDetailsLabels.posterAltSuffix}`}
-                height={200}
-                width={150}
+                height={500}
+                width={350}
                 loading="eager"
               />
             )}

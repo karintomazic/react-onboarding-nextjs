@@ -52,11 +52,12 @@ export default async function MovieDetailPage({
   params,
 }: PageProps<"/movie/[id]">) {
   const movieId = await getMovieId(params);
-  const queryClient = new QueryClient();
 
   if (!isPositiveInteger(movieId)) {
     notFound();
   }
+
+  const queryClient = new QueryClient();
 
   try {
     await queryClient.fetchQuery({
