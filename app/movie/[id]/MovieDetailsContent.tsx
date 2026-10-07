@@ -17,7 +17,7 @@ import { fetchMovieDetails } from "@/utils/fetchMovieDetails";
 import Spinner from "@/components/atoms/Spinner/Spinner";
 import Image from "next/image";
 import { useToggleBookmark } from "@/hooks/useToggleBookmarks";
-import { tmdbImageUrl, tmbBackdropUrl } from "@/mock/mockData";
+import { tmdbImageUrl, tmbBackdropUrl } from "@/data/tmdb";
 
 type MovieDetailsContentProps = {
   movieId: number;

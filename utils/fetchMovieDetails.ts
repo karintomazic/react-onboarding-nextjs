@@ -2,7 +2,7 @@ import { z } from "zod";
 import { apiFetch } from "./apiFetch";
 import { apiUrl } from "./apiUrl";
 import { tmdbFetch } from "./tmdbFetch";
-import { isValidMovieId } from "./isValidMovieId";
+import { isPositiveInteger } from "./isPositiveInteger";
 
 export const movieSchema = z.object({
   id: z.number(),
@@ -25,7 +25,7 @@ export const movieSchema = z.object({
 export async function fetchMovieDetails(
   id: number,
 ): Promise<z.infer<typeof movieSchema>> {
-  if (!isValidMovieId(id)) {
+  if (!isPositiveInteger(id)) {
     throw new Error("Invalid movie id");
   }
   return apiFetch(apiUrl(`movie/${id}`), movieSchema);

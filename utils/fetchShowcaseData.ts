@@ -2,8 +2,7 @@ import { z } from "zod";
 import { apiFetch } from "./apiFetch";
 import { apiUrl } from "./apiUrl";
 import { tmdbFetch } from "./tmdbFetch";
-import { tmdbImageUrl } from "@/mock/mockData";
-
+import { tmdbImageUrl } from "@/data/tmdb";
 
 const tmdbMovieSchema = z.object({
   id: z.number(),

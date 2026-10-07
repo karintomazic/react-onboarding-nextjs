@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchMovieDetails } from "@/utils/fetchMovieDetails";
 import MovieCard from "@/components/atoms/MovieCard/MovieCard";
 import Spinner from "@/components/atoms/Spinner/Spinner";
-import { tmdbImageUrl } from "@/mock/mockData";
+import { tmdbImageUrl } from "@/data/tmdb";
 import {
   faStar,
   faHeart,

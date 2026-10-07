@@ -1,6 +1,6 @@
 import { fetchTmdbMovieDetails } from "@/utils/fetchMovieDetails";
 import { tmdbRouteHandler } from "@/utils/tmdbRouteHandler";
-import { isValidMovieId } from "@/utils/isValidMovieId";
+import { isPositiveInteger } from "@/utils/isPositiveInteger";
 
 export async function GET(
   request: Request,
@@ -9,7 +9,7 @@ export async function GET(
   const { id } = await params;
   const idNumber = Number(id);
 
-  if (!isValidMovieId(idNumber)) {
+  if (!isPositiveInteger(idNumber)) {
     return Response.json({ error: "Invalid movie id" }, { status: 400 });
   }
 

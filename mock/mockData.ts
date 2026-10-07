@@ -1,6 +1,3 @@
-export const tmdbImageUrl = "https://image.tmdb.org/t/p/w500";
-export const tmbBackdropUrl = "https://image.tmdb.org/t/p/w1280";
-
 export const mockShowcaseMovies = [
   { id: 1, title: "Scary Movie", url: "", date: "2024-03-01" },
   { id: 2, title: "Obsession", url: "", date: "2023-07-21" },

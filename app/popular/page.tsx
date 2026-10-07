@@ -11,6 +11,7 @@ import {
 } from "@tanstack/react-query";
 import { fetchTmdbPopularMovies } from "@/utils/fetchPopularMovies";
 import { fetchTmdbGenres } from "@/utils/fetchGenres";
+import { getFirstParam } from "@/utils/getFirstParam";
 
 export const metadata: Metadata = {
   title: "Popular Movies Page - The Movie Database(TMDB)",
@@ -21,14 +22,9 @@ export default async function PopularMovies({
 }: PageProps<"/popular">) {
   const resolvedParams = await searchParams;
   const genresParam = resolvedParams.genres;
-  const genres = Array.isArray(genresParam)
-    ? (genresParam[0] ?? "")
-    : (genresParam ?? "");
-
+  const genres = getFirstParam(genresParam, "")
   const sortParam = resolvedParams.sort;
-  const sort = Array.isArray(sortParam)
-    ? (sortParam[0] ?? DEFAULT_SORT.value)
-    : (sortParam ?? DEFAULT_SORT.value);
+  const sort = getFirstParam(sortParam, DEFAULT_SORT.value)
 
   const queryClient = new QueryClient();
 
