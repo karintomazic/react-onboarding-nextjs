@@ -17,9 +17,7 @@ import { fetchMovieDetails } from "@/utils/fetchMovieDetails";
 import Spinner from "@/components/atoms/Spinner/Spinner";
 import Image from "next/image";
 import { useToggleBookmark } from "@/hooks/useToggleBookmarks";
-
-const tmbImageUrl = "https://image.tmdb.org/t/p/w500";
-const tmbBackdropUrl = "https://image.tmdb.org/t/p/w1280";
+import { tmdbImageUrl, tmbBackdropUrl } from "@/mock/mockData";
 
 type MovieDetailsContentProps = {
   movieId: number;
@@ -72,7 +70,7 @@ export default function MovieDetailsContent({
           <div className={styles.innerWrapper}>
             {movieDetailsData.poster_path && (
               <Image
-                src={`${tmbImageUrl}${movieDetailsData.poster_path}`}
+                src={`${tmdbImageUrl}${movieDetailsData.poster_path}`}
                 alt={`${movieDetailsData.title} ${movieDetailsLabels.posterAltSuffix}`}
                 height={500}
                 width={350}

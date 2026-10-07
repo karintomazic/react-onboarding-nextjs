@@ -2,7 +2,7 @@ import { z } from "zod";
 import { apiFetch } from "./apiFetch";
 import { apiUrl } from "./apiUrl";
 import { tmdbFetch } from "./tmdbFetch";
-const tmbImageUrl = "https://image.tmdb.org/t/p/w500";
+import { tmdbImageUrl } from "@/mock/mockData";
 
 type Movie = { id: number; url: string; title: string; date: string };
 
@@ -54,7 +54,7 @@ export async function fetchTmdbPopularMovies(
     data.results.map((movie) => ({
       id: movie.id,
       title: movie.title,
-      url: movie.poster_path ? `${tmbImageUrl}${movie.poster_path}` : "",
+      url: movie.poster_path ? `${tmdbImageUrl}${movie.poster_path}` : "",
       date: movie.release_date ?? "",
     })),
   );

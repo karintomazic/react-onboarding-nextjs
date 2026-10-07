@@ -2,7 +2,7 @@ import { z } from "zod";
 import { apiFetch } from "./apiFetch";
 import { apiUrl } from "./apiUrl";
 import { tmdbFetch } from "./tmdbFetch";
-const tmbImageUrl = "https://image.tmdb.org/t/p/w500";
+import { tmdbImageUrl } from "@/mock/mockData";
 
 const searchMoviesSchema = z.array(
   z.object({
@@ -116,7 +116,7 @@ export async function fetchTmdbSearchMovies(
           id: p.id,
           name: p.name,
           department: p.known_for_department ?? "",
-          profileImg: p.profile_path ? `${tmbImageUrl}${p.profile_path}` : "",
+          profileImg: p.profile_path ? `${tmdbImageUrl}${p.profile_path}` : "",
           known_for: p.known_for.map((k) => k.title ?? k.name ?? ""),
         })),
       ),
@@ -144,7 +144,7 @@ export async function fetchTmdbSearchMovies(
         data.results.map((m) => ({
           id: m.id,
           title: m.title ?? m.name ?? "",
-          url: m.poster_path ? `${tmbImageUrl}${m.poster_path}` : "",
+          url: m.poster_path ? `${tmdbImageUrl}${m.poster_path}` : "",
           date: m.release_date ?? m.first_air_date ?? "",
           description: m.overview ?? "",
         })),

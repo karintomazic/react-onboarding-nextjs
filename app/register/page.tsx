@@ -28,7 +28,7 @@ export default function RegisterPage() {
   const [allErrors, setAllErrors] = useState<RegisterErr | null>(null);
   const router = useRouter();
 
-  const registerMutaion = useMutation<
+  const registerMutation = useMutation<
     undefined,
     RegisterErr,
     { email: string; password: string }
@@ -77,7 +77,7 @@ export default function RegisterPage() {
     }
 
     setAllErrors(null);
-    registerMutaion.mutate({ email, password });
+    registerMutation.mutate({ email, password });
   };
 
   const clearFieldError = (field: "email" | "password") => {
@@ -98,7 +98,7 @@ export default function RegisterPage() {
         handleSubmit={(email, password) => {
           handleSubmit(email, password);
         }}
-        isSubmitting={registerMutaion.isPending}
+        isSubmitting={registerMutation.isPending}
         allErrors={allErrors}
         clearFieldError={clearFieldError}
       />
