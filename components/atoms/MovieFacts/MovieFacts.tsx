@@ -13,23 +13,23 @@ export default function MovieFacts({
   runtime,
   locale = "en-GB",
 }: MovieFactsProps) {
-  const releaseDateFormated = releaseDate
-    ? new Date(releaseDate).toLocaleDateString(locale, {
-        day: "numeric",
-        month: "numeric",
-        year: "numeric",
-      })
-    : "";
+  const releaseDateFormatted = new Date(releaseDate).toLocaleDateString(locale, {
+    day: "numeric",
+    month: "numeric",
+    year: "numeric",
+  });
 
   const listedGenres = genres.map((g) => g.name).join(", ");
 
   return (
     <div className={styles.facts}>
-      <time dateTime={releaseDate}>{releaseDateFormated}</time>
-      <span>{listedGenres}</span>
-      <span>
-        {Math.floor(runtime / 60)}h{runtime % 60}m
-      </span>
+      {releaseDate && <time dateTime={releaseDate}>{releaseDateFormatted}</time>}
+      {listedGenres && <span>{listedGenres}</span>}
+      {runtime > 0 && (
+        <span>
+          {Math.floor(runtime / 60)}h{runtime % 60}m
+        </span>
+      )}
     </div>
   );
 }
