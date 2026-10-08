@@ -13,17 +13,22 @@ export default function MovieFacts({
   runtime,
   locale = "en-GB",
 }: MovieFactsProps) {
-  const releaseDateFormatted = new Date(releaseDate).toLocaleDateString(locale, {
-    day: "numeric",
-    month: "numeric",
-    year: "numeric",
-  });
+  const releaseDateFormatted = new Date(releaseDate).toLocaleDateString(
+    locale,
+    {
+      day: "numeric",
+      month: "numeric",
+      year: "numeric",
+    },
+  );
 
   const listedGenres = genres.map((g) => g.name).join(", ");
 
   return (
     <div className={styles.facts}>
-      {releaseDate && <time dateTime={releaseDate}>{releaseDateFormatted}</time>}
+      {releaseDate && (
+        <time dateTime={releaseDate}>{releaseDateFormatted}</time>
+      )}
       {listedGenres && <span>{listedGenres}</span>}
       {runtime > 0 && (
         <span>
