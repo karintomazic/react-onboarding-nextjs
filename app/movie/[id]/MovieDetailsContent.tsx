@@ -18,7 +18,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchMovieDetails } from "@/utils/fetchMovieDetails";
 import Image from "next/image";
 import { useToggleBookmark } from "@/hooks/useToggleBookmarks";
-import { tmdbImageUrl, tmbBackdropUrl } from "@/data/tmdb";
+import { getTmdbImageUrl, getTmdbBackdropUrl } from "@/utils/tmdbImage";
 
 type MovieDetailsContentProps = {
   movieId: number;
@@ -56,7 +56,7 @@ export default function MovieDetailsContent({
         className={styles.backdrop}
         style={{
           backgroundImage: movieDetailsData.backdrop_path
-            ? `url(${tmbBackdropUrl}${movieDetailsData.backdrop_path})`
+            ? `url(${getTmdbBackdropUrl(movieDetailsData.backdrop_path)})`
             : "none",
         }}
       >
@@ -64,7 +64,7 @@ export default function MovieDetailsContent({
           <div className={styles.innerWrapper}>
             {movieDetailsData.poster_path && (
               <Image
-                src={`${tmdbImageUrl}${movieDetailsData.poster_path}`}
+                src={getTmdbImageUrl(movieDetailsData.poster_path)}
                 alt={`${movieDetailsData.title} ${movieDetailsLabels.posterAltSuffix}`}
                 height={500}
                 width={350}

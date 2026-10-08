@@ -2,7 +2,7 @@ import { z } from "zod";
 import { apiFetch } from "./apiFetch";
 import { apiUrl } from "./apiUrl";
 import { tmdbFetch } from "./tmdbFetch";
-import { tmdbImageUrl } from "@/data/tmdb";
+import { getTmdbImageUrl } from "@/utils/tmdbImage";
 
 const tmdbMovieSchema = z.object({
   id: z.number(),
@@ -40,7 +40,7 @@ async function fetchAndMapTmdbMovies(url: string): Promise<Movie[]> {
     data.results.map((movie) => ({
       id: movie.id,
       title: movie.title,
-      url: movie.poster_path ? `${tmdbImageUrl}${movie.poster_path}` : "",
+      url: getTmdbImageUrl(movie.poster_path),
       date: movie.release_date,
     })),
   );
