@@ -4,15 +4,17 @@ type MovieFactsProps = {
   releaseDate: string;
   genres: Array<{ id: number; name: string }>;
   runtime: number;
+  locale?: Parameters<Date["toLocaleDateString"]>[0];
 };
 
 export default function MovieFacts({
   releaseDate,
   genres,
   runtime,
+  locale = "en-GB",
 }: MovieFactsProps) {
   const releaseDateFormated = releaseDate
-    ? new Date(releaseDate).toLocaleDateString("en-GB", {
+    ? new Date(releaseDate).toLocaleDateString(locale, {
         day: "numeric",
         month: "numeric",
         year: "numeric",
