@@ -17,4 +17,8 @@ function getFirstParam(
   return [value].flat()[0] ?? fallback;
 }
 
-export { getFirstParam };
+function getFirstParamOrEmptyString(value: string | string[] | undefined) {
+  return getFirstParam(value, "");
+}
+
+export { getFirstParam, getFirstParamOrEmptyString };

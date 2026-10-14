@@ -15,14 +15,14 @@ import { fetchTmdbSearchMovies } from "@/utils/fetchSearchMovies";
 import { isPositiveInteger } from "@/utils/isPositiveInteger";
 import { searchFilters } from "@/data/filterList";
 import { notFound } from "next/navigation";
-import { getFirstParam } from "@/utils/getFirstParam";
+import { getFirstParamOrEmptyString } from "@/utils/getFirstParam";
 
 export async function generateMetadata({
   searchParams,
 }: PageProps<"/search/[filter]">): Promise<Metadata> {
   const resolvedSearchParams = await searchParams;
   const queryParam = resolvedSearchParams.query;
-  const query = getFirstParam(queryParam, "");
+  const query = getFirstParamOrEmptyString(queryParam);
 
   return {
     title: `${query} - The Movie Database(TMDB)`,
@@ -37,7 +37,7 @@ export default async function SearchResults({
   const resolvedParams = await params;
   const filter = resolvedParams.filter;
   const queryParam = resolvedSearchParams.query;
-  const query = getFirstParam(queryParam, "");
+  const query = getFirstParamOrEmptyString(queryParam);
   const pageParam = Number(resolvedSearchParams.page);
   const page = isPositiveInteger(pageParam) ? pageParam : 1;
   const queryClient = new QueryClient();
