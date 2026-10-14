@@ -26,7 +26,7 @@ const popularMoviesSchema = z.array(
   }),
 );
 
-export async function fetchPopularMovies(
+export async function fetchPopularMoviesFromApi(
   sortBy: string,
   genreId: number[],
 ): Promise<Movie[]> {
@@ -38,7 +38,7 @@ export async function fetchPopularMovies(
   );
 }
 
-export async function fetchTmdbPopularMovies(
+export async function fetchPopularMoviesFromTmdb(
   sortBy: string,
   genreId: number[],
 ): Promise<Movie[]> {

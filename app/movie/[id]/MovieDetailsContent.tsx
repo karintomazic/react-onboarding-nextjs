@@ -15,7 +15,7 @@ import {
   movieDetailsLabels,
 } from "../../../data/labels";
 import { useQuery } from "@tanstack/react-query";
-import { fetchMovieDetails } from "@/utils/fetchMovieDetails";
+import { fetchMovieDetailsFromApi } from "@/utils/fetchMovieDetails";
 import Image from "next/image";
 import { useToggleBookmark } from "@/hooks/useToggleBookmarks";
 import { getTmdbImageUrl, getTmdbBackdropUrl } from "@/utils/tmdbImage";
@@ -35,7 +35,7 @@ export default function MovieDetailsContent({
     isError,
   } = useQuery({
     queryKey: ["movie-detail", movieId],
-    queryFn: () => fetchMovieDetails(movieId),
+    queryFn: () => fetchMovieDetailsFromApi(movieId),
   });
 
   const releaseYear = movieDetailsData?.release_date

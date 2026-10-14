@@ -9,8 +9,8 @@ import FilterPanel from "@/components/molecules/FilterPanel/FilterPanel";
 import GenreFilter from "@/components/molecules/GenreFilter/GenreFilter";
 import { DEFAULT_SORT } from "@/data/sortingOptions";
 import { cardLabels, sortDropdownLabels } from "@/data/labels";
-import { fetchPopularMovies } from "@/utils/fetchPopularMovies";
-import { fetchGenres } from "@/utils/fetchGenres";
+import { fetchPopularMoviesFromApi } from "@/utils/fetchPopularMovies";
+import { fetchGenresFromApi } from "@/utils/fetchGenres";
 import { popularMoviesPageLabels } from "@/data/labels";
 import { useRouter } from "next/navigation";
 import Spinner from "@/components/atoms/Spinner/Spinner";
@@ -44,12 +44,15 @@ export default function PopularMoviesContent({
   } = useQuery({
     queryKey: ["popular-movies-page", sort, genres],
     queryFn: () =>
-      fetchPopularMovies(sort, genres ? genres.split(",").map(Number) : []),
+      fetchPopularMoviesFromApi(
+        sort,
+        genres ? genres.split(",").map(Number) : [],
+      ),
   });
 
   const { data: genre } = useQuery({
     queryKey: ["genre-list"],
-    queryFn: fetchGenres,
+    queryFn: fetchGenresFromApi,
   });
 
   const handleSortToggle = () => {

@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import MovieDetailsContent from "./MovieDetailsContent";
-import { fetchTmdbMovieDetails } from "@/utils/fetchMovieDetails";
+import { fetchMovieDetailsFromTmdb } from "@/utils/fetchMovieDetails";
 import {
   dehydrate,
   HydrationBoundary,
@@ -11,7 +11,7 @@ import { notFound } from "next/navigation";
 import { isPositiveInteger } from "@/utils/isPositiveInteger";
 import { TmdbError } from "@/utils/tmdbFetch";
 
-const getMovieDetails = cache(fetchTmdbMovieDetails);
+const getMovieDetails = cache(fetchMovieDetailsFromTmdb);
 
 async function getMovieId(params: PageProps<"/movie/[id]">["params"]) {
   const resolvedParams = await params;

@@ -15,7 +15,7 @@ import {
   desktopNavLabels,
   mobileNavLabels,
 } from "../../../data/labels";
-import { fetchMovieList } from "@/utils/fetchMovieList";
+import { fetchMovieListFromApi } from "@/utils/fetchMovieList";
 
 export default function NavigationBar() {
   const searchParams = useSearchParams();
@@ -45,7 +45,7 @@ export default function NavigationBar() {
 
   const trendingQuery = useQuery({
     queryKey: ["trending-results"],
-    queryFn: () => fetchMovieList(`trending`),
+    queryFn: () => fetchMovieListFromApi(`trending`),
     enabled: fetchTrending,
   });
 
@@ -56,7 +56,9 @@ export default function NavigationBar() {
   const searchQuery = useQuery({
     queryKey: ["search-results", debounceQuery],
     queryFn: () =>
-      fetchMovieList(`search?query=${encodeURIComponent(debounceQuery)}`),
+      fetchMovieListFromApi(
+        `search?query=${encodeURIComponent(debounceQuery)}`,
+      ),
     // skip the search when input is empty.
     enabled: debounceQuery !== "",
   });

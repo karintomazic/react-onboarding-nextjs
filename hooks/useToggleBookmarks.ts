@@ -1,5 +1,5 @@
 import { toggleBookmark } from "@/utils/toggleBookmark";
-import { fetchBookmarks } from "@/utils/fetchBookmarks";
+import { fetchBookmarksFromApi } from "@/utils/fetchBookmarks";
 import { useQueryClient } from "@tanstack/react-query";
 import { useBanner } from "@/hooks/useBanner";
 import { useQuery } from "@tanstack/react-query";
@@ -16,7 +16,7 @@ export function useToggleBookmark({ movieId }: UseToggleBookmarkProps) {
 
   const { data: bookmarksData } = useQuery({
     queryKey: ["bookmarks-page"],
-    queryFn: fetchBookmarks,
+    queryFn: fetchBookmarksFromApi,
     enabled: isLoggedIn,
   });
 

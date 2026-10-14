@@ -2,7 +2,7 @@
 
 import { useSearchParams, useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { fetchAllCounts } from "@/utils/fetchFilterLinks";
+import { fetchAllCountsFromApi } from "@/utils/fetchFilterLinks";
 import FilterLinks from "./FilterLinks";
 import { getFirstParamOrEmptyString } from "@/utils/getFirstParam";
 
@@ -14,7 +14,7 @@ export default function FilterLinksContainer() {
 
   const filterQuery = useQuery({
     queryKey: ["filter-counts", query],
-    queryFn: () => fetchAllCounts(query),
+    queryFn: () => fetchAllCountsFromApi(query),
   });
 
   const totalCount = filterQuery.data;

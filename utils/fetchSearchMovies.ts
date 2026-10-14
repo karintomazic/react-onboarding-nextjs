@@ -83,7 +83,7 @@ function responseEnvelope<T extends z.ZodType>(itemSchema: T) {
   return z.object({ results: z.array(itemSchema), total_pages: z.number() });
 }
 
-export async function fetchSearchMovies(
+export async function fetchSearchMoviesFromApi(
   page: number,
   filter: string,
   query: string,
@@ -94,7 +94,7 @@ export async function fetchSearchMovies(
   );
 }
 
-export async function fetchTmdbSearchMovies(
+export async function fetchSearchMoviesFromTmdb(
   page: number,
   filter: string,
   query: string,

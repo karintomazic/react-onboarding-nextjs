@@ -1,6 +1,6 @@
 import styles from "./BookmarkedMovieCard.module.scss";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchMovieDetails } from "@/utils/fetchMovieDetails";
+import { fetchMovieDetailsFromApi } from "@/utils/fetchMovieDetails";
 import MovieCard from "@/components/atoms/MovieCard/MovieCard";
 import Spinner from "@/components/atoms/Spinner/Spinner";
 import {
@@ -22,7 +22,7 @@ export default function BookmarkedMovieCard({ movieId }: { movieId: number }) {
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["bookmarks-cards", movieId],
-    queryFn: () => fetchMovieDetails(movieId),
+    queryFn: () => fetchMovieDetailsFromApi(movieId),
   });
 
   const handleBookmarkRemove = async () => {

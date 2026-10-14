@@ -46,11 +46,11 @@ async function fetchAndMapTmdbMovies(url: string): Promise<Movie[]> {
   );
 }
 
-export async function fetchShowcaseData(): Promise<ShowcaseData> {
+export async function fetchShowcaseDataFromApi(): Promise<ShowcaseData> {
   return apiFetch(apiUrl(`showcase`), showcaseDataSchema);
 }
 
-export async function fetchTmdbShowcaseData(): Promise<ShowcaseData> {
+export async function fetchShowcaseDataFromTmdb(): Promise<ShowcaseData> {
   const [streaming, rent, theater] = await Promise.all([
     fetchAndMapTmdbMovies(
       `/discover/movie?watch_region=US&with_watch_monetization_types=flatrate&sort_by=popularity.desc`,

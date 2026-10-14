@@ -9,8 +9,8 @@ import {
   QueryClient,
   HydrationBoundary,
 } from "@tanstack/react-query";
-import { fetchTmdbPopularMovies } from "@/utils/fetchPopularMovies";
-import { fetchTmdbGenres } from "@/utils/fetchGenres";
+import { fetchPopularMoviesFromTmdb } from "@/utils/fetchPopularMovies";
+import { fetchGenresFromTmdb } from "@/utils/fetchGenres";
 import {
   getFirstParam,
   getFirstParamOrEmptyString,
@@ -34,14 +34,14 @@ export default async function PopularMovies({
     queryClient.prefetchQuery({
       queryKey: ["popular-movies-page", sort, genres],
       queryFn: () =>
-        fetchTmdbPopularMovies(
+        fetchPopularMoviesFromTmdb(
           sort,
           genres ? genres.split(",").map(Number) : [],
         ),
     }),
     queryClient.prefetchQuery({
       queryKey: ["genre-list"],
-      queryFn: fetchTmdbGenres,
+      queryFn: fetchGenresFromTmdb,
     }),
   ]);
 

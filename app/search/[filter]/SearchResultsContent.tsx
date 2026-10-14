@@ -6,7 +6,7 @@ import { formatDate } from "../../../utils/formatDate";
 import Pagination from "@/components/molecules/Pagination/Pagination";
 import Spinner from "@/components/atoms/Spinner/Spinner";
 import PersonCard from "@/components/atoms/PersonCard/PersonCard";
-import { fetchSearchMovies } from "@/utils/fetchSearchMovies";
+import { fetchSearchMoviesFromApi } from "@/utils/fetchSearchMovies";
 import { searchResultsLabels } from "@/data/labels";
 
 type SearchResultsContentParams = {
@@ -22,7 +22,7 @@ export function SearchResultsContent({
 }: SearchResultsContentParams) {
   const { data, isLoading, error } = useQuery({
     queryKey: ["search-movies", page, filter, query],
-    queryFn: () => fetchSearchMovies(page, filter, query),
+    queryFn: () => fetchSearchMoviesFromApi(page, filter, query),
   });
 
   if (error) {

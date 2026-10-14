@@ -22,7 +22,7 @@ export const movieSchema = z.object({
   vote_average: z.number(),
 });
 
-export async function fetchMovieDetails(
+export async function fetchMovieDetailsFromApi(
   id: number,
 ): Promise<z.infer<typeof movieSchema>> {
   if (!isPositiveInteger(id)) {
@@ -31,7 +31,7 @@ export async function fetchMovieDetails(
   return apiFetch(apiUrl(`movie/${id}`), movieSchema);
 }
 
-export async function fetchTmdbMovieDetails(
+export async function fetchMovieDetailsFromTmdb(
   id: number,
 ): Promise<z.infer<typeof movieSchema>> {
   return tmdbFetch(

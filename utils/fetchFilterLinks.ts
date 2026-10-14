@@ -16,7 +16,7 @@ const tmdbCountResponseSchema = z.object({
 });
 
 // client-safe version
-export async function fetchAllCounts(query: string) {
+export async function fetchAllCountsFromApi(query: string) {
   return apiFetch(
     apiUrl(`filter-counts?query=${encodeURIComponent(query)}`),
     countsDataSchema,
@@ -24,7 +24,7 @@ export async function fetchAllCounts(query: string) {
 }
 
 // server version
-export async function fetchTmdbAllCounts(query: string) {
+export async function fetchAllCountsFromTmdb(query: string) {
   const results = await Promise.all(
     searchFilters.map(async ({ linkName }) => {
       const data = await tmdbFetch(

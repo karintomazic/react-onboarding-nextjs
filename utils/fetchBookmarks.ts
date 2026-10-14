@@ -11,6 +11,6 @@ const bookmarksSchema = z.array(bookmark);
 
 type Bookmark = z.infer<typeof bookmark>;
 
-export async function fetchBookmarks(): Promise<Bookmark[]> {
+export async function fetchBookmarksFromApi(): Promise<Bookmark[]> {
   return apiFetch(`/api/bookmarks`, bookmarksSchema);
 }

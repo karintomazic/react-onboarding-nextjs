@@ -1,4 +1,4 @@
-import { fetchTmdbMovieDetails } from "@/utils/fetchMovieDetails";
+import { fetchMovieDetailsFromTmdb } from "@/utils/fetchMovieDetails";
 import { tmdbRouteHandler } from "@/utils/tmdbRouteHandler";
 import { isPositiveInteger } from "@/utils/isPositiveInteger";
 
@@ -13,5 +13,5 @@ export async function GET(
     return Response.json({ error: "Invalid movie id" }, { status: 400 });
   }
 
-  return tmdbRouteHandler(() => fetchTmdbMovieDetails(idNumber));
+  return tmdbRouteHandler(() => fetchMovieDetailsFromTmdb(idNumber));
 }

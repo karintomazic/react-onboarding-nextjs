@@ -10,8 +10,8 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import { fetchTmdbAllCounts } from "@/utils/fetchFilterLinks";
-import { fetchTmdbSearchMovies } from "@/utils/fetchSearchMovies";
+import { fetchAllCountsFromTmdb } from "@/utils/fetchFilterLinks";
+import { fetchSearchMoviesFromTmdb } from "@/utils/fetchSearchMovies";
 import { isPositiveInteger } from "@/utils/isPositiveInteger";
 import { searchFilters } from "@/data/filterList";
 import { notFound } from "next/navigation";
@@ -50,11 +50,11 @@ export default async function SearchResults({
   await Promise.all([
     queryClient.prefetchQuery({
       queryKey: ["filter-counts", query],
-      queryFn: () => fetchTmdbAllCounts(query),
+      queryFn: () => fetchAllCountsFromTmdb(query),
     }),
     queryClient.prefetchQuery({
       queryKey: ["search-movies", page, filter, query],
-      queryFn: () => fetchTmdbSearchMovies(page, filter, query),
+      queryFn: () => fetchSearchMoviesFromTmdb(page, filter, query),
     }),
   ]);
 
