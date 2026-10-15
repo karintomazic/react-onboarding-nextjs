@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./page.module.scss";
 import Card from "@/components/molecules/Card/Card";
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
@@ -28,6 +28,8 @@ export default function PopularMoviesContent({
   const [genreToggle, setGenreToggle] = useState(false);
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
   const [selectedSort, setSelectedSort] = useState(DEFAULT_SORT);
+  const [autoLoad, setAutoLoad] = useState(false);
+  const moviesSentinel = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   const applyFilters = () => {
@@ -35,6 +37,7 @@ export default function PopularMoviesContent({
     url.searchParams.set("genres", selectedGenres.join(","));
     url.searchParams.set("sort", selectedSort.value);
     router.push(`${url.pathname}${url.search}`);
+    setAutoLoad(false);
   };
 
   const {
@@ -44,6 +47,7 @@ export default function PopularMoviesContent({
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
+    isFetching,
   } = useInfiniteQuery({
     queryKey: ["popular-movies-page", sort, genres],
     queryFn: ({ pageParam }) =>
@@ -72,12 +76,37 @@ export default function PopularMoviesContent({
     setGenreToggle(!genreToggle);
   };
 
+  const onFirstLoadMoreClick = () => {
+    void fetchNextPage();
+    setAutoLoad(true);
+  };
+
+  useEffect(() => {
+    if (!autoLoad) return;
+
+    const loadMoreMovies = (entries: IntersectionObserverEntry[]) => {
+      if (entries[0].isIntersecting && hasNextPage && !isFetching) {
+        void fetchNextPage();
+      }
+    };
+
+    const moviesSentinelElement = moviesSentinel.current;
+    if (!moviesSentinelElement) return;
+    const moviesObserver = new IntersectionObserver(loadMoreMovies);
+    moviesObserver.observe(moviesSentinelElement);
+
+    return () => {
+      moviesObserver.disconnect();
+    };
+  }, [autoLoad, hasNextPage, isFetching, fetchNextPage]);
+
   const hasChanges =
     sort !== selectedSort.value ||
     JSON.stringify(selectedGenres) !==
       JSON.stringify(genres ? genres.split(",").map(Number) : []);
 
   let content;
+  let loadingContent;
 
   if (isLoading) {
     content = (
@@ -106,6 +135,24 @@ export default function PopularMoviesContent({
         signUpLabel={cardLabels.signUp}
       />
     ));
+  }
+
+  if (isFetchingNextPage) {
+    loadingContent = <Spinner />;
+  } else {
+    if (autoLoad) {
+      loadingContent = <div ref={moviesSentinel}></div>;
+    } else {
+      loadingContent = (
+        <div>
+          {hasNextPage && (
+            <button className={styles.submitBtn} onClick={onFirstLoadMoreClick}>
+              Load More
+            </button>
+          )}
+        </div>
+      );
+    }
   }
 
   return (
@@ -153,16 +200,7 @@ export default function PopularMoviesContent({
           >
             {content}
           </div>
-          <div>
-            {hasNextPage && !isFetchingNextPage && (
-              <button
-                className={styles.submitBtn}
-                onClick={() => void fetchNextPage()}
-              >
-                Load More
-              </button>
-            )}
-          </div>
+          <div>{loadingContent}</div>
         </div>
       </div>
     </div>
