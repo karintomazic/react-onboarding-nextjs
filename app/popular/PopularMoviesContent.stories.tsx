@@ -47,7 +47,7 @@ export const PopularMovies: Story = {
       handlers: [
         ...bookmarksHandlers,
         http.get("/api/tmdb/popular", () =>
-          HttpResponse.json(mockPopularMovies),
+          HttpResponse.json({ results: mockPopularMovies, totalPages: 2 }),
         ),
         http.get("/api/tmdb/genres", () => HttpResponse.json(mockGenres)),
         http.get("https://image.tmdb.org/t/p/*", () =>

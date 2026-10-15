@@ -147,7 +147,7 @@ export default function PopularMoviesContent({
         <div>
           {hasNextPage && (
             <button className={styles.submitBtn} onClick={onFirstLoadMoreClick}>
-              Load More
+              {popularMoviesPageLabels.loadMore}
             </button>
           )}
         </div>
