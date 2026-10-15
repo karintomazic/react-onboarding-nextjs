@@ -6,6 +6,10 @@
   @media (max-width: 768px) {
     padding: 16px;
   }
+
+  h2 {
+    margin-bottom: 1rem;
+  }
 }
 
 .popularWrapper {
@@ -61,6 +65,13 @@
       width: 100%;
       min-width: unset;
     }
+  }
+
+  .popularMoviesContent {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
   }
 
   .moviesGrid {

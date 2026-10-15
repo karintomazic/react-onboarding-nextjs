@@ -144,24 +144,26 @@ export default function PopularMoviesContent({
             {popularMoviesPageLabels.searchButton}
           </button>
         </div>
-        <div
-          className={styles.moviesGrid}
-          aria-live="polite"
-          aria-label={popularMoviesPageLabels.resultsAriaLabel}
-        >
-          {content}
-        </div>
-      </div>
 
-      <div>
-        {hasNextPage && !isFetchingNextPage && (
-          <button
-            className={styles.submitBtn}
-            onClick={() => void fetchNextPage()}
+        <div className={styles.popularMoviesContent}>
+          <div
+            className={styles.moviesGrid}
+            aria-live="polite"
+            aria-label={popularMoviesPageLabels.resultsAriaLabel}
           >
-            Load More
-          </button>
-        )}
+            {content}
+          </div>
+          <div>
+            {hasNextPage && !isFetchingNextPage && (
+              <button
+                className={styles.submitBtn}
+                onClick={() => void fetchNextPage()}
+              >
+                Load More
+              </button>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
