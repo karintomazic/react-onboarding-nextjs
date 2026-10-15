@@ -41,7 +41,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const PopularMovies: Story = {
-  args: { genres: "", sort: "popularity.desc", page: 1 },
+  args: { genres: "", sort: "popularity.desc" },
   parameters: {
     msw: {
       handlers: [

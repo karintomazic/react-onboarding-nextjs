@@ -15,7 +15,6 @@ import {
   getFirstParam,
   getFirstParamOrEmptyString,
 } from "@/utils/getFirstParam";
-import { isPositiveInteger } from "@/utils/isPositiveInteger";
 
 export const metadata: Metadata = {
   title: "Popular Movies Page - The Movie Database(TMDB)",
@@ -30,18 +29,17 @@ export default async function PopularMovies({
   const sortParam = resolvedParams.sort;
   const sort = getFirstParam(sortParam, DEFAULT_SORT.value);
   const queryClient = new QueryClient();
-  const pageParam = Number(resolvedParams.page);
-  const page = isPositiveInteger(pageParam) ? pageParam : 1;
 
   await Promise.all([
-    queryClient.prefetchQuery({
-      queryKey: ["popular-movies-page", sort, genres, page],
-      queryFn: () =>
+    queryClient.prefetchInfiniteQuery({
+      queryKey: ["popular-movies-page", sort, genres],
+      queryFn: ({ pageParam }) =>
         fetchPopularMoviesFromTmdb(
           sort,
           genres ? genres.split(",").map(Number) : [],
-          page,
+          pageParam,
         ),
+      initialPageParam: 1,
     }),
     queryClient.prefetchQuery({
       queryKey: ["genre-list"],
@@ -54,7 +52,7 @@ export default async function PopularMovies({
       <div className={styles.PopularMoviesContainer}>
         <h2>{popularMoviesPageLabels.heading}</h2>
         <HydrationBoundary state={dehydrate(queryClient)}>
-          <PopularMoviesContent genres={genres} sort={sort} page={page} />
+          <PopularMoviesContent genres={genres} sort={sort} />
         </HydrationBoundary>
       </div>
     </SingleColumn>

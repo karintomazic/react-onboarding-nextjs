@@ -3,7 +3,7 @@
 import { useState } from "react";
 import styles from "./page.module.scss";
 import Card from "@/components/molecules/Card/Card";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import SortDropdown from "@/components/molecules/SortDropdown/SortDropdown";
 import FilterPanel from "@/components/molecules/FilterPanel/FilterPanel";
 import GenreFilter from "@/components/molecules/GenreFilter/GenreFilter";
@@ -14,18 +14,15 @@ import { fetchGenresFromApi } from "@/utils/fetchGenres";
 import { popularMoviesPageLabels } from "@/data/labels";
 import { useRouter } from "next/navigation";
 import Spinner from "@/components/atoms/Spinner/Spinner";
-import Pagination from "@/components/molecules/Pagination/Pagination";
 
 type PopularMoviesContentProps = {
   genres: string;
   sort: string;
-  page: number;
 };
 
 export default function PopularMoviesContent({
   genres,
   sort,
-  page,
 }: PopularMoviesContentProps) {
   const [sortToggle, setSortToggle] = useState(false);
   const [genreToggle, setGenreToggle] = useState(false);
@@ -44,15 +41,23 @@ export default function PopularMoviesContent({
     data: movieData,
     isError,
     isLoading,
-  } = useQuery({
-    queryKey: ["popular-movies-page", sort, genres, page],
-    queryFn: () =>
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["popular-movies-page", sort, genres],
+    queryFn: ({ pageParam }) =>
       fetchPopularMoviesFromApi(
         sort,
         genres ? genres.split(",").map(Number) : [],
-        page,
+        pageParam,
       ),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, pages) =>
+      pages.length < lastPage.totalPages ? pages.length + 1 : undefined,
   });
+
+  const movies = movieData ? movieData.pages.flatMap((p) => p.results) : [];
 
   const { data: genre } = useQuery({
     queryKey: ["genre-list"],
@@ -71,11 +76,6 @@ export default function PopularMoviesContent({
     sort !== selectedSort.value ||
     JSON.stringify(selectedGenres) !==
       JSON.stringify(genres ? genres.split(",").map(Number) : []);
-
-  const movies = movieData ? movieData.results : [];
-
-  console.log(movieData?.totalPages);
-  console.log(typeof movieData?.totalPages);
 
   let content;
 
@@ -152,10 +152,17 @@ export default function PopularMoviesContent({
           {content}
         </div>
       </div>
-      <Pagination
-        page={page}
-        totalPages={movieData ? movieData.totalPages : 1}
-      />
+
+      <div>
+        {hasNextPage && !isFetchingNextPage && (
+          <button
+            className={styles.submitBtn}
+            onClick={() => void fetchNextPage()}
+          >
+            Load More
+          </button>
+        )}
+      </div>
     </div>
   );
 }
