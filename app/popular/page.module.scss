@@ -10,6 +10,11 @@
 
 .popularWrapper {
   display: flex;
+  flex-direction: column;
+}
+
+.popularWrapperInner {
+  display: flex;
   gap: 30px;
 
   @media (max-width: 768px) {

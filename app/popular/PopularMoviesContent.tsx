@@ -14,15 +14,18 @@ import { fetchGenresFromApi } from "@/utils/fetchGenres";
 import { popularMoviesPageLabels } from "@/data/labels";
 import { useRouter } from "next/navigation";
 import Spinner from "@/components/atoms/Spinner/Spinner";
+import Pagination from "@/components/molecules/Pagination/Pagination";
 
 type PopularMoviesContentProps = {
   genres: string;
   sort: string;
+  page: number;
 };
 
 export default function PopularMoviesContent({
   genres,
   sort,
+  page,
 }: PopularMoviesContentProps) {
   const [sortToggle, setSortToggle] = useState(false);
   const [genreToggle, setGenreToggle] = useState(false);
@@ -42,11 +45,12 @@ export default function PopularMoviesContent({
     isError,
     isLoading,
   } = useQuery({
-    queryKey: ["popular-movies-page", sort, genres],
+    queryKey: ["popular-movies-page", sort, genres, page],
     queryFn: () =>
       fetchPopularMoviesFromApi(
         sort,
         genres ? genres.split(",").map(Number) : [],
+        page,
       ),
   });
 
@@ -68,7 +72,10 @@ export default function PopularMoviesContent({
     JSON.stringify(selectedGenres) !==
       JSON.stringify(genres ? genres.split(",").map(Number) : []);
 
-  const movies = movieData ? movieData : [];
+  const movies = movieData ? movieData.results : [];
+
+  console.log(movieData?.totalPages);
+  console.log(typeof movieData?.totalPages);
 
   let content;
 
@@ -103,46 +110,52 @@ export default function PopularMoviesContent({
 
   return (
     <div className={styles.popularWrapper}>
-      <div className={styles.filterWrapper}>
-        <FilterPanel
-          title={popularMoviesPageLabels.sortTitle}
-          subtitle={popularMoviesPageLabels.sortSubtitle}
-          toggleAction={handleSortToggle}
-          toggle={sortToggle}
+      <div className={styles.popularWrapperInner}>
+        <div className={styles.filterWrapper}>
+          <FilterPanel
+            title={popularMoviesPageLabels.sortTitle}
+            subtitle={popularMoviesPageLabels.sortSubtitle}
+            toggleAction={handleSortToggle}
+            toggle={sortToggle}
+          >
+            <SortDropdown
+              sortBy={selectedSort}
+              setSortBy={setSelectedSort}
+              ariaLabel={sortDropdownLabels.ariaLabel}
+            />
+          </FilterPanel>
+          <FilterPanel
+            title={popularMoviesPageLabels.filtersTitle}
+            subtitle={popularMoviesPageLabels.genresSubtitle}
+            toggleAction={handleGenreToggle}
+            toggle={genreToggle}
+          >
+            <GenreFilter
+              genre={genre}
+              selectedGenres={selectedGenres}
+              setSelectedGenres={setSelectedGenres}
+            />
+          </FilterPanel>
+          <button
+            onClick={applyFilters}
+            disabled={!hasChanges}
+            className={styles.submitBtn}
+          >
+            {popularMoviesPageLabels.searchButton}
+          </button>
+        </div>
+        <div
+          className={styles.moviesGrid}
+          aria-live="polite"
+          aria-label={popularMoviesPageLabels.resultsAriaLabel}
         >
-          <SortDropdown
-            sortBy={selectedSort}
-            setSortBy={setSelectedSort}
-            ariaLabel={sortDropdownLabels.ariaLabel}
-          />
-        </FilterPanel>
-        <FilterPanel
-          title={popularMoviesPageLabels.filtersTitle}
-          subtitle={popularMoviesPageLabels.genresSubtitle}
-          toggleAction={handleGenreToggle}
-          toggle={genreToggle}
-        >
-          <GenreFilter
-            genre={genre}
-            selectedGenres={selectedGenres}
-            setSelectedGenres={setSelectedGenres}
-          />
-        </FilterPanel>
-        <button
-          onClick={applyFilters}
-          disabled={!hasChanges}
-          className={styles.submitBtn}
-        >
-          {popularMoviesPageLabels.searchButton}
-        </button>
+          {content}
+        </div>
       </div>
-      <div
-        className={styles.moviesGrid}
-        aria-live="polite"
-        aria-label={popularMoviesPageLabels.resultsAriaLabel}
-      >
-        {content}
-      </div>
+      <Pagination
+        page={page}
+        totalPages={movieData ? movieData.totalPages : 1}
+      />
     </div>
   );
 }
