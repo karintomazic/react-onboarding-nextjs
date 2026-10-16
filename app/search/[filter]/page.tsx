@@ -11,7 +11,7 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import { fetchAllCountsFromTmdb } from "@/utils/fetchFilterLinks";
-import { fetchSearchMoviesFromTmdb } from "@/utils/fetchSearchMovies";
+import { getSearchMoviesFromTmdb } from "@/utils/fetchSearchMovies";
 import { isPositiveInteger } from "@/utils/isPositiveInteger";
 import { searchFilters } from "@/data/filterList";
 import { notFound } from "next/navigation";
@@ -54,7 +54,7 @@ export default async function SearchResults({
     }),
     queryClient.prefetchQuery({
       queryKey: ["search-movies", page, filter, query],
-      queryFn: () => fetchSearchMoviesFromTmdb(page, filter, query),
+      queryFn: () => getSearchMoviesFromTmdb(page, filter, query),
     }),
   ]);
 

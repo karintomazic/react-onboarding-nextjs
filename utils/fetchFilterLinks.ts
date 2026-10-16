@@ -2,7 +2,7 @@ import { searchFilters } from "@/data/filterList";
 import { z } from "zod";
 import { apiFetch } from "./apiFetch";
 import { apiUrl } from "./apiUrl";
-import { tmdbFetch } from "./tmdbFetch";
+import { getSearchMoviesFromTmdb } from "./fetchSearchMovies";
 
 const countsDataSchema = z.array(
   z.object({
@@ -10,10 +10,6 @@ const countsDataSchema = z.array(
     count: z.number(),
   }),
 );
-
-const tmdbCountResponseSchema = z.object({
-  total_results: z.number(),
-});
 
 // client-safe version
 export async function fetchAllCountsFromApi(query: string) {
@@ -23,15 +19,12 @@ export async function fetchAllCountsFromApi(query: string) {
   );
 }
 
-// server version
+// server version - fetch the first page for every category
 export async function fetchAllCountsFromTmdb(query: string) {
   const results = await Promise.all(
     searchFilters.map(async ({ linkName }) => {
-      const data = await tmdbFetch(
-        `/search/${linkName}?query=${encodeURIComponent(query)}&page=1`,
-        tmdbCountResponseSchema,
-      );
-      return { filter: linkName, count: data.total_results };
+      const data = await getSearchMoviesFromTmdb(1, linkName, query);
+      return { filter: linkName, count: data.totalResults };
     }),
   );
 
