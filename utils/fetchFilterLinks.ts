@@ -28,7 +28,7 @@ export async function fetchAllCountsFromTmdb(query: string) {
   const results = await Promise.all(
     searchFilters.map(async ({ linkName }) => {
       const data = await tmdbFetch(
-        `/search/${linkName}?query=${query}&page=1`,
+        `/search/${linkName}?query=${encodeURIComponent(query)}&page=1`,
         tmdbCountResponseSchema,
       );
       return { filter: linkName, count: data.total_results };

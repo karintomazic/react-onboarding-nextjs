@@ -89,7 +89,9 @@ export async function fetchSearchMoviesFromApi(
   query: string,
 ): Promise<SearchResult> {
   return apiFetch(
-    apiUrl(`movie-search?filter=${filter}&query=${query}&page=${page}`),
+    apiUrl(
+      `movie-search?filter=${filter}&query=${encodeURIComponent(query)}&page=${page}`,
+    ),
     searchResultsSchema,
   );
 }
@@ -101,7 +103,7 @@ export async function fetchSearchMoviesFromTmdb(
 ): Promise<SearchResult> {
   let searchResult: SearchResult;
 
-  const pathString = `/search/${filter}?query=${query}&page=${page}`;
+  const pathString = `/search/${filter}?query=${encodeURIComponent(query)}&page=${page}`;
 
   if (filter === "person") {
     const data = await tmdbFetch(

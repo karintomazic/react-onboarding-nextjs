@@ -58,7 +58,9 @@ export default function PopularMoviesContent({
       ),
     initialPageParam: 1,
     getNextPageParam: (lastPage, pages) =>
-      pages.length < lastPage.totalPages ? pages.length + 1 : undefined,
+      pages.length < Math.min(lastPage.totalPages, 500)
+        ? pages.length + 1
+        : undefined,
   });
 
   const movies = movieData ? movieData.pages.flatMap((p) => p.results) : [];
