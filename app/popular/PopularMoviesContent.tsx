@@ -65,6 +65,13 @@ export default function PopularMoviesContent({
 
   const movies = movieData ? movieData.pages.flatMap((p) => p.results) : [];
 
+  const moviesById = new Map(
+    movies.map((item) => {
+      return [item.id, item];
+    }),
+  );
+  const uniqueMovies = [...moviesById.values()];
+
   const { data: genre } = useQuery({
     queryKey: ["genre-list"],
     queryFn: fetchGenresFromApi,
@@ -123,7 +130,7 @@ export default function PopularMoviesContent({
       </p>
     );
   } else {
-    content = movies.map((r) => (
+    content = uniqueMovies.map((r) => (
       <Card
         key={r.id}
         id={r.id}
