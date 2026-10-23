@@ -18,7 +18,7 @@ export default function BookmarksPageContent() {
   let content;
 
   if (!data) {
-    <Spinner />;
+    content = <Spinner />;
   } else if (data.length === 0) {
     content = (
       <div className={styles.emptyState}>
