@@ -118,7 +118,7 @@ export default function Card({
               <OptionsDropdown
                 dropdownPosition={dropdownPosition}
                 dropdownRef={dropdownRef}
-                handleAddToBookmark={() => void handleAddToBookmark()}
+                handleAddToBookmark={handleAddToBookmark}
                 isBookmarked={isBookmarked}
                 optionsPromptLabel={optionsPromptLabel}
                 loginLabel={loginLabel}

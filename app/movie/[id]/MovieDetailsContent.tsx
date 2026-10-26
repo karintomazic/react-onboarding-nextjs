@@ -104,7 +104,7 @@ export default function MovieDetailsContent({
                 // no-misused-promises - fire the function and move on - we dont need to await for it to resolve. because useToggleBookmarks
                 // is already a async with try/catch that handles errors. if toggleBookmark fails - handleAddToBookmark catches it and shows the banner
                 // () => void handleAddToBookmark() creates a brand new different function - satisfies the prop type
-                handleAddToBookmark={() => void handleAddToBookmark()}
+                handleAddToBookmark={handleAddToBookmark}
                 isBookmarked={isBookmarked}
               />
               <MovieInfo
