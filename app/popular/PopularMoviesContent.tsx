@@ -3,7 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./page.module.scss";
 import Card from "@/components/molecules/Card/Card";
-import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
+import {
+  useQuery,
+  useInfiniteQuery,
+  useQueryClient,
+  InfiniteData,
+} from "@tanstack/react-query";
 import SortDropdown from "@/components/molecules/SortDropdown/SortDropdown";
 import FilterPanel from "@/components/molecules/FilterPanel/FilterPanel";
 import GenreFilter from "@/components/molecules/GenreFilter/GenreFilter";
@@ -14,6 +19,7 @@ import { fetchGenresFromApi } from "@/utils/fetchGenres";
 import { popularMoviesPageLabels } from "@/data/labels";
 import { useRouter } from "next/navigation";
 import Spinner from "@/components/atoms/Spinner/Spinner";
+import { PopularResult } from "@/utils/fetchPopularMovies";
 
 type PopularMoviesContentProps = {
   genres: string;
@@ -31,6 +37,8 @@ export default function PopularMoviesContent({
   const [autoLoad, setAutoLoad] = useState(false);
   const moviesSentinel = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const movieIds = useRef(new Set<number>());
+  const queryClient = useQueryClient();
 
   const applyFilters = () => {
     const url = new URL("/popular", window.location.origin);
@@ -50,12 +58,43 @@ export default function PopularMoviesContent({
     isFetching,
   } = useInfiniteQuery({
     queryKey: ["popular-movies-page", sort, genres],
-    queryFn: ({ pageParam }) =>
-      fetchPopularMoviesFromApi(
+    queryFn: async ({ pageParam }) => {
+      // keep memory in sync - start it fresh. clear the memory when page 1 is loaded
+      if (pageParam === 1) {
+        movieIds.current.clear();
+      }
+
+      // page 1 came from the server, so add its ids before checking page 2
+      if (pageParam !== 1 && movieIds.current.size === 0) {
+        const cached = queryClient.getQueryData<InfiniteData<PopularResult>>([
+          "popular-movies-page",
+          sort,
+          genres,
+        ]);
+
+        cached?.pages.forEach((page) => {
+          page.results.forEach(({ id }) => {
+            movieIds.current.add(id);
+          });
+        });
+      }
+
+      const { results, totalPages } = await fetchPopularMoviesFromApi(
         sort,
         genres ? genres.split(",").map(Number) : [],
         pageParam,
-      ),
+      );
+
+      const filteredResults = results.filter(({ id }) => {
+        return !movieIds.current.has(id);
+      });
+
+      filteredResults.forEach(({ id }) => {
+        movieIds.current.add(id);
+      });
+
+      return { results: filteredResults, totalPages };
+    },
     initialPageParam: 1,
     getNextPageParam: (lastPage, pages) =>
       pages.length < Math.min(lastPage.totalPages, 500)
@@ -64,13 +103,6 @@ export default function PopularMoviesContent({
   });
 
   const movies = movieData ? movieData.pages.flatMap((p) => p.results) : [];
-
-  const moviesById = new Map(
-    movies.map((item) => {
-      return [item.id, item];
-    }),
-  );
-  const uniqueMovies = [...moviesById.values()];
 
   const { data: genre } = useQuery({
     queryKey: ["genre-list"],
@@ -130,7 +162,7 @@ export default function PopularMoviesContent({
       </p>
     );
   } else {
-    content = uniqueMovies.map((r) => (
+    content = movies.map((r) => (
       <Card
         key={r.id}
         id={r.id}

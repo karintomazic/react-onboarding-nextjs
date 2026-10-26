@@ -32,7 +32,7 @@ const popularResultSchema = z.object({
   totalPages: z.number(),
 });
 
-type PopularResult = z.infer<typeof popularResultSchema>;
+export type PopularResult = z.infer<typeof popularResultSchema>;
 
 export async function fetchPopularMoviesFromApi(
   sortBy: string,
