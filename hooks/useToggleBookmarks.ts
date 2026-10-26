@@ -4,6 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useBanner } from "@/hooks/useBanner";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
+import { startTransition, useOptimistic } from "react";
 
 type useToggleBookmarkProps = {
   movieId: number;
@@ -28,23 +29,31 @@ export function useToggleBookmark({ movieId }: useToggleBookmarkProps) {
 
   const isBookmarked = bookmarkMovieIds?.includes(movieId) ?? false;
 
-  const handleAddToBookmark = async () => {
-    try {
-      await toggleBookmark(isBookmarked, movieId);
-      showBanner(
-        isBookmarked
-          ? "Removed from your Bookmarks list."
-          : "Added to your Bookmarks list.",
-        "success",
-      );
-      await queryClient.invalidateQueries({ queryKey: ["bookmarks-page"] });
-    } catch (err) {
-      showBanner(
-        err instanceof Error ? err.message : "Something went wrong",
-        "error",
-      );
-    }
+  const [optimisticValue, setOptimisticValue] = useOptimistic(isBookmarked);
+
+  const handleAddToBookmark = () => {
+    startTransition(async () => {
+      setOptimisticValue(!isBookmarked);
+
+      try {
+        await toggleBookmark(isBookmarked, movieId);
+        showBanner(
+          isBookmarked
+            ? "Removed from your Bookmarks list."
+            : "Added to your Bookmarks list.",
+          "success",
+        );
+        await queryClient.invalidateQueries({ queryKey: ["bookmarks-page"] });
+      } catch (err) {
+        showBanner(
+          err instanceof Error ? err.message : "Something went wrong",
+          "error",
+        );
+      }
+    });
   };
 
-  return { isBookmarked, handleAddToBookmark };
+  console.log(optimisticValue);
+
+  return { isBookmarked: optimisticValue, handleAddToBookmark };
 }
