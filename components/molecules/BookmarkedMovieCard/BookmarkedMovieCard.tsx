@@ -1,5 +1,5 @@
 import styles from "./BookmarkedMovieCard.module.scss";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { fetchMovieDetails } from "@/utils/fetchMovieDetails";
 import MovieCard from "@/components/atoms/MovieCard/MovieCard";
 import Spinner from "@/components/atoms/Spinner/Spinner";
@@ -11,34 +11,16 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useBanner } from "@/hooks/useBanner";
-import { toggleBookmark } from "@/utils/toggleBookmark";
 import { bookmarkedMovieCardLabels } from "@/data/labels";
+import { useToggleBookmark } from "@/hooks/useToggleBookmarks";
 
 export default function BookmarkedMovieCard({ movieId }: { movieId: number }) {
-  const queryClient = useQueryClient();
-
-  const { showBanner } = useBanner();
+  const { isBookmarked, handleAddToBookmark } = useToggleBookmark({ movieId });
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["bookmarks-cards", movieId],
     queryFn: () => fetchMovieDetails(movieId),
   });
-
-  const handleBookmarkRemove = async () => {
-    try {
-      await toggleBookmark(true, movieId); // true - always delete
-      showBanner(bookmarkedMovieCardLabels.removedMessage, "success");
-      await queryClient.invalidateQueries({ queryKey: ["bookmarks-page"] });
-    } catch (err) {
-      showBanner(
-        err instanceof Error
-          ? err.message
-          : bookmarkedMovieCardLabels.genericError,
-        "error",
-      );
-    }
-  };
 
   if (isLoading) {
     return <Spinner variant="smallSpinner" />;
@@ -46,6 +28,10 @@ export default function BookmarkedMovieCard({ movieId }: { movieId: number }) {
 
   if (isError || !data) {
     return <p>{bookmarkedMovieCardLabels.loadError}</p>;
+  }
+
+  if (!isBookmarked) {
+    return null;
   }
 
   return (
@@ -78,10 +64,7 @@ export default function BookmarkedMovieCard({ movieId }: { movieId: number }) {
           </span>
           {bookmarkedMovieCardLabels.addToList}
         </button>
-        <button
-          className={styles.actionButton}
-          onClick={() => void handleBookmarkRemove()}
-        >
+        <button className={styles.actionButton} onClick={handleAddToBookmark}>
           <span className={`${styles.actionIcon} ${styles.remove}`}>
             <FontAwesomeIcon icon={faXmark} />
           </span>

@@ -53,7 +53,5 @@ export function useToggleBookmark({ movieId }: useToggleBookmarkProps) {
     });
   };
 
-  console.log(optimisticValue);
-
   return { isBookmarked: optimisticValue, handleAddToBookmark };
 }
