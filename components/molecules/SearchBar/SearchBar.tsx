@@ -77,6 +77,7 @@ export default function SearchBar({
       setIsOpen(false);
     } else {
       onSubmit();
+      setIsOpen(false);
     }
   }
 
