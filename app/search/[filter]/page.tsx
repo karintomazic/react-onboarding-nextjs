@@ -10,18 +10,19 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import { fetchTmdbAllCounts } from "@/utils/fetchFilterLinks";
-import { fetchTmdbSearchMovies } from "@/utils/fetchSearchMovies";
+import { fetchAllCountsFromTmdb } from "@/utils/fetchFilterLinks";
+import { fetchSearchMoviesFromTmdb } from "@/utils/fetchSearchMovies";
+import { isPositiveInteger } from "@/utils/isPositiveInteger";
+import { searchFilters } from "@/data/filterList";
+import { notFound } from "next/navigation";
+import { getFirstParamOrEmptyString } from "@/utils/getFirstParam";
 
 export async function generateMetadata({
   searchParams,
 }: PageProps<"/search/[filter]">): Promise<Metadata> {
   const resolvedSearchParams = await searchParams;
-
   const queryParam = resolvedSearchParams.query;
-  const query = Array.isArray(queryParam)
-    ? (queryParam[0] ?? "")
-    : (queryParam ?? "");
+  const query = getFirstParamOrEmptyString(queryParam);
 
   return {
     title: `${query} - The Movie Database(TMDB)`,
@@ -35,24 +36,25 @@ export default async function SearchResults({
   const resolvedSearchParams = await searchParams;
   const resolvedParams = await params;
   const filter = resolvedParams.filter;
-
   const queryParam = resolvedSearchParams.query;
-  const query = Array.isArray(queryParam)
-    ? (queryParam[0] ?? "")
-    : (queryParam ?? "");
-  const pageParam = resolvedSearchParams.page;
-  const page = Number(pageParam) ? Number(pageParam) : 1;
-
+  const query = getFirstParamOrEmptyString(queryParam);
+  const pageParam = Number(resolvedSearchParams.page);
+  const page = isPositiveInteger(pageParam) ? pageParam : 1;
   const queryClient = new QueryClient();
+
+  const linksArray = searchFilters.map((lNames) => lNames.linkName);
+  if (linksArray.indexOf(filter) === -1) {
+    notFound();
+  }
 
   await Promise.all([
     queryClient.prefetchQuery({
       queryKey: ["filter-counts", query],
-      queryFn: () => fetchTmdbAllCounts(query),
+      queryFn: () => fetchAllCountsFromTmdb(query),
     }),
     queryClient.prefetchQuery({
       queryKey: ["search-movies", page, filter, query],
-      queryFn: () => fetchTmdbSearchMovies(page, filter, query),
+      queryFn: () => fetchSearchMoviesFromTmdb(page, filter, query),
     }),
   ]);
 

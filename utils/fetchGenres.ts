@@ -16,11 +16,11 @@ const genreResponseSchema = z.object({
   genres: z.array(genreSchema),
 });
 
-export async function fetchGenres(): Promise<Genre[]> {
+export async function fetchGenresFromApi(): Promise<Genre[]> {
   return apiFetch(apiUrl(`genres`), genreSchemaArray);
 }
 
-export async function fetchTmdbGenres(): Promise<Genre[]> {
+export async function fetchGenresFromTmdb(): Promise<Genre[]> {
   const data = await tmdbFetch(`/genre/movie/list`, genreResponseSchema);
   return data.genres;
 }

@@ -1,9 +1,9 @@
 "use client";
 
 import styles from "./page.module.scss";
+import ConfirmModal from "@/components/molecules/ConfirmModal/ConfirmModal";
 import { signOut } from "next-auth/react";
 import { profilePageLabels } from "@/data/labels";
-import ConfirmModal from "@/components/molecules/ConfirmModal/ConfirmModal";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useBanner } from "@/hooks/useBanner";

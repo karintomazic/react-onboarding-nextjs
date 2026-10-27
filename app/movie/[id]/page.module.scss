@@ -43,18 +43,6 @@
   }
 }
 
-.facts {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 1rem;
-
-  span + span::before {
-    content: "\2022";
-    margin-right: 8px;
-  }
-}
-
 @media (max-width: 768px) {
   .backdropBackground {
     background-image: linear-gradient(

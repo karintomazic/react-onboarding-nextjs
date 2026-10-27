@@ -11,7 +11,7 @@ import { cardLabels } from "@/data/labels";
 
 export type MovieCardProps = {
   id: number;
-  imageUrl: StaticImageData | string;
+  imageUrl: StaticImageData | string | null;
   title: string;
   date?: string;
   content: string;

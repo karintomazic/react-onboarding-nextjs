@@ -70,7 +70,7 @@ export default function Pagination({ page, totalPages }: PaginationData) {
             <Link
               key={pageNum}
               href={pageHref(pageNum)}
-              data-active={currentPage == pageNum}
+              data-active={currentPage === pageNum}
             >
               {pageNum}
             </Link>

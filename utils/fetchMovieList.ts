@@ -13,6 +13,6 @@ export const movieListSchema = z.object({
   results: z.array(tmdbMovieSchema),
 });
 
-export async function fetchMovieList(path: string) {
+export async function fetchMovieListFromApi(path: string) {
   return apiFetch(apiUrl(path), tmdbMovieSchemaArray);
 }

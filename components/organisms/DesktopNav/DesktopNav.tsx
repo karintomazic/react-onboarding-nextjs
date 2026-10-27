@@ -5,7 +5,8 @@ import Icon from "../../atoms/Icon/Icon";
 import UserMenu from "../../molecules/UserMenu/UserMenu";
 import Link from "next/link";
 import Image from "next/image";
-import { icons } from "@/assets/icons";
+import logo from "@/assets/logo.svg";
+import plus from "@/assets/plus.svg";
 import { type RefObject } from "react";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { userMenuLabels } from "../../../data/labels";
@@ -27,13 +28,13 @@ export default function DesktopNav({
     <nav className={styles.navbar}>
       <div className={styles.left}>
         <Link href="/" className={styles.logo} aria-label={homeAriaLabel}>
-          <Image src={icons.logo} alt="" />
+          <Image src={logo} alt="" />
         </Link>
         <MainMenu />
       </div>
       <div className={styles.right}>
         <a aria-label={createAriaLabel} className={styles.plus}>
-          <Image src={icons.plus} alt="" />
+          <Image src={plus} alt="" />
         </a>
         <LanguageSwitcherHandler />
         <UserMenu

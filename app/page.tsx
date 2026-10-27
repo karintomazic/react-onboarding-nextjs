@@ -5,14 +5,14 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import { fetchTmdbShowcaseData } from "@/utils/fetchShowcaseData";
+import { fetchShowcaseDataFromTmdb } from "@/utils/fetchShowcaseData";
 
 export default async function HomePage() {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
     queryKey: ["showcase-movies"],
-    queryFn: fetchTmdbShowcaseData,
+    queryFn: fetchShowcaseDataFromTmdb,
   });
 
   return (

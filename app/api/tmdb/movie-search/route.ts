@@ -1,4 +1,4 @@
-import { fetchTmdbSearchMovies } from "@/utils/fetchSearchMovies";
+import { fetchSearchMoviesFromTmdb } from "@/utils/fetchSearchMovies";
 import { tmdbRouteHandler } from "@/utils/tmdbRouteHandler";
 
 export async function GET(request: Request) {
@@ -8,6 +8,6 @@ export async function GET(request: Request) {
   const pageNumber = searchParams.get("page") ?? "";
 
   return tmdbRouteHandler(() =>
-    fetchTmdbSearchMovies(Number(pageNumber), filter, query),
+    fetchSearchMoviesFromTmdb(Number(pageNumber), filter, query),
   );
 }

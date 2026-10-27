@@ -1,0 +1,11 @@
+.facts {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+
+  span + span::before {
+    content: "•";
+    margin-right: 8px;
+  }
+}

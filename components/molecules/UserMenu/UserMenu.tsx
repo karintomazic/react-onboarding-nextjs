@@ -10,8 +10,8 @@ import { useSession } from "next-auth/react";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { userMenuLabels } from "@/data/labels";
-import { icons } from "@/assets/icons";
 import { useIsHydrated } from "@/hooks/useIsHydrated";
+import profileIcon from "@/assets/profile.svg";
 
 type UserMenuProps = {
   joinLabel: string;
@@ -21,11 +21,9 @@ type UserMenuProps = {
 export default function UserMenu({ joinLabel, loginLabel }: UserMenuProps) {
   const usermenuRef = useRef<HTMLDivElement>(null);
 
-  const session = useSession();
+  const { status, data } = useSession();
   const [open, setOpen] = useState(false);
-
   const isHydrated = useIsHydrated();
-
   const isClickedOutside = useClickOutside(usermenuRef);
 
   const handleOpen = () => {
@@ -36,34 +34,28 @@ export default function UserMenu({ joinLabel, loginLabel }: UserMenuProps) {
     await signOut();
   };
 
-  //  useSession().status states
-  const isLoggedIn = session.status === "authenticated";
-  const isNotLoggedIn = session.status === "unauthenticated";
-  const loggedInLoading = session.status === "loading" || !isHydrated;
-
   let loggedInContent;
 
-  if (loggedInLoading) {
+  if (status === "loading" || !isHydrated) {
     loggedInContent = <Spinner variant="smallSpinner" />;
-  } else if (isLoggedIn) {
+  } else if (status === "authenticated") {
     loggedInContent = (
       <div className={styles.loggedIn}>
         <Icon icon={faBell} />
         <div className={styles.userMenuWrapper} ref={usermenuRef}>
           <Image
-            src={icons.profileIcon}
+            src={profileIcon}
             alt={userMenuLabels.profileIconAlt}
             className={styles.profileIcon}
             width={32}
             height={32}
             onClick={handleOpen}
           />
-
           {open && !isClickedOutside && (
             <div className={styles.userDropdown}>
               <div className={styles.callout} />
               <div className={styles.userInfo}>
-                <p className={styles.userEmail}>{session.data.user?.email}</p>
+                <p className={styles.userEmail}>{data.user?.email}</p>
                 <div className={styles.profileLinks}>
                   <Link href="/profile">{userMenuLabels.viewProfile}</Link>
                   <Link href="/bookmarks">{userMenuLabels.myBookmarks}</Link>
@@ -80,7 +72,7 @@ export default function UserMenu({ joinLabel, loginLabel }: UserMenuProps) {
         </div>
       </div>
     );
-  } else if (isNotLoggedIn) {
+  } else {
     loggedInContent = (
       <div className={styles.notLoggedIn}>
         <Link href="/login">{loginLabel}</Link>

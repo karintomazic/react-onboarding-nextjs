@@ -1,10 +1,10 @@
 "use client";
 
 import styles from "./page.module.scss";
+import LoginForm from "@/components/molecules/LoginForm/LoginForm";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import LoginForm from "@/components/molecules/LoginForm/LoginForm";
 import { loginLabels } from "@/data/labels";
 import { type LoginErr, loginSchema } from "@/lib/loginSchema";
 import { useMutation } from "@tanstack/react-query";
@@ -14,7 +14,7 @@ export default function LoginPage() {
   const [allErrors, setAllErrors] = useState<LoginErr | null>(null);
   const router = useRouter();
 
-  const loginMutaion = useMutation<
+  const loginMutation = useMutation<
     undefined,
     LoginErr,
     { email: string; password: string }
@@ -51,7 +51,7 @@ export default function LoginPage() {
     }
 
     setAllErrors(null);
-    loginMutaion.mutate({ email, password });
+    loginMutation.mutate({ email, password });
   };
 
   const clearFieldError = (field: "email" | "password") => {
@@ -72,7 +72,7 @@ export default function LoginPage() {
         handleSubmit={(email, password) => {
           handleSubmit(email, password);
         }}
-        isSubmitting={loginMutaion.isPending}
+        isSubmitting={loginMutation.isPending}
         allErrors={allErrors}
         clearFieldError={clearFieldError}
       />

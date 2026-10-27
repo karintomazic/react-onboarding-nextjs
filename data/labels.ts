@@ -63,6 +63,7 @@ export const popularMoviesPageLabels = {
   sortSubtitle: "Sort Results By",
   filtersTitle: "Filters",
   genresSubtitle: "Genres",
+  loadMore: "Load more",
 };
 
 export const searchResultsLabels = {

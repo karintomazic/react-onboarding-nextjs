@@ -2,7 +2,7 @@ import { z } from "zod";
 import { apiFetch } from "./apiFetch";
 import { apiUrl } from "./apiUrl";
 import { tmdbFetch } from "./tmdbFetch";
-const tmbImageUrl = "https://image.tmdb.org/t/p/w500";
+import { getTmdbImageUrl } from "@/utils/tmdbImage";
 
 const searchMoviesSchema = z.array(
   z.object({
@@ -83,25 +83,27 @@ function responseEnvelope<T extends z.ZodType>(itemSchema: T) {
   return z.object({ results: z.array(itemSchema), total_pages: z.number() });
 }
 
-export async function fetchSearchMovies(
+export async function fetchSearchMoviesFromApi(
   page: number,
   filter: string,
   query: string,
 ): Promise<SearchResult> {
   return apiFetch(
-    apiUrl(`movie-search?filter=${filter}&query=${query}&page=${page}`),
+    apiUrl(
+      `movie-search?filter=${filter}&query=${encodeURIComponent(query)}&page=${page}`,
+    ),
     searchResultsSchema,
   );
 }
 
-export async function fetchTmdbSearchMovies(
+export async function fetchSearchMoviesFromTmdb(
   page: number,
   filter: string,
   query: string,
 ): Promise<SearchResult> {
   let searchResult: SearchResult;
 
-  const pathString = `/search/${filter}?query=${query}&page=${page}`;
+  const pathString = `/search/${filter}?query=${encodeURIComponent(query)}&page=${page}`;
 
   if (filter === "person") {
     const data = await tmdbFetch(
@@ -116,7 +118,7 @@ export async function fetchTmdbSearchMovies(
           id: p.id,
           name: p.name,
           department: p.known_for_department ?? "",
-          profileImg: p.profile_path ? `${tmbImageUrl}${p.profile_path}` : "",
+          profileImg: getTmdbImageUrl(p.profile_path),
           known_for: p.known_for.map((k) => k.title ?? k.name ?? ""),
         })),
       ),
@@ -144,7 +146,7 @@ export async function fetchTmdbSearchMovies(
         data.results.map((m) => ({
           id: m.id,
           title: m.title ?? m.name ?? "",
-          url: m.poster_path ? `${tmbImageUrl}${m.poster_path}` : "",
+          url: getTmdbImageUrl(m.poster_path),
           date: m.release_date ?? m.first_air_date ?? "",
           description: m.overview ?? "",
         })),

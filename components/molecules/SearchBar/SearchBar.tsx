@@ -72,7 +72,11 @@ export default function SearchBar({
 
   function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
-    onSubmit();
+    if (query.trim() === "") {
+      setIsOpen(false);
+    } else {
+      onSubmit();
+    }
   }
 
   const handleClick = () => {

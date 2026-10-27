@@ -1,6 +1,6 @@
-import { fetchTmdbGenres } from "@/utils/fetchGenres";
+import { fetchGenresFromTmdb } from "@/utils/fetchGenres";
 import { tmdbRouteHandler } from "@/utils/tmdbRouteHandler";
 
 export async function GET() {
-  return tmdbRouteHandler(() => fetchTmdbGenres());
+  return tmdbRouteHandler(() => fetchGenresFromTmdb());
 }

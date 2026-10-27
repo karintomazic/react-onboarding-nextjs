@@ -2,6 +2,7 @@ import { z } from "zod";
 import { apiFetch } from "./apiFetch";
 import { apiUrl } from "./apiUrl";
 import { tmdbFetch } from "./tmdbFetch";
+import { getTmdbImageUrl } from "@/utils/tmdbImage";
 
 const tmdbMovieSchema = z.object({
   id: z.number(),
@@ -13,8 +14,6 @@ const tmdbMovieSchema = z.object({
 const tmdbResponseSchema = z.object({
   results: z.array(tmdbMovieSchema),
 });
-
-const tmbImageUrl = "https://image.tmdb.org/t/p/w500";
 
 const showcaseMovieSchema = z.object({
   id: z.number(),
@@ -41,17 +40,17 @@ async function fetchAndMapTmdbMovies(url: string): Promise<Movie[]> {
     data.results.map((movie) => ({
       id: movie.id,
       title: movie.title,
-      url: movie.poster_path ? `${tmbImageUrl}${movie.poster_path}` : "",
+      url: getTmdbImageUrl(movie.poster_path),
       date: movie.release_date,
     })),
   );
 }
 
-export async function fetchShowcaseData(): Promise<ShowcaseData> {
+export async function fetchShowcaseDataFromApi(): Promise<ShowcaseData> {
   return apiFetch(apiUrl(`showcase`), showcaseDataSchema);
 }
 
-export async function fetchTmdbShowcaseData(): Promise<ShowcaseData> {
+export async function fetchShowcaseDataFromTmdb(): Promise<ShowcaseData> {
   const [streaming, rent, theater] = await Promise.all([
     fetchAndMapTmdbMovies(
       `/discover/movie?watch_region=US&with_watch_monetization_types=flatrate&sort_by=popularity.desc`,

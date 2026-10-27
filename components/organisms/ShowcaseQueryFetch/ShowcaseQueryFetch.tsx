@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import Showcase from "../Showcase/Showcase";
 import { useState } from "react";
 import { useRef } from "react";
-import { fetchShowcaseData } from "../../../utils/fetchShowcaseData";
+import { fetchShowcaseDataFromApi } from "../../../utils/fetchShowcaseData";
 import {
   cardLabels,
   showcaseLabels,
@@ -17,7 +17,7 @@ type Movie = { id: number; url: string; title: string; date: string };
 export default function ShowcaseQueryFetch() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["showcase-movies"],
-    queryFn: fetchShowcaseData,
+    queryFn: fetchShowcaseDataFromApi,
   });
 
   const [activeTab, setActiveTab] = useState(1);

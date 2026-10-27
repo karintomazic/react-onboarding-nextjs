@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
 import styles from "./page.module.scss";
 import RegistrationForm from "@/components/molecules/RegistrationForm/RegistrationForm";
-import { z } from "zod";
+import { useState } from "react";
 import { registerSchema, RegisterErr } from "@/lib/registerSchema";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react"; // for auto-login once registration succeeds
 import { useMutation } from "@tanstack/react-query";
+import { z } from "zod";
 
 function parseRegisterError(json: unknown): RegisterErr {
   const obj = (
@@ -28,7 +28,7 @@ export default function RegisterPage() {
   const [allErrors, setAllErrors] = useState<RegisterErr | null>(null);
   const router = useRouter();
 
-  const registerMutaion = useMutation<
+  const registerMutation = useMutation<
     undefined,
     RegisterErr,
     { email: string; password: string }
@@ -77,7 +77,7 @@ export default function RegisterPage() {
     }
 
     setAllErrors(null);
-    registerMutaion.mutate({ email, password });
+    registerMutation.mutate({ email, password });
   };
 
   const clearFieldError = (field: "email" | "password") => {
@@ -98,7 +98,7 @@ export default function RegisterPage() {
         handleSubmit={(email, password) => {
           handleSubmit(email, password);
         }}
-        isSubmitting={registerMutaion.isPending}
+        isSubmitting={registerMutation.isPending}
         allErrors={allErrors}
         clearFieldError={clearFieldError}
       />
