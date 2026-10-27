@@ -203,3 +203,11 @@ export const confirmModalLabels = {
 export const movieDetailsLabels = {
   posterAltSuffix: "poster",
 };
+
+export const errorLabels = {
+  heading: "Something went wrong",
+  message:
+    "We couldn't load this page. Please try again, or come back a little later.",
+  retryButton: "Try again",
+  homeLink: "Back to home",
+};
