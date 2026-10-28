@@ -2,7 +2,6 @@
 
 import MovieCard from "@/components/atoms/MovieCard/MovieCard";
 import { useQuery } from "@tanstack/react-query";
-import { formatDate } from "../../../utils/formatDate";
 import Pagination from "@/components/molecules/Pagination/Pagination";
 import Spinner from "@/components/atoms/Spinner/Spinner";
 import PersonCard from "@/components/atoms/PersonCard/PersonCard";
@@ -62,7 +61,7 @@ export function SearchResultsContent({
         id={movie.id}
         imageUrl={movie.url}
         title={movie.title}
-        date={movie.date ? formatDate(movie.date) : ""}
+        date={movie.date}
         content={movie.description}
       />
     ));
