@@ -27,6 +27,14 @@ export default defineConfig({
           },
         },
       },
+      {
+        extends: true,
+        test: {
+          name: "unit",
+          include: ["**/*.test.ts"],
+          environment: "node" // run in node not a browser
+        }
+      }
     ],
   },
 });

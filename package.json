@@ -15,7 +15,8 @@
     "build-storybook": "storybook build",
     "db:create": "drizzle-kit push",
     "db:inspect": "drizzle-kit studio",
-    "db:seed": "tsx --env-file=.env db/seed.ts"
+    "db:seed": "tsx --env-file=.env db/seed.ts",
+    "test:unit": "vitest run --project=unit"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^7.3.1",
