@@ -5,22 +5,19 @@ import { expect, fn } from "storybook/test";
 const meta = {
   title: "Component/pages/ErrorPage",
   component: ErrorPageComponent,
+  args: {
+    error: new Error("Story error"),
+    retry: fn(),
+  },
 } satisfies Meta<typeof ErrorPageComponent>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const ErrorPage: Story = {
-  args: {
-    retry: fn(),
-  },
-};
+export const ErrorPage: Story = {};
 
 export const ErrorPageTryAgain: Story = {
-  args: {
-    retry: fn(),
-  },
   play: async ({ args, canvas, userEvent }) => {
     const retryButton = canvas.getByRole("button", { name: /try again/i });
     await userEvent.click(retryButton);

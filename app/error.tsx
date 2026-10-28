@@ -3,8 +3,19 @@ import styles from "./error.module.scss";
 import SingleColumn from "@/components/templates/SingleColumn/SingleColumn";
 import Link from "next/link";
 import { errorLabels } from "@/data/labels";
+import { useEffect } from "react";
 
-export default function ErrorPage({ retry }: { retry: () => void }) {
+export default function ErrorPage({
+  error,
+  retry,
+}: {
+  error: Error;
+  retry: () => void;
+}) {
+  useEffect(() => {
+    console.error(error);
+  }, [error]);
+
   return (
     <SingleColumn>
       <div className={styles.error}>
