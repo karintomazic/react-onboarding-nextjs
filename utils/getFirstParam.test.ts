@@ -41,7 +41,7 @@ describe("getFirstParamOrEmptyString", () => {
   });
 
   it("returns the string as is", () => {
-    expect(getFirstParamOrEmptyString("")).toBe("");
+    expect(getFirstParamOrEmptyString("batman")).toBe("batman");
   });
 
   it("returns the first item of an array", () => {
