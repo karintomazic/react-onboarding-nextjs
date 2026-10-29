@@ -4,6 +4,9 @@ type BuildMovieUrlParams = {
 };
 
 export function buildMovieUrl({ id, title }: BuildMovieUrlParams) {
-  const slug = title.toLowerCase().replace(/\s+/g, "-");
-  return `/movie/${encodeURIComponent([id, slug].join("-"))}`;
+  const slug = title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return `/movie/${[id, slug].join("-")}`;
 }
