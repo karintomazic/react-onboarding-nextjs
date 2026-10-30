@@ -1,5 +1,6 @@
 import SearchFilterLink from "@/components/atoms/SearchFilterLink/SearchFilterLink";
 import { searchFilters } from "@/data/filterList";
+import styles from "./FilterLinks.module.scss";
 
 type FilterLinksProps = {
   totalCount: Array<{ count: number; filter: string }> | undefined;
@@ -17,15 +18,16 @@ export default function FilterLinks({
     const count = match?.count ?? 0;
 
     return (
-      <SearchFilterLink
-        key={links.linkName}
-        linkLabel={links.label}
-        count={count}
-        isActive={filter === links.linkName}
-        href={getFilterHref(links.linkName)}
-      />
+      <li key={links.linkName}>
+        <SearchFilterLink
+          linkLabel={links.label}
+          count={count}
+          isActive={filter === links.linkName}
+          href={getFilterHref(links.linkName)}
+        />
+      </li>
     );
   });
 
-  return filterLinks;
+  return <ul className={styles.filterLinks}>{filterLinks}</ul>;
 }

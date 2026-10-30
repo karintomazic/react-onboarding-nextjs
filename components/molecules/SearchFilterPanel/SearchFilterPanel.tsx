@@ -15,9 +15,7 @@ export default function SearchFilterPanel({
       <div className={styles.searchHeader}>
         <h3>{heading}</h3>
       </div>
-      <div>
-        <ul>{children}</ul>
-      </div>
+      {children}
     </div>
   );
 }

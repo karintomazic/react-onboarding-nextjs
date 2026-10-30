@@ -16,11 +16,12 @@ export default function SearchFilterLink({
   href,
 }: SearchFilterLinkProps) {
   return (
-    <li className={clsx(styles.searchFilterLink, isActive && styles.active)}>
-      <Link href={href}>
-        {linkLabel}
-        <span>{count}</span>
-      </Link>
-    </li>
+    <Link
+      href={href}
+      className={clsx(styles.searchFilterLink, isActive && styles.active)}
+    >
+      {linkLabel}
+      <span>{count}</span>
+    </Link>
   );
 }
