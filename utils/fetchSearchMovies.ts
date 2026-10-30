@@ -3,7 +3,6 @@ import { apiFetch } from "./apiFetch";
 import { apiUrl } from "./apiUrl";
 import { tmdbFetch } from "./tmdbFetch";
 import { getTmdbImageUrl } from "@/utils/tmdbImage";
-import { cache } from "react";
 
 const searchMoviesSchema = z.array(
   z.object({
@@ -37,19 +36,16 @@ const searchResultsSchema = z.discriminatedUnion("kind", [
     kind: z.literal("media"),
     movies: searchMoviesSchema,
     totalPages: z.number(),
-    totalResults: z.number(),
   }),
   z.object({
     kind: z.literal("person"),
     people: searchPersonSchema,
     totalPages: z.number(),
-    totalResults: z.number(),
   }),
   z.object({
     kind: z.literal("simple"),
     items: searchSimpleItemSchema,
     totalPages: z.number(),
-    totalResults: z.number(),
   }),
 ]);
 
@@ -87,7 +83,6 @@ function responseEnvelope<T extends z.ZodType>(itemSchema: T) {
   return z.object({
     results: z.array(itemSchema),
     total_pages: z.number(),
-    total_results: z.number(),
   });
 }
 
@@ -131,7 +126,6 @@ export async function fetchSearchMoviesFromTmdb(
         })),
       ),
       totalPages: data.total_pages,
-      totalResults: data.total_results,
     };
   } else if (filter === "keyword" || filter === "company") {
     const data = await tmdbFetch(
@@ -145,7 +139,6 @@ export async function fetchSearchMoviesFromTmdb(
         data.results.map((r) => ({ id: r.id, name: r.name })),
       ),
       totalPages: data.total_pages,
-      totalResults: data.total_results,
     };
   } else {
     const data = await tmdbFetch(pathString, responseEnvelope(mediaItemSchema));
@@ -162,11 +155,8 @@ export async function fetchSearchMoviesFromTmdb(
         })),
       ),
       totalPages: data.total_pages,
-      totalResults: data.total_results,
     };
   }
 
   return searchResult;
 }
-
-export const getSearchMoviesFromTmdb = cache(fetchSearchMoviesFromTmdb);

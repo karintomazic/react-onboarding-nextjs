@@ -32,7 +32,6 @@ export const mockSearchTV = {
     },
   ],
   totalPages: 3,
-  totalResults: 60,
 };
 
 export const mockSearchMovies = {
@@ -56,7 +55,6 @@ export const mockSearchMovies = {
     },
   ],
   totalPages: 3,
-  totalResults: 20,
 };
 
 export const mockSearchPeople = {
@@ -78,7 +76,6 @@ export const mockSearchPeople = {
     },
   ],
   totalPages: 3,
-  totalResults: 20,
 };
 
 export const mockSearchSimpleItems = {
@@ -88,7 +85,6 @@ export const mockSearchSimpleItems = {
     { id: 2, name: "Superhero" },
   ],
   totalPages: 1,
-  totalResults: 2,
 };
 
 export const mockMovieList = [

@@ -10,7 +10,7 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import { getSearchMoviesFromTmdb } from "@/utils/fetchSearchMovies";
+import { fetchSearchMoviesFromTmdb } from "@/utils/fetchSearchMovies";
 import { isPositiveInteger } from "@/utils/isPositiveInteger";
 import { searchFilters } from "@/data/filterList";
 import { notFound } from "next/navigation";
@@ -48,7 +48,7 @@ export default async function SearchResults({
 
   await queryClient.prefetchQuery({
     queryKey: ["search-movies", page, filter, query],
-    queryFn: () => getSearchMoviesFromTmdb(page, filter, query),
+    queryFn: () => fetchSearchMoviesFromTmdb(page, filter, query),
   });
 
   return (
