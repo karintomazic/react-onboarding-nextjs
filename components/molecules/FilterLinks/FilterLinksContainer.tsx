@@ -20,7 +20,7 @@ export default function FilterLinksContainer() {
   const totalCount = filterQuery.data;
 
   function getFilterHref(linkName: string) {
-    return `/search/${linkName}?${searchParams.toString()}`;
+    return `/search/${linkName}?query=${encodeURIComponent(query)}`;
   }
 
   return (
