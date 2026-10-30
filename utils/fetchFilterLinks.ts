@@ -23,7 +23,7 @@ export async function fetchAllCountsFromApi(query: string) {
   );
 }
 
-// server version - only reads the total for every category
+// server version
 export async function fetchAllCountsFromTmdb(query: string) {
   const results = await Promise.all(
     searchFilters.map(async ({ linkName }) => {

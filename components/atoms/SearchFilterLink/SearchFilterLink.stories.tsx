@@ -7,7 +7,7 @@ const meta = {
   args: {
     linkLabel: "Popular",
     count: 1,
-    href: "/movie?query=batman",
+    href: "/search/movie?query=batman",
   },
 } satisfies Meta<typeof SearchFilterLinkComponent>;
 
