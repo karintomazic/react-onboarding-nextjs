@@ -15,7 +15,7 @@ export default function FilterLinks({
 }: FilterLinksProps) {
   const filterLinks = searchFilters.map((links) => {
     const match = totalCount?.find((r) => r.filter === links.linkName);
-    const count = match?.count ?? 0;
+    const count = match?.count;
 
     return (
       <li key={links.linkName}>

@@ -21,7 +21,6 @@ export function SearchResultsContent({
   page,
   filter,
 }: SearchResultsContentParams) {
-  // const [searchParams] = useSearchParams(); - different shape, we dont get a setter here
   const searchParams = useSearchParams();
 
   function pageHref(targetPage: number) {

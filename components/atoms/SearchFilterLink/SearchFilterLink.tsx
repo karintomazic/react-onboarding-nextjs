@@ -4,7 +4,7 @@ import clsx from "clsx";
 
 type SearchFilterLinkProps = {
   linkLabel: string;
-  count: number;
+  count?: number;
   isActive: boolean;
   href: string;
 };
@@ -21,7 +21,7 @@ export default function SearchFilterLink({
       className={clsx(styles.searchFilterLink, isActive && styles.active)}
     >
       {linkLabel}
-      <span>{count}</span>
+      {count !== undefined && <span>{count}</span>}
     </Link>
   );
 }
