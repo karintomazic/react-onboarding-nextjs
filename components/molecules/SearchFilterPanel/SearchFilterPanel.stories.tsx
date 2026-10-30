@@ -20,7 +20,7 @@ export const SearchFilterPanel: Story = {
           { filter: "person", count: 3 },
         ]}
         filter="tv"
-        getFilterHref={(linkName) => `/search/batman/${linkName}`}
+        getFilterHref={(linkName) => `/search/${linkName}?query=batman`}
       />
     ),
     heading: "Search Results",

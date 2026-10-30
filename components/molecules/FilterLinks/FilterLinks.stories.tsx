@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import FilterLinksComponent from "./FilterLinks";
-// import { fn } from "storybook/test";
 
 const meta = {
   title: "Component/molecules/FilterLinks",
@@ -25,6 +24,6 @@ export const FilterLinks: Story = {
       { filter: "company", count: 2 },
     ],
     filter: "movie",
-    getFilterHref: (linkName) => `/search/batman/${linkName}`,
+    getFilterHref: (linkName) => `/search/${linkName}?query=batman`,
   },
 };
