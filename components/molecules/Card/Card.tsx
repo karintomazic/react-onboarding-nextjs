@@ -24,6 +24,7 @@ type CardProps = {
   loginLabel: string;
   notAMemberLabel: string;
   signUpLabel: string;
+  loading?: "eager" | "lazy";
 };
 
 export default function Card({
@@ -36,6 +37,7 @@ export default function Card({
   loginLabel,
   notAMemberLabel,
   signUpLabel,
+  loading,
 }: CardProps) {
   const movieUrl = buildMovieUrl({ id, title });
 
@@ -101,6 +103,7 @@ export default function Card({
               alt={cardLabels.placeholderImageAlt}
               fill
               sizes="200px"
+              loading={loading}
             />
           ) : (
             <FontAwesomeIcon icon={faImage} />

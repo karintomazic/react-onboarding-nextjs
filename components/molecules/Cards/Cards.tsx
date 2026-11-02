@@ -29,6 +29,8 @@ export default function Cards({
   notAMemberLabel,
   signUpLabel,
 }: CardsProps) {
+  const eagerCardCount = 8;
+
   return (
     <div className={styles.Cards}>
       {isLoading
@@ -39,7 +41,7 @@ export default function Cards({
               variant={variant}
             />
           ))
-        : movies.map((movie) => {
+        : movies.map((movie, index) => {
             return (
               <Card
                 key={movie.id}
@@ -52,6 +54,7 @@ export default function Cards({
                 loginLabel={loginLabel}
                 notAMemberLabel={notAMemberLabel}
                 signUpLabel={signUpLabel}
+                loading={index < eagerCardCount ? "eager" : "lazy"}
               />
             );
           })}

@@ -35,7 +35,12 @@ const MovieCard = ({
       <div className={imageUrl ? style.poster : style.placeholder}>
         <Link href={movieUrl}>
           {imageUrl ? (
-            <Image src={imageUrl} alt={cardLabels.placeholderImageAlt} fill />
+            <Image
+              src={imageUrl}
+              alt={cardLabels.placeholderImageAlt}
+              fill
+              sizes="94px"
+            />
           ) : (
             <FontAwesomeIcon icon={faImage} />
           )}
