@@ -25,6 +25,12 @@
   }
 
   .poster {
+    a {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
     img {
       width: 100%;
       border-top-left-radius: 0.5rem;
