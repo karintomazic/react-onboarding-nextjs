@@ -14,7 +14,11 @@ export default function SearchResults({
   highlightedIndex,
 }: SearchResultsProps) {
   return (
-    <ul className={styles.dropdownList}>
+    <ul
+      className={styles.dropdownList}
+      role="listbox"
+      aria-label="Search suggestions"
+    >
       {movieList.map((m, index) => (
         <li
           key={m.id}

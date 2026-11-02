@@ -52,10 +52,11 @@
 
     &.active {
       background-color: var(--color-blue);
-      color: var(--color-white);
+      color: var(--color-black);
 
       &:hover {
         background-color: var(--color-navy-dark);
+        color: var(--color-white);
       }
     }
 
