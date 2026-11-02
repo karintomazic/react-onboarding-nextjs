@@ -7,7 +7,7 @@ import Image from "next/image";
 import { StaticImageData } from "next/image";
 import ScoreCircle from "../ScoreCircle/ScoreCircle";
 import { buildMovieUrl } from "@/utils/buildMovieUrl";
-import { cardLabels } from "@/data/labels";
+import { movieDetailsLabels } from "@/data/labels";
 
 export type MovieCardProps = {
   id: number;
@@ -37,7 +37,7 @@ const MovieCard = ({
           {imageUrl ? (
             <Image
               src={imageUrl}
-              alt={cardLabels.placeholderImageAlt}
+              alt={`${title} ${movieDetailsLabels.posterAltSuffix}`}
               fill
               sizes="94px"
             />
