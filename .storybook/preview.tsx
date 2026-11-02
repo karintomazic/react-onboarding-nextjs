@@ -21,7 +21,6 @@ const sessionSchema = z
   .nullable()
   .catch(null);
 
-
 const preview: Preview = {
   parameters: {
     controls: {
@@ -31,7 +30,7 @@ const preview: Preview = {
       },
     },
     a11y: {
-      test: "todo",
+      test: "error",
     },
     nextjs: { appDirectory: true }, // mock the Next.js App Router context so hooks from next/navigation
     // (like useSearchParams, useRouter, usePathname) work inside stories instead of returning null.

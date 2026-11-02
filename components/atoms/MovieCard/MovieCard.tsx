@@ -33,7 +33,7 @@ const MovieCard = ({
   return (
     <div className={style.movieCard}>
       <div className={imageUrl ? style.poster : style.placeholder}>
-        <Link href={movieUrl}>
+        <Link href={movieUrl} aria-label={title}>
           {imageUrl ? (
             <Image src={imageUrl} alt={cardLabels.placeholderImageAlt} fill />
           ) : (

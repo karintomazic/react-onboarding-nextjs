@@ -28,13 +28,3 @@ export const NoPoster: Story = {
     imageUrl: "",
   },
 };
-
-export const Loading: Story = {
-  args: {
-    id: 1007757,
-    imageUrl: "",
-    title: "",
-    date: "",
-    content: "",
-  },
-};
