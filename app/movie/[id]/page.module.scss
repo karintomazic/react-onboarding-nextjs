@@ -25,6 +25,8 @@
   img {
     width: 350px;
     height: 500px;
+    object-fit: cover;
+    flex-shrink: 0;
     border-radius: 8px;
   }
 

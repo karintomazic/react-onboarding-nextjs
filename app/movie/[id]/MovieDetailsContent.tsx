@@ -68,6 +68,7 @@ export default function MovieDetailsContent({
                 alt={`${movieDetailsData.title} ${movieDetailsLabels.posterAltSuffix}`}
                 height={500}
                 width={350}
+                sizes="(max-width: 768px) 150px, 350px"
                 loading="eager"
               />
             )}
