@@ -36,6 +36,8 @@ export default function UserMenu({ joinLabel, loginLabel }: UserMenuProps) {
 
   let loggedInContent;
 
+  const isOpen = open && !isClickedOutside;
+
   if (status === "loading" || !isHydrated) {
     loggedInContent = <Spinner variant="smallSpinner" />;
   } else if (status === "authenticated") {
@@ -43,15 +45,16 @@ export default function UserMenu({ joinLabel, loginLabel }: UserMenuProps) {
       <div className={styles.loggedIn}>
         <Icon icon={faBell} />
         <div className={styles.userMenuWrapper} ref={usermenuRef}>
-          <Image
-            src={profileIcon}
-            alt={userMenuLabels.profileIconAlt}
-            className={styles.profileIcon}
-            width={32}
-            height={32}
-            onClick={handleOpen}
-          />
-          {open && !isClickedOutside && (
+          <button type="button" onClick={handleOpen} aria-expanded={isOpen}>
+            <Image
+              src={profileIcon}
+              alt={userMenuLabels.profileIconAlt}
+              className={styles.profileIcon}
+              width={32}
+              height={32}
+            />
+          </button>
+          {isOpen && (
             <div className={styles.userDropdown}>
               <div className={styles.callout} />
               <div className={styles.userInfo}>

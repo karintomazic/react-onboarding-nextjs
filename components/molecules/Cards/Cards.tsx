@@ -30,7 +30,12 @@ export default function Cards({
   signUpLabel,
 }: CardsProps) {
   return (
-    <div className={styles.Cards}>
+    <div
+      className={styles.Cards}
+      tabIndex={0}
+      role="region"
+      aria-label="Movies"
+    >
       {isLoading
         ? Array.from({ length: 8 }).map((item, index) => (
             <CardSkeleton

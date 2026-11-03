@@ -33,9 +33,13 @@ export default function DesktopNav({
         <MainMenu />
       </div>
       <div className={styles.right}>
-        <a aria-label={createAriaLabel} className={styles.plus}>
+        <button
+          type="button"
+          aria-label={createAriaLabel}
+          className={styles.plus}
+        >
           <Image src={plus} alt="" />
-        </a>
+        </button>
         <LanguageSwitcherHandler />
         <UserMenu
           loginLabel={userMenuLabels.login}

@@ -94,7 +94,7 @@ export default function Card({
         className={image ? styles.posterImage : styles.placeholder}
         ref={cardRef}
       >
-        <Link href={movieUrl}>
+        <Link href={movieUrl} aria-label={title}>
           {image ? (
             <Image
               src={image}

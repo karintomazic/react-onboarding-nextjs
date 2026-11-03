@@ -50,7 +50,11 @@ export default function MainMenu() {
       {items.map((item) => (
         <MainMenuItem key={item.id} label={item.label} links={item.links} />
       ))}
-      {isMobile && <MenuLinkList links={mobileMenuSmall} />}
+      {isMobile && (
+        <li>
+          <MenuLinkList links={mobileMenuSmall} />
+        </li>
+      )}
     </ul>
   );
 }
