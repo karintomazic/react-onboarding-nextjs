@@ -69,6 +69,7 @@ export const popularMoviesPageLabels = {
 export const searchResultsLabels = {
   error: "Something went wrong",
   empty: "No results found.",
+  suggestions: "Search suggestions",
 };
 
 export const languageSwitcherLabels = {

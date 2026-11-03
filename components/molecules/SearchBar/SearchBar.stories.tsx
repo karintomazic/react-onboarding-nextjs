@@ -19,7 +19,7 @@ const meta = {
     onSelectMovie: fn(),
   },
   play: async ({ canvas, userEvent }) => {
-    const dropdownBtn = canvas.getByRole("searchbox", {
+    const dropdownBtn = canvas.getByRole("combobox", {
       name: /Search for a movie/i,
     });
     await userEvent.click(dropdownBtn);

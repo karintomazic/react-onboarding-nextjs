@@ -6,7 +6,7 @@ import {
   faArrowTrendUp,
 } from "@fortawesome/free-solid-svg-icons";
 import type { SubmitEvent, ChangeEvent, KeyboardEvent } from "react";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useId } from "react";
 import { useClickOutside } from "../../../hooks/useClickOutside";
 import SearchResults from "../SearchResults/SearchResults";
 import type { RefObject } from "react";
@@ -46,6 +46,7 @@ export default function SearchBar({
   const containerRef = useRef<HTMLDivElement>(null);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
+  const id = useId();
 
   // Pressing s (not while already typing) jumps focus into the search input
   useEffect(() => {
@@ -88,6 +89,7 @@ export default function SearchBar({
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setIsOpen(true);
     onQueryChange(e.target.value);
+    setHighlightedIndex(-1);
   };
 
   const handleBlur = () => {
@@ -127,6 +129,8 @@ export default function SearchBar({
 
   const noResults = !isSearching && searchResults.length === 0 && query !== "";
 
+  const isListVisible = isOpen && !isClickedOutside && !noResults;
+
   return (
     <div className={styles.searchBarWrapper} ref={containerRef}>
       <form
@@ -137,6 +141,14 @@ export default function SearchBar({
       >
         <Icon icon={faMagnifyingGlass} />
         <Input
+          role="combobox"
+          ariaControls={`${id}-listbox`}
+          ariaExpanded={isListVisible}
+          ariaActiveDescendant={
+            isListVisible && highlightedIndex >= 0
+              ? `${id}-option-${highlightedIndex}`
+              : undefined
+          }
           type="search"
           ariaLabel={ariaLabel}
           placeholder={placeholder}
@@ -169,6 +181,7 @@ export default function SearchBar({
               movieList={currentList}
               handleSearch={onSelectMovie}
               highlightedIndex={highlightedIndex}
+              id={id}
             />
           )}
         </div>

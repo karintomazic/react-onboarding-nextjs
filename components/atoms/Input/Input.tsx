@@ -11,6 +11,10 @@ export type InputProps = {
   ariaLabel?: string;
   type?: "text" | "search" | "password" | "email";
   ref?: Ref<HTMLInputElement>;
+  role?: string;
+  ariaExpanded?: boolean;
+  ariaControls?: string;
+  ariaActiveDescendant?: string;
 };
 
 export default function Input({
@@ -23,10 +27,18 @@ export default function Input({
   ariaLabel,
   type = "text",
   ref,
+  role,
+  ariaExpanded,
+  ariaControls,
+  ariaActiveDescendant,
 }: InputProps) {
   return (
     <input
       type={type}
+      role={role}
+      aria-expanded={ariaExpanded}
+      aria-controls={ariaControls}
+      aria-activedescendant={ariaActiveDescendant}
       value={value}
       onChange={onChange}
       onClick={onClick}
