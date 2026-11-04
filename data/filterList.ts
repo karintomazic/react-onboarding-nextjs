@@ -7,4 +7,4 @@ export const searchFilters = [
   { label: "Companies", linkName: "company" },
 ];
 
-export const defaultSearchFilter = "movie"
+export const defaultSearchFilter = "movie";

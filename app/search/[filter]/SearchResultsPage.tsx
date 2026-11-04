@@ -33,7 +33,7 @@ export async function SearchResultsPage({
     <HydrationBoundary state={dehydrate(queryClient)}>
       <SearchFilterPanel heading={searchFilterPanelLabels.heading}>
         <Suspense fallback={null}>
-          <FilterLinksContainer />
+          <FilterLinksContainer activeFilter={filter} />
         </Suspense>
       </SearchFilterPanel>
       <div className={styles.movieCards}>

@@ -1,17 +1,19 @@
 "use client";
 
-import { useSearchParams, useParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { fetchAllCountsFromApi } from "@/utils/fetchFilterLinks";
 import FilterLinks from "./FilterLinks";
-import { getFirstParamOrEmptyString } from "@/utils/getFirstParam";
 
-export default function FilterLinksContainer() {
+type FilterLinksContainerParams = {
+  activeFilter: string;
+};
+
+export default function FilterLinksContainer({
+  activeFilter,
+}: FilterLinksContainerParams) {
   const searchParams = useSearchParams();
   const query = searchParams.get("query") ?? "";
-  const { filter } = useParams();
-  console.log(filter);
-  const activeFilter = getFirstParamOrEmptyString(filter);
 
   const filterQuery = useQuery({
     queryKey: ["filter-counts", query],
