@@ -1,20 +1,9 @@
-import styles from "./page.module.scss";
-import { SearchResultsContent } from "./SearchResultsContent";
 import { Metadata } from "next";
-import SearchFilterPanel from "@/components/molecules/SearchFilterPanel/SearchFilterPanel";
-import FilterLinksContainer from "@/components/molecules/FilterLinks/FilterLinksContainer";
-import { searchFilterPanelLabels } from "@/data/labels";
-import { Suspense } from "react";
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query";
-import { fetchSearchMoviesFromTmdb } from "@/utils/fetchSearchMovies";
 import { isPositiveInteger } from "@/utils/isPositiveInteger";
 import { searchFilters } from "@/data/filterList";
 import { notFound } from "next/navigation";
 import { getFirstParamOrEmptyString } from "@/utils/getFirstParam";
+import { SearchResultsPage } from "./SearchResultsPage";
 
 export async function generateMetadata({
   searchParams,
@@ -39,28 +28,11 @@ export default async function SearchResults({
   const query = getFirstParamOrEmptyString(queryParam);
   const pageParam = Number(resolvedSearchParams.page);
   const page = isPositiveInteger(pageParam) ? pageParam : 1;
-  const queryClient = new QueryClient();
 
   const linksArray = searchFilters.map((lNames) => lNames.linkName);
   if (linksArray.indexOf(filter) === -1) {
     notFound();
   }
 
-  await queryClient.prefetchQuery({
-    queryKey: ["search-movies", page, filter, query],
-    queryFn: () => fetchSearchMoviesFromTmdb(page, filter, query),
-  });
-
-  return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <SearchFilterPanel heading={searchFilterPanelLabels.heading}>
-        <Suspense fallback={null}>
-          <FilterLinksContainer />
-        </Suspense>
-      </SearchFilterPanel>
-      <div className={styles.movieCards}>
-        <SearchResultsContent query={query} page={page} filter={filter} />
-      </div>
-    </HydrationBoundary>
-  );
+  return <SearchResultsPage filter={filter} query={query} page={page} />;
 }

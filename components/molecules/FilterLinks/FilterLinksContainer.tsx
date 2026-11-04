@@ -10,6 +10,7 @@ export default function FilterLinksContainer() {
   const searchParams = useSearchParams();
   const query = searchParams.get("query") ?? "";
   const { filter } = useParams();
+  console.log(filter);
   const activeFilter = getFirstParamOrEmptyString(filter);
 
   const filterQuery = useQuery({

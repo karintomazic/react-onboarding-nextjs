@@ -6,3 +6,5 @@ export const searchFilters = [
   { label: "Keywords", linkName: "keyword" },
   { label: "Companies", linkName: "company" },
 ];
+
+export const defaultSearchFilter = "movie"
