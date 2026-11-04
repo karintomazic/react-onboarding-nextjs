@@ -1,32 +1,33 @@
 import SearchFilterLink from "@/components/atoms/SearchFilterLink/SearchFilterLink";
 import { searchFilters } from "@/data/filterList";
+import styles from "./FilterLinks.module.scss";
 
 type FilterLinksProps = {
   totalCount: Array<{ count: number; filter: string }> | undefined;
-  searchParams: string;
   filter: string | undefined;
+  getFilterHref: (linkName: string) => string;
 };
 
 export default function FilterLinks({
   totalCount,
-  searchParams,
   filter,
+  getFilterHref,
 }: FilterLinksProps) {
   const filterLinks = searchFilters.map((links) => {
     const match = totalCount?.find((r) => r.filter === links.linkName);
-    const count = match?.count ?? 0;
+    const count = match?.count;
 
     return (
-      <SearchFilterLink
-        key={links.linkName}
-        linkName={links.linkName}
-        linkLabel={links.label}
-        count={count}
-        searchParams={searchParams}
-        isActive={filter === links.linkName}
-      />
+      <li key={links.linkName}>
+        <SearchFilterLink
+          linkLabel={links.label}
+          count={count}
+          isActive={filter === links.linkName}
+          href={getFilterHref(links.linkName)}
+        />
+      </li>
     );
   });
 
-  return filterLinks;
+  return <ul className={styles.filterLinks}>{filterLinks}</ul>;
 }

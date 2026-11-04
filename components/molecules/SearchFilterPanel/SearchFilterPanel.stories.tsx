@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import SearchFilterPanelComponent from "./SearchFilterPanel";
-import SearchFilterLink from "../../atoms/SearchFilterLink/SearchFilterLink";
+import FilterLinks from "../FilterLinks/FilterLinks";
 
 const meta = {
   title: "Component/molecules/SearchFilterPanel",
@@ -13,29 +13,15 @@ type Story = StoryObj<typeof meta>;
 export const SearchFilterPanel: Story = {
   args: {
     children: (
-      <>
-        <SearchFilterLink
-          linkName="movie"
-          linkLabel="Movies"
-          count={12}
-          searchParams=""
-          isActive={false}
-        />
-        <SearchFilterLink
-          linkName="tv"
-          linkLabel="TV Shows"
-          count={8}
-          searchParams=""
-          isActive={true}
-        />
-        <SearchFilterLink
-          linkName="person"
-          linkLabel="People"
-          count={3}
-          searchParams=""
-          isActive={false}
-        />
-      </>
+      <FilterLinks
+        totalCount={[
+          { filter: "movie", count: 12 },
+          { filter: "tv", count: 8 },
+          { filter: "person", count: 3 },
+        ]}
+        filter="tv"
+        getFilterHref={(linkName) => `/search/${linkName}?query=batman`}
+      />
     ),
     heading: "Search Results",
   },

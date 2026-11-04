@@ -64,7 +64,7 @@ const mediaItemSchema = z.object({
 const personItemSchema = z.object({
   id: z.number(),
   name: z.string(),
-  known_for_department: z.string().optional(),
+  known_for_department: z.string().optional().nullable(),
   profile_path: z.string().nullable().optional(),
   known_for: z.array(
     z.object({
@@ -80,7 +80,10 @@ const simpleItemSchema = z.object({
 });
 
 function responseEnvelope<T extends z.ZodType>(itemSchema: T) {
-  return z.object({ results: z.array(itemSchema), total_pages: z.number() });
+  return z.object({
+    results: z.array(itemSchema),
+    total_pages: z.number(),
+  });
 }
 
 export async function fetchSearchMoviesFromApi(

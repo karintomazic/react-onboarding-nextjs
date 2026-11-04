@@ -23,7 +23,7 @@ export const FilterLinks: Story = {
       { filter: "keyword", count: 8 },
       { filter: "company", count: 2 },
     ],
-    searchParams: "query=batman",
     filter: "movie",
+    getFilterHref: (linkName) => `/search/${linkName}?query=batman`,
   },
 };

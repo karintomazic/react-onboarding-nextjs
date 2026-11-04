@@ -8,7 +8,6 @@ import {
 import type { SubmitEvent, ChangeEvent, KeyboardEvent } from "react";
 import { useState, useRef, useEffect } from "react";
 import { useClickOutside } from "../../../hooks/useClickOutside";
-import { useRouter } from "next/navigation";
 import SearchResults from "../SearchResults/SearchResults";
 import type { RefObject } from "react";
 import { searchBarLabels } from "@/data/labels";
@@ -26,6 +25,7 @@ type SearchBarProps = {
   setIsOpen: (arg: boolean) => void;
   setIsInFocus: (arg: boolean) => void;
   loopRef: RefObject<HTMLDivElement | null>;
+  onSelectMovie: (title: string) => void;
 };
 
 export default function SearchBar({
@@ -41,6 +41,7 @@ export default function SearchBar({
   setIsOpen,
   setIsInFocus,
   loopRef,
+  onSelectMovie,
 }: SearchBarProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
@@ -76,6 +77,7 @@ export default function SearchBar({
       setIsOpen(false);
     } else {
       onSubmit();
+      setIsOpen(false);
     }
   }
 
@@ -117,19 +119,8 @@ export default function SearchBar({
     } else if (e.key === "Enter") {
       const movie = currentList[highlightedIndex];
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- highlightedIndex starts at -1, so pressing Enter before any arrow-key press makes this genuinely undefined at runtime
-      if (movie) handleSearchTitle(movie.title);
+      if (movie) onSelectMovie(movie.title);
     }
-  };
-
-  // const navigate = useNavigate(); - instead of useNavigate - useRouter and then .push
-  const router = useRouter();
-
-  const handleSearchTitle = (movTitle: string) => {
-    const url = new URL("/search/movie", window.location.origin);
-    url.searchParams.set("query", movTitle);
-    router.push(`${url.pathname}${url.search}`);
-    setIsOpen(false);
-    onQueryChange(movTitle);
   };
 
   const isClickedOutside = useClickOutside(containerRef, loopRef);
@@ -176,7 +167,7 @@ export default function SearchBar({
           ) : (
             <SearchResults
               movieList={currentList}
-              handleSearch={handleSearchTitle}
+              handleSearch={onSelectMovie}
               highlightedIndex={highlightedIndex}
             />
           )}
