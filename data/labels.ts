@@ -204,3 +204,9 @@ export const confirmModalLabels = {
 export const movieDetailsLabels = {
   posterAltSuffix: "poster",
 };
+
+export const paginationLabels = {
+  previous: "Previous page",
+  next: "Next page",
+  pagination: "Pagination",
+};

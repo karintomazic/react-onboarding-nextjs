@@ -6,6 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
+import { paginationLabels } from "@/data/labels";
 
 type PaginationData = {
   page: number;
@@ -31,9 +32,10 @@ export default function Pagination({
     isEnabled: boolean,
     targetPage: number,
     icon: IconDefinition,
+    label: string,
   ) {
     return isEnabled ? (
-      <Link href={pageHref(targetPage)}>
+      <Link href={pageHref(targetPage)} aria-label={label}>
         <FontAwesomeIcon icon={icon} />
       </Link>
     ) : (
@@ -47,11 +49,13 @@ export default function Pagination({
     currentPage > 1,
     currentPage - 1,
     faChevronLeft,
+    paginationLabels.previous,
   );
   const nextLink = prevNextLink(
     currentPage < totalPages,
     currentPage + 1,
     faChevronRight,
+    paginationLabels.next,
   );
 
   const onlyOnePage = pageNumbers.length <= 1;
@@ -59,13 +63,17 @@ export default function Pagination({
   return (
     <>
       {!onlyOnePage && (
-        <nav className={styles.pageNumbers}>
+        <nav
+          className={styles.pageNumbers}
+          aria-label={paginationLabels.pagination}
+        >
           {prevLink}
           {pageNumbers.map((pageNum) => (
             <Link
               key={pageNum}
               href={pageHref(pageNum)}
               data-active={currentPage === pageNum}
+              aria-current={currentPage === pageNum ? "page" : undefined}
             >
               {pageNum}
             </Link>
