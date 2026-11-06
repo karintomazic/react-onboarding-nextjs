@@ -72,8 +72,8 @@ export default function Pagination({
             <Link
               key={pageNum}
               href={pageHref(pageNum)}
-              data-active={currentPage === pageNum}
               aria-current={currentPage === pageNum ? "page" : undefined}
+              aria-label={`${paginationLabels.page} ${String(pageNum)}`}
             >
               {pageNum}
             </Link>

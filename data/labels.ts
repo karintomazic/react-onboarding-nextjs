@@ -209,4 +209,5 @@ export const paginationLabels = {
   previous: "Previous page",
   next: "Next page",
   pagination: "Pagination",
+  page: "Page"
 };
